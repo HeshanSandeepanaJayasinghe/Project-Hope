@@ -13,7 +13,7 @@ import java.util.Date;
 @Service
 public class JwtUtil {
 
-	private String secret = "mySuperSecretKey1234567890123456";
+	private String secret = "mySuperSecretjafy1234567890123456";
 	private Key key= Keys.hmacShaKeyFor(secret.getBytes());
 
 
