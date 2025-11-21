@@ -46,6 +46,7 @@ public ResponseEntity<?> registerFundraiser(@RequestBody RegisterFundraiserDTO r
 	fundraiser.setBirthday(req.getBirthday());
 	fundraiser.setPostalCode(req.getPostalCode());
 	fundraiser.setTelephone(req.getTelephone());
+	fundraiser.setStatus(Fundraiser.Status.VERIFIED);
 	fundraiserRepository.save(fundraiser);
 
 
