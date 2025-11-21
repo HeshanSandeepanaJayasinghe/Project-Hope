@@ -25,7 +25,12 @@ private String address;
 
 private String postalCode;
 
-private boolean agreedToTerms;
+private Status status;
+
+public enum Status{
+	VERIFIED,
+	NON_VERIFIED;
+}
 
 public Fundraiser() {}
 
@@ -95,11 +100,12 @@ public void setPostalCode(String postalCode) {
 	this.postalCode = postalCode;
 }
 
-public boolean isAgreedToTerms() {
-	return agreedToTerms;
+public Status getStatus() {
+	return status;
 }
 
-public void setAgreedToTerms(boolean agreedToTerms) {
-	this.agreedToTerms = agreedToTerms;
+public void setStatus(Status status) {
+	this.status = status;
 }
+
 }
