@@ -1,9 +1,11 @@
 package com.example.backend.DTO;
 
 import jakarta.validation.constraints.*;
+import lombok.Data;
 
 import java.time.LocalDate;
 
+@Data
 public class RegisterFundraiserDTO {
 
 @NotBlank(message = "Name is required")
@@ -43,85 +45,5 @@ private boolean agreedToTerms;
 
 public RegisterFundraiserDTO() {}
 
-// ---------- Getters & Setters ----------
 
-public String getName() {
-	return name;
-}
-
-public void setName(String name) {
-	this.name = name;
-}
-
-public String getEmail() {
-	return email;
-}
-
-public void setEmail(String email) {
-	this.email = email;
-}
-
-public String getPassword() {
-	return password;
-}
-
-public void setPassword(String password) {
-	this.password = password;
-}
-
-public String getConfirmPassword() {
-	return confirmPassword;
-}
-
-public void setConfirmPassword(String confirmPassword) {
-	this.confirmPassword = confirmPassword;
-}
-
-public String getNic() {
-	return nic;
-}
-
-public void setNic(String nic) {
-	this.nic = nic;
-}
-
-public LocalDate getBirthday() {
-	return birthday;
-}
-
-public void setBirthday(LocalDate birthday) {
-	this.birthday = birthday;
-}
-
-public String getTelephone() {
-	return telephone;
-}
-
-public void setTelephone(String telephone) {
-	this.telephone = telephone;
-}
-
-public String getAddress() {
-	return address;
-}
-
-public void setAddress(String address) {
-	this.address = address;
-}
-
-public String getPostalCode() {
-	return postalCode;
-}
-
-public void setPostalCode(String postalCode) {
-	this.postalCode = postalCode;
-}
-
-public boolean isAgreedToTerms() {
-	return agreedToTerms;
-}
-
-public void setAgreedToTerms(boolean agreedToTerms) {
-	this.agreedToTerms = agreedToTerms;
-}
 }
