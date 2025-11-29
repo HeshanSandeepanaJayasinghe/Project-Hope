@@ -43,7 +43,7 @@ private String postalCode;
 @AssertTrue(message = "You must agree to the terms and conditions")
 private boolean agreedToTerms;
 
-public RegisterFundraiserDTO() {}
+
 
 
 }
