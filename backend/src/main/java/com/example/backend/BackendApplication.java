@@ -10,9 +10,7 @@ public class BackendApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);
 		System.out.println("Hello world");
-		Donor donor=new Donor();
-		donor.setName("Thinil");
-		System.out.println(donor.getName());
+
 
 	}
 

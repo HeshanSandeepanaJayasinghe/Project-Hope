@@ -31,7 +31,9 @@ private Status status;
 
 public enum Status{
 	VERIFIED,
+	FRAUD,
 	NON_VERIFIED;
+
 }
 
 }
