@@ -30,7 +30,7 @@ String userId = userDetails.getUserId();
 	System.out.println(userId);
 
 FundraiserVerification user=new FundraiserVerification();
-user.setUser_id(userId);
+
 user.setProvince(req.getProvince());
 user.setDistrict(req.getDistrict());
 user.setDivisionalSecretarial(req.getDivisionalSecretarial());

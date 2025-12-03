@@ -39,6 +39,7 @@ public ResponseEntity<?> registerFundraiser(@RequestBody RegisterFundraiserDTO r
 	userRepo.save(user);
 
 	Fundraiser fundraiser=new Fundraiser();
+	System.out.println("Type of user.getId(): " + user.getId().getClass().getName());
 	fundraiser.setUserId(user.getId());
 	fundraiser.setName(req.getName());
 	fundraiser.setNic(req.getNic());
