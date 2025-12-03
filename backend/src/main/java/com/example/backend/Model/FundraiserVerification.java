@@ -4,6 +4,7 @@ package com.example.backend.Model;
 
 
 import lombok.Data;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,8 +13,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class FundraiserVerification {
 
 @Id
-private String id;
-private String user_id;
+private ObjectId id;
+private ObjectId user_id;
 private String province;
 private String district;
 private String divisionalSecretarial;
