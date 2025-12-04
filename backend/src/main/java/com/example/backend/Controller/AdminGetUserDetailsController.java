@@ -1,7 +1,7 @@
 package com.example.backend.Controller;
 
 
-import com.example.backend.DTO.Trnasfers.AdminUserDetails;
+import com.example.backend.DTO.Transfers.AdminUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

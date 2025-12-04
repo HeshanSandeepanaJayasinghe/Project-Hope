@@ -1,6 +1,7 @@
 package com.example.backend.Service;
 
 import com.example.backend.Model.User;
+import org.bson.types.ObjectId;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,7 +35,7 @@ public class CustomUserDetails implements UserDetails {
 	}
 
 
-	public  String getUserId(){return user.getId().toString();}
+	public ObjectId getUserId(){return user.getId();}
 
 
 }

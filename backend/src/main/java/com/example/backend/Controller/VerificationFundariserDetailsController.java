@@ -5,6 +5,7 @@ import com.example.backend.DTO.VerificationFundariserDTO;
 import com.example.backend.Model.FundraiserVerification;
 import com.example.backend.Repositories.VerificationFundraiser;
 import com.example.backend.Service.CustomUserDetails;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -26,11 +27,11 @@ public ResponseEntity<?> provideDetails(@RequestBody VerificationFundariserDTO r
 
 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
-String userId = userDetails.getUserId();
+ObjectId userId = userDetails.getUserId();
 	System.out.println(userId);
 
 FundraiserVerification user=new FundraiserVerification();
-
+user.setUser_id( userId);
 user.setProvince(req.getProvince());
 user.setDistrict(req.getDistrict());
 user.setDivisionalSecretarial(req.getDivisionalSecretarial());
