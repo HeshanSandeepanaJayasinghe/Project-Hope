@@ -1,14 +1,12 @@
-package com.example.backend.DTO.Trnasfers;
+package com.example.backend.DTO.Transfers;
 
 import com.example.backend.DTO.UserDetailsDTO;
 import com.example.backend.Model.User;
-import org.bson.Document;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class AdminUserDetails {
