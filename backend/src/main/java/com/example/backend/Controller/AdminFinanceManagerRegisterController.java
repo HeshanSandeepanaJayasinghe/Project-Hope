@@ -55,7 +55,7 @@ public ResponseEntity<?> registerAdmin(@RequestBody Admin_FinancialRegisterDTO r
 public ResponseEntity<?> registerFinanceManager(@RequestBody Admin_FinancialRegisterDTO req) {
 
 	User user = new User();
-	user.setRole(User.Role.ADMIN);
+	user.setRole(User.Role.FINANCIAL_MANAGER);
 	user.setEmail(req.getEmail());
 	user.setPassword(encoder.encode(req.getPassword()));
 	userRepo.save(user);
