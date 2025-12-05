@@ -21,7 +21,8 @@ public class User {
 		ADMIN,
 		FUNDRAISER,
 		DONOR,
-		SUPER_ADMIN
+		SUPER_ADMIN,
+		FINANCIAL_MANAGER
 	}
 
 }
