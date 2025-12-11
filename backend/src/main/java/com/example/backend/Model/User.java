@@ -1,14 +1,17 @@
 package com.example.backend.Model;
 
 
+import lombok.Data;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+@Data
 @Document(collection = "user")
 public class User {
 
 	@Id
-	private String id;
+	private ObjectId id;
 
 	private String email;
 	private String password;
@@ -17,50 +20,9 @@ public class User {
 	public enum Role {
 		ADMIN,
 		FUNDRAISER,
-		DONOR
+		DONOR,
+		SUPER_ADMIN,
+		FINANCIAL_MANAGER
 	}
 
-	public User(){};
-
-	public User(String email,String password, Role role){
-		this.email = email;
-		this.password = password;
-		this.role = role;
-	}
-
-	//Getters
-
-	public String getId() {
-		return id;
-	}
-
-	public String getEmail() {
-			return email;
-		}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public Role getRole() {
-		return role;
-	}
-
-	//Setters
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
-	}
 }

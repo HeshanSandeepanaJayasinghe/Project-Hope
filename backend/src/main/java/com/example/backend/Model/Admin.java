@@ -6,18 +6,15 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Document(collection = "donor")
-public class Donor {
+@Document(collection = "admin")
+public class Admin {
 
 @Id
 private ObjectId id;
 
 private ObjectId userId;
+private String fullName;
+private String phoneNumber;
 
-private String name;
-
-private String occupation;
-
-private String organization;
 
 }
