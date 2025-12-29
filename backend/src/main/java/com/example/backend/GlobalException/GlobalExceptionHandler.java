@@ -1,5 +1,7 @@
 package com.example.backend.GlobalException;
 
+import com.example.backend.Exceptions.TooManyPostsException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,4 +20,12 @@ public ResponseEntity<?> handleValidationExceptions(MethodArgumentNotValidExcept
 		errors.put(error.getField(), error.getDefaultMessage()));
 	return ResponseEntity.badRequest().body(errors);
 }
+
+	@ExceptionHandler(TooManyPostsException.class)
+	public ResponseEntity<Map<String, String>> handleTooManyPosts(TooManyPostsException ex) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+				.body(Map.of("error", ex.getMessage()));
+	}
+
+
 }
