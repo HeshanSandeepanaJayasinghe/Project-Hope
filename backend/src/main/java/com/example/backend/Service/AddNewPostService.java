@@ -35,6 +35,7 @@ public class AddNewPostService {
 		post.setUserId(useId);
 		post.setDescription(newPostDTO.getDescription());
 		post.setTitle(newPostDTO.getTitle());
+		post.setCategory(Post.Category.valueOf(newPostDTO.getCategory()));
 		post.setTarget(newPostDTO.getTarget());
 		post.setImageUrl(imageUploadService.storeImage(newPostDTO.getImage()));
 		postRepository.save(post);
