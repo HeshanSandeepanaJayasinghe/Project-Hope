@@ -34,7 +34,7 @@ private final Path fileStorageLocation;
 
 		Path targetLocation=fileStorageLocation.resolve(fileName);
 		Files.copy(file.getInputStream(),targetLocation, StandardCopyOption.REPLACE_EXISTING);
-		return "http://localhost:8080/view/image"+fileName;
+		return "http://localhost:8080/view/image/"+fileName;
 
 
 	}
