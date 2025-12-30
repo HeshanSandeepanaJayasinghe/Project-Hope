@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 @RestController
-@RequestMapping("/get")
+@RequestMapping("/view")
 public class SendImageController {
 
 

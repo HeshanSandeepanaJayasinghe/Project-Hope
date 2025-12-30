@@ -14,6 +14,7 @@ public class Post {
 
 	private ObjectId userId;
 	private String title;
+	private Category category;
 	private String description;
 	private int target;
 	private String imageUrl;
@@ -23,6 +24,12 @@ public class Post {
 		HIGH,
 		MEDIUM,
 		LOW
+	}
+
+	public enum Category{
+		HEALTH,
+		FINANCIAL,
+		EDUCATION
 	}
 
 

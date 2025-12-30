@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Data
 public class NewPostDTO {
 
+	private String category;
 	private String title;
 	private String description;
 	private int target;
