@@ -1,18 +1,25 @@
-import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+
 import Login from './pages/Login.jsx'
+import Footer from './components/Footer.jsx'
 import { AuthProvider } from './context/AuthContext'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+
 
   return (
     <>
       <AuthProvider>
         <Router>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-          </Routes>
+          <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            <div style={{ flex: 1 }}>
+              <Routes>
+                <Route path="/login" element={<Login />} />
+              </Routes>
+            </div>
+            <Footer />
+          </div>
         </Router>
       </AuthProvider>
     </>
