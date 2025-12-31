@@ -14,7 +14,7 @@ export default function Footer() {
     <footer style={styles.footer}>
       {/* Main Footer Area */}
       <div style={styles.container}>
-        
+
         {/* LEFT : Logo + Text */}
         <div style={styles.left}>
           <div style={styles.logoCircle}>🌱</div>
@@ -70,8 +70,8 @@ export default function Footer() {
 
 const styles = {
   footer: {
-    width: "1470px",
-    backgroundColor: "#6f6c6c",
+    width: "100%",
+    backgroundColor: "#2e6a31ff", 
     color: "#ffffff",
   },
 
@@ -97,7 +97,8 @@ const styles = {
     width: "90px",
     height: "90px",
     borderRadius: "50%",
-    backgroundColor: "#9a8f8f",
+    backgroundColor: "#A5D6A7", 
+    color: "#1B5E20", 
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -158,7 +159,7 @@ const styles = {
 
   /* BOTTOM BAR */
   bottomBar: {
-    backgroundColor: "#3f3f3f",
+    backgroundColor: "#030303ff", 
     textAlign: "center",
     padding: "16px",
     fontSize: "16px",
