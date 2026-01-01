@@ -23,7 +23,7 @@ export default function Footer() {
         <div style={styles.column}>
           <h3 style={styles.columnTitle}>Quick Links</h3>
           <ul style={styles.linkList}>
-            {['Home', 'Features', 'About Us', 'Contact'].map((item) => (
+            {['Home', 'Posts', 'Features', 'About Us', 'Contact'].map((item) => (
               <li key={item}>
                 <Link
                   to={item === 'Home' ? '/' : `/${item.toLowerCase().replace(' ', '-')}`}
@@ -88,7 +88,7 @@ export default function Footer() {
       <div style={styles.bottomBar}>
         <div style={styles.bottomContent}>
           <p style={styles.copyright}>&copy; 2025 Project Hope. All rights reserved.</p>
-          
+
         </div>
       </div>
     </footer>
@@ -185,7 +185,7 @@ const styles = {
   bottomBar: {
     backgroundColor: "#030712", // Even darker for bottom bar
     borderTop: "1px solid #1f2937",
-    
+
   },
   bottomContent: {
     maxWidth: "1280px",

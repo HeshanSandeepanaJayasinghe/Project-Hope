@@ -3,6 +3,7 @@ import Login from './pages/Login.jsx'
 import Footer from './components/Footer.jsx'
 import Header from './components/Header.jsx'
 import Features from './pages/Features.jsx'
+import Posts from './pages/Posts.jsx'
 import { AuthProvider } from './context/AuthContext'
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
               <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/features" element={<Features />} />
+                <Route path="/posts" element={<Posts />} />
               </Routes>
             </div>
             <Footer />
