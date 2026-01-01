@@ -1,4 +1,4 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 import './Header.css';
 import logo from '../assets/react.svg'; // Temporary placeholder
 
@@ -6,15 +6,17 @@ const Header = () => {
     return (
         <header className="header">
             <div className="header-left">
-                <a href="/" className="logo-link">
+                <Link to="/" className="logo-link">
                     <img src={logo} alt="Logo" className="logo-img" />
-                </a>
+                </Link>
             </div>
             <div className="header-right">
                 <nav className="nav-links">
-                    <a href="#posts" className="nav-item">Posts</a>
-                    <a href="#features" className="nav-item">Features</a>
-                    <a href="#about" className="nav-item">About Us</a>
+                    <Link to="/posts" className="nav-item">Posts</Link>
+                    <Link to="/features" className="nav-item">Features</Link>
+                    <Link to="/about" className="nav-item">About Us</Link>
+                    <Link to="/donate" className="nav-item">Donate</Link>
+                    <Link to="/contact" className="nav-item">Contact us</Link>
                 </nav>
                 <button className="get-started-btn">Get Started</button>
             </div>

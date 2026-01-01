@@ -1,169 +1,205 @@
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
-  // State to handle button hover effects
-  const [hoveredButton, setHoveredButton] = useState(null);
-
-  // Button click handler
-  const handleClick = (section) => {
-    console.log(`Navigate to: ${section}`);
-    // Replace with actual navigation if needed
-  };
+  const [hoveredLink, setHoveredLink] = useState(null);
 
   return (
     <footer style={styles.footer}>
-      {/* Main Footer Area */}
       <div style={styles.container}>
 
-        {/* LEFT : Logo + Text */}
-        <div style={styles.left}>
-          <div style={styles.logoCircle}>🌱</div>
-          <h2 style={styles.brandText}>
-            Join Hands <br /> Share Hope
-          </h2>
+        {/* Brand Section */}
+        <div style={styles.column}>
+          <div style={styles.branding}>
+            <div style={styles.logoCircle}>🌱</div>
+            <h2 style={styles.brandName}>Project Hope</h2>
+          </div>
+          <p style={styles.brandDesc}>
+            Join hands with us to create a world where hope is shared and communities thrive together.
+          </p>
         </div>
 
-        {/* CENTER : Buttons */}
-        <div style={styles.middle}>
-          {["Posts", "Features", "About Us"].map((btn, index) => (
-            <button
-              key={index}
-              style={{
-                ...styles.button,
-                backgroundColor:
-                  hoveredButton === btn
-                    ? "rgba(255,255,255,0.45)"
-                    : "rgba(255,255,255,0.25)"
-              }}
-              onMouseEnter={() => setHoveredButton(btn)}
-              onMouseLeave={() => setHoveredButton(null)}
-              onClick={() => handleClick(btn)}
-            >
-              {btn}
-            </button>
-          ))}
+        {/* Quick Links */}
+        <div style={styles.column}>
+          <h3 style={styles.columnTitle}>Quick Links</h3>
+          <ul style={styles.linkList}>
+            {['Home', 'Features', 'About Us', 'Contact'].map((item) => (
+              <li key={item}>
+                <Link
+                  to={item === 'Home' ? '/' : `/${item.toLowerCase().replace(' ', '-')}`}
+                  style={{
+                    ...styles.link,
+                    color: hoveredLink === item ? '#10b981' : '#9ca3af',
+                    paddingLeft: hoveredLink === item ? '8px' : '0',
+                  }}
+                  onMouseEnter={() => setHoveredLink(item)}
+                  onMouseLeave={() => setHoveredLink(null)}
+                >
+                  {item}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
 
-        {/* RIGHT : Contact */}
-        <div style={styles.right}>
-          <h2 style={styles.contactTitle}>Contact Us</h2>
+        {/* Resources */}
+        <div style={styles.column}>
+          <h3 style={styles.columnTitle}>Resources</h3>
+          <ul style={styles.linkList}>
+            {['Blog Posts', 'Success Stories', 'Volunteer', 'Donate'].map((item) => (
+              <li key={item}>
+                <a
+                  href={`#${item.toLowerCase().replace(' ', '-')}`}
+                  style={{
+                    ...styles.link,
+                    color: hoveredLink === item ? '#10b981' : '#9ca3af',
+                    paddingLeft: hoveredLink === item ? '8px' : '0',
+                  }}
+                  onMouseEnter={() => setHoveredLink(item)}
+                  onMouseLeave={() => setHoveredLink(null)}
+                >
+                  {item}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Contact Info */}
+        <div style={styles.column}>
+          <h3 style={styles.columnTitle}>Get in Touch</h3>
+          <div style={styles.contactItem}>
+            <span style={styles.icon}>📍</span>
+            <span>123 Hope Street, Colombo, LK</span>
+          </div>
           <div style={styles.contactItem}>
             <span style={styles.icon}>📞</span>
-            <span>071 7534345</span>
+            <span>+94 71 753 4345</span>
           </div>
           <div style={styles.contactItem}>
             <span style={styles.icon}>✉️</span>
-            <span>heshan@gmail.com</span>
+            <span>contact@projecthope.com</span>
           </div>
         </div>
+
       </div>
 
       {/* Bottom Bar */}
       <div style={styles.bottomBar}>
-        &copy; 2025 All rights reserved
+        <div style={styles.bottomContent}>
+          <p style={styles.copyright}>&copy; 2025 Project Hope. All rights reserved.</p>
+          
+        </div>
       </div>
     </footer>
   );
 }
 
-/* ================= STYLES ================= */
-
 const styles = {
   footer: {
+    backgroundColor: "#111827", // Very dark slate (almost black)
+    color: "#e5e7eb", // Light grey text
+    fontFamily: "'Inter', sans-serif",
+    borderTop: "1px solid #1f2937",
     width: "100%",
-    backgroundColor: "#2e6a31ff", 
-    color: "#ffffff",
   },
 
   container: {
-    maxWidth: "1200px",
+    maxWidth: "100%",
     margin: "0 auto",
-    padding: "50px 20px",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    flexWrap: "wrap",
+    padding: "60px 40px", // Increased side padding but removed max-width constraint to fill screen more
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", // Slightly smaller minmax to fit better
     gap: "40px",
   },
-
-  /* LEFT */
-  left: {
-    textAlign: "center",
-    minWidth: "220px",
-    flex: "1",
+  column: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "24px",
+  },
+  branding: {
+    display: "flex",
+    alignItems: "center",
+    gap: "16px",
   },
 
   logoCircle: {
-    width: "90px",
-    height: "90px",
-    borderRadius: "50%",
-    backgroundColor: "#A5D6A7", 
-    color: "#1B5E20", 
+    width: "48px",
+    height: "48px",
+    borderRadius: "12px",
+    backgroundColor: "#10b981", // Brand Green
+    color: "#fff",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     fontSize: "36px",
-    margin: "0 auto 16px",
+    boxShadow: "0 4px 6px -1px rgba(16, 185, 129, 0.2)",
   },
-
-  brandText: {
-    fontWeight: "400",
-    fontSize: "24px",
-    lineHeight: "1.3",
+  brandName: {
+    fontSize: "1.8rem",
+    fontWeight: "700",
+    color: "#f9fafb",
+    letterSpacing: "-0.02em",
   },
-
-  /* MIDDLE */
-  middle: {
+  brandDesc: {
+    lineHeight: "1.6",
+    color: "#9ca3af",
+    fontSize: "0.95rem",
+    maxWidth: "300px",
+  },
+  columnTitle: {
+    fontSize: "1.3rem",
+    fontWeight: "600",
+    color: "#f9fafb",
+    marginBottom: "5px",
+  },
+  linkList: {
+    listStyle: "none",
+    padding: 0,
+    margin: 0,
     display: "flex",
     flexDirection: "column",
-    gap: "18px",
-    alignItems: "center",
-    minWidth: "220px",
-    flex: "1",
+    gap: "15px",
   },
-
-  button: {
-    width: "170px",
-    padding: "12px 0",
-    borderRadius: "28px",
-    border: "none",
-    color: "#fff",
-    fontSize: "16px",
-    cursor: "pointer",
-    transition: "0.3s",
-  },
-
-  /* RIGHT */
-  right: {
-    minWidth: "260px",
-    flex: "1",
-  },
-
-  contactTitle: {
-    fontWeight: "400",
-    fontSize: "24px",
-    marginBottom: "20px",
+  link: {
+    textDecoration: "none",
+    fontSize: "0.95rem",
+    transition: "all 0.2s ease",
+    display: "inline-block",
   },
 
   contactItem: {
     display: "flex",
-    alignItems: "center",
+    alignItems: "flex-start",
     gap: "12px",
-    fontSize: "18px",
-    marginBottom: "16px",
+    color: "#9ca3af",
+    fontSize: "0.95rem",
+    lineHeight: "1.5",
   },
 
   icon: {
-    fontSize: "20px",
+    fontSize: "1.1rem",
+    opacity: 0.8,
   },
 
-  /* BOTTOM BAR */
   bottomBar: {
-    backgroundColor: "#030303ff", 
-    textAlign: "center",
-    padding: "16px",
-    fontSize: "16px",
+    backgroundColor: "#030712", // Even darker for bottom bar
+    borderTop: "1px solid #1f2937",
+    
+  },
+  bottomContent: {
+    maxWidth: "1280px",
+    margin: "0 auto",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexWrap: "wrap",
+    gap: "20px",
+
+  },
+  copyright: {
+    color: "#6b7280",
+    fontSize: "0.9rem",
   },
 
-  /* Responsive adjustments via media queries (inline not possible, handled by React inline wrapper) */
 };
