@@ -59,7 +59,7 @@ const Posts = () => {
             icon: Coins,
             iconColor: "bg-green-600",
         },
-        
+
     ];
 
     return (
@@ -118,7 +118,7 @@ const Posts = () => {
                 <div className="flex justify-between items-center mb-8"></div>
 
                 {/* Grid */}
-                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
                     {posts.map((post) => {
                         const Icon = post.icon;
                         return (
@@ -189,7 +189,7 @@ const Posts = () => {
                         Our Best Services
                     </p>
                     <h2 className="text-[#052e26] text-4xl md:text-5xl font-bold font-cursive">
-                        Helping The Poor, <br/>
+                        Helping The Poor, <br />
                         Your Support Matters
                     </h2>
                 </div>
