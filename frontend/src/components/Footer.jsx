@@ -8,6 +8,7 @@ export default function Footer() {
     <footer style={styles.footer}>
       <div style={styles.container}>
 
+<<<<<<< HEAD
         {/* Brand Section */}
         <div style={styles.column}>
           <div style={styles.branding}>
@@ -17,6 +18,14 @@ export default function Footer() {
           <p style={styles.brandDesc}>
             Join hands with us to create a world where hope is shared and communities thrive together.
           </p>
+=======
+        {/* LEFT : Logo + Text */}
+        <div style={styles.left}>
+          <div style={styles.logoCircle}>🌱</div>
+          <h2 style={styles.brandText}>
+            Join Hands <br /> Share Hope
+          </h2>
+>>>>>>> 56f7f35ea12115cb9135477ccbd079b56f6006cd
         </div>
 
         {/* Quick Links */}
@@ -97,11 +106,17 @@ export default function Footer() {
 
 const styles = {
   footer: {
+<<<<<<< HEAD
     backgroundColor: "#111827", // Very dark slate (almost black)
     color: "#e5e7eb", // Light grey text
     fontFamily: "'Inter', sans-serif",
     borderTop: "1px solid #1f2937",
     width: "100%",
+=======
+    width: "100%",
+    backgroundColor: "#1B4D3E",
+    color: "#ffffff",
+>>>>>>> 56f7f35ea12115cb9135477ccbd079b56f6006cd
   },
 
   container: {
@@ -124,11 +139,18 @@ const styles = {
   },
 
   logoCircle: {
+<<<<<<< HEAD
     width: "48px",
     height: "48px",
     borderRadius: "12px",
     backgroundColor: "#10b981", // Brand Green
     color: "#fff",
+=======
+    width: "90px",
+    height: "90px",
+    borderRadius: "50%",
+    backgroundColor: "#2E8B57", // SeaGreen
+>>>>>>> 56f7f35ea12115cb9135477ccbd079b56f6006cd
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -183,6 +205,7 @@ const styles = {
   },
 
   bottomBar: {
+<<<<<<< HEAD
     backgroundColor: "#030712", // Even darker for bottom bar
     borderTop: "1px solid #1f2937",
 
@@ -200,6 +223,12 @@ const styles = {
   copyright: {
     color: "#6b7280",
     fontSize: "0.9rem",
+=======
+    backgroundColor: "#11352A",
+    textAlign: "center",
+    padding: "16px",
+    fontSize: "16px",
+>>>>>>> 56f7f35ea12115cb9135477ccbd079b56f6006cd
   },
 
 };
