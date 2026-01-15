@@ -18,7 +18,10 @@ const Header = () => {
                     <Link to="/donate" className="nav-item">Donate</Link>
                     <Link to="/contact" className="nav-item">Contact us</Link>
                 </nav>
-                <button className="get-started-btn">Get Started</button>
+                <Link to="/login">
+                    <button className="get-started-btn">Get Started</button>
+                </Link>
+                
             </div>
         </header>
     );
