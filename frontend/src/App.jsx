@@ -5,6 +5,7 @@ import Footer from './components/Footer.jsx'
 import Header from './components/Header.jsx'
 import Features from './pages/Features.jsx'
 import Posts from './pages/Posts.jsx'
+import Home from './pages/Home.jsx'
 import { AuthProvider } from './context/AuthContext'
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
             <Header />
             <div style={{ flex: 1 }}>
               <Routes>
+                <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/features" element={<Features />} />
                 <Route path="/posts" element={<Posts />} />
