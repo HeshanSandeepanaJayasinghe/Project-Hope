@@ -1,0 +1,282 @@
+/* =========================
+   General Container & Reset
+========================= */
+.container {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+/* =========================
+   Hero Section
+========================= */
+.hero {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  overflow: hidden;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* Background video */
+.bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* full-screen crop */
+  z-index: -2;
+}
+
+/* Dark overlay */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: -1;
+}
+
+/* Hero text */
+.hero h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+  line-height: 1.2;
+  color: white;
+  z-index: 1;
+}
+
+.hero p {
+  max-width: 36rem;
+  margin: 0 auto 24px;
+  color: #e5e7eb;
+  z-index: 1;
+}
+
+.hero button {
+  background-color: #16a34a;
+  color: white;
+  padding: 10px 28px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s;
+  z-index: 1;
+}
+
+.hero button:hover {
+  transform: scale(1.05);
+}
+
+/* =========================
+   Recipient / Donor sections
+========================= */
+.section {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 250px;
+  padding: 64px 40px;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.section-row {
+  flex-direction: column;
+}
+
+.section-row-reverse {
+  flex-direction: column-reverse;
+}
+
+@media (min-width: 768px) {
+  .section-row {
+    flex-direction: row;
+    align-items: center;
+  }
+  .section-row-reverse {
+    flex-direction: row-reverse;
+    align-items: center;
+  }
+}
+
+.section .card {
+  width: 200px;
+  height: 200px;
+  background-color: #bbf7d0;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  transition: transform 0.5s;
+  margin: 0; /* remove fixed margins */
+}
+
+.section .card:hover {
+  transform: scale(1.05);
+}
+
+.section .rec{
+  text-align: right;
+  max-width: 350px;
+  
+}
+
+.section .don {
+  text-align: left;
+  max-width: 350px;
+  
+ 
+}
+
+.section div.img {
+  width: 100%;
+  max-width: 400px;
+}
+
+.section div.img img {
+  width: 100%;
+  height: 250px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.section h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.section p {
+  color: #4b5563;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.section button {
+  background-color: #16a34a;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.section button:hover {
+  transform: scale(1.05);
+}
+
+/* Recipient Section Specific Background */
+.recipient-section {
+  background-color: #f3f4f6;
+}
+
+/* =========================
+   What We Do Section
+========================= */
+.what-we-do {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 64px 64px;
+  background-color: #ecfdf5;
+  box-sizing: border-box;
+}
+
+/* Title */
+.what-we-do h2 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 48px;
+  color: #023020;
+}
+
+/* 3-column layout */
+.con {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 80px;
+  align-items: center;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* Tags column */
+.tags {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.tag {
+  background-color: #16a34a;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 9px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.3s;
+  min-width: 200px;
+  text-align: center;
+  display: block;
+}
+
+.tag:hover {
+  transform: scale(1.05);
+}
+
+/* Paragraph column */
+.para p {
+  max-width: 320px;
+  color: #4b5563;
+  line-height: 1.6;
+  text-align: left;
+}
+
+/* Image column */
+.img img {
+  width: 350px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .what-we-do {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .para p {
+    text-align: center;
+  }
+
+  .tags {
+    align-items: center;
+  }
+}
