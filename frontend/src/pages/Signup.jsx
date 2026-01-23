@@ -51,6 +51,7 @@ const Signup = ({ onClose, onSignupSuccess }) => {
         }
 
         if (!agreeTerms) {
+            
             setError('You must agree to the terms and conditions');
             return false;
         }
