@@ -1,14 +1,23 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import "./Home.css";
 
-import homesec1 from "../assets/hpictures/homesec1.mp4";
 import img1 from "../assets/hpictures/img1.jpg";
 import img2 from "../assets/hpictures/img2.jpg";
 import img3 from "../assets/hpictures//img3.avif";
 
+// Placeholder image URLs for hero slideshow - replace with your splash image links
+const heroSlides = [
+  "https://images.unsplash.com/photo-1579208575657-c595a05383b7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "https://plus.unsplash.com/premium_photo-1726837345485-7a0a7d543290?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "https://images.unsplash.com/photo-1579621970588-a35d0e7ab9b6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+];
+
 export default function Home() {
+  const [currentSlide, setCurrentSlide] = useState(0);
   const [ref1, inView1] = useInView({ triggerOnce: true, threshold: 0.2 });
   const [ref2, inView2] = useInView({ triggerOnce: true, threshold: 0.2 });
   const [ref3, inView3] = useInView({ triggerOnce: true, threshold: 0.2 });
@@ -16,6 +25,15 @@ export default function Home() {
   const controls1 = useAnimation();
   const controls2 = useAnimation();
   const controls3 = useAnimation();
+
+  useEffect(() => {
+    // Slideshow autoplay every 5 seconds
+    const slideInterval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 5000);
+
+    return () => clearInterval(slideInterval);
+  }, []);
 
   useEffect(() => {
     // Set initial state first
@@ -44,7 +62,18 @@ export default function Home() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
       >
-        <video className="bg-video" src={homesec1} autoPlay loop muted playsInline />
+        {/* Slideshow Background */}
+        <div className="slideshow-container">
+          {heroSlides.map((slide, index) => (
+            <img
+              key={index}
+              src={slide}
+              alt={`hero slide ${index + 1}`}
+              className={`hero-slide ${index === currentSlide ? "active" : ""}`}
+            />
+          ))}
+        </div>
+        
         <h2>Join Hands<br />Give Hope</h2>
         <p>
           Together, we’re building a world where kindness creates lasting change.

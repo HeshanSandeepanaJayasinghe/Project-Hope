@@ -1,13 +1,12 @@
 import { Link } from 'react-router-dom';
 import './Header.css';
-import logo from '../assets/react.svg'; // Temporary placeholder
 
 const Header = () => {
     return (
         <header className="header">
             <div className="header-left">
                 <Link to="/" className="logo-link">
-                    <img src={logo} alt="Logo" className="logo-img" />
+                    <img src="/Project-hope-logo.jpg" alt="Logo" className="logo-img" />
                 </Link>
             </div>
             <div className="header-right">

@@ -11,7 +11,11 @@ export default function Footer() {
         {/* Brand Section */}
         <div style={styles.column}>
           <div style={styles.branding}>
-            <div style={styles.logoCircle}>🌱</div>
+            <div style={styles.logoCircle}>
+              <Link to="/" className="logo-link">
+                    <img src="/Project-hope-logo.jpg" alt="Logo" className="logo-img" />
+                </Link>
+            </div>
             <h2 style={styles.brandName}>Project Hope</h2>
           </div>
           <p style={styles.brandDesc}>
@@ -127,7 +131,6 @@ const styles = {
     width: "48px",
     height: "48px",
     borderRadius: "12px",
-    backgroundColor: "#10b981", // Brand Green
     color: "#fff",
     display: "flex",
     alignItems: "center",
