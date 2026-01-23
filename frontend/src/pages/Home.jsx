@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { useNavigate } from "react-router-dom";
 import "./Home.css";
 
 import img1 from "../assets/hpictures/img1.jpg";
@@ -18,6 +19,7 @@ const heroSlides = [
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const navigate = useNavigate();
   const [ref1, inView1] = useInView({ triggerOnce: true, threshold: 0.2 });
   const [ref2, inView2] = useInView({ triggerOnce: true, threshold: 0.2 });
   const [ref3, inView3] = useInView({ triggerOnce: true, threshold: 0.2 });
@@ -80,7 +82,7 @@ export default function Home() {
           <br />Join our community of givers and help bring
           <br />hope, opportunity, and compassion to those who need it most.
         </p>
-        <button>Get Started</button>
+        <button onClick={() => navigate('/login')}>Get Started</button>
       </motion.section>
 
       {/* Recipient Section */}
@@ -96,7 +98,7 @@ export default function Home() {
         <div className="rec">
           <h2>Become a Recipient<br />Share Your Story</h2>
           <p>You’re not alone. Tell your story, reach out to a caring community.</p>
-          <button>Sign up</button>
+          <button onClick={() => navigate('/login')}>Sign up</button>
         </div>
       </motion.section>
 
@@ -113,7 +115,7 @@ export default function Home() {
         <div className="don">
           <h2>Become a Donor<br />Change Lives</h2>
           <p>Every act of generosity brings someone closer to hope.</p>
-          <button>Sign up</button>
+          <button onClick={() => navigate('/login')}>Sign up</button>
         </div>
       </motion.section>
 

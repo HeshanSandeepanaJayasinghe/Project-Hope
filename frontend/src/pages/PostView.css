@@ -1,0 +1,242 @@
+.post-view-container {
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, #f6f9f6, #ffffff);
+}
+
+.back-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: white;
+    color: #16a34a;
+    border: 2px solid #16a34a;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 2rem;
+}
+
+.back-button:hover {
+    background: #16a34a;
+    color: white;
+}
+
+.placeholder-top {
+    text-align: center;
+    padding: 2rem;
+    color: #d1d5db;
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 2rem;
+    letter-spacing: 2px;
+}
+
+.placeholder-bottom {
+    text-align: center;
+    padding: 2rem;
+    color: #d1d5db;
+    font-size: 2rem;
+    font-weight: 300;
+    margin-top: 2rem;
+    letter-spacing: 2px;
+}
+
+.post-view-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .post-view-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
+.post-info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.post-view-card {
+    position: relative;
+    background: white;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.post-view-tag {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 600;
+    z-index: 10;
+    text-transform: capitalize;
+}
+
+.post-view-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.post-view-details {
+    padding: 2rem;
+}
+
+.post-view-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 1rem;
+}
+
+.post-view-description {
+    font-size: 1rem;
+    color: #6b7280;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.info-box {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.info-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #15803d;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #d1d5db;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1rem 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+.info-item.highlight {
+    background: #f0fdf4;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.95rem;
+}
+
+.info-value {
+    color: #6b7280;
+    text-align: right;
+    max-width: 60%;
+}
+
+.info-item.highlight .info-value {
+    color: #16a34a;
+    font-weight: 600;
+}
+
+.donation-buttons-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    height: fit-content;
+    position: sticky;
+    top: 2rem;
+}
+
+.donation-button {
+    padding: 1rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.donation-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.donate-this {
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    color: white;
+}
+
+.donate-this:hover {
+    background: linear-gradient(135deg, #15803d, #166534);
+}
+
+.donate-pool {
+    background: white;
+    color: #16a34a;
+    border: 2px solid #16a34a;
+}
+
+.donate-pool:hover {
+    background: #f0fdf4;
+}
+
+@media (max-width: 1024px) {
+    .donation-buttons-section {
+        position: relative;
+        top: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .post-view-container {
+        padding: 1rem 0.5rem;
+    }
+
+    .post-view-title {
+        font-size: 1.5rem;
+    }
+
+    .placeholder-top,
+    .placeholder-bottom {
+        font-size: 1.5rem;
+        padding: 1.5rem;
+    }
+
+    .info-item {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .info-value {
+        max-width: 100%;
+        text-align: left;
+    }
+}

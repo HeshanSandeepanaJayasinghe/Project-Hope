@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Eye, EyeOff, Lock, Mail, User, Store } from 'lucide-react';
+import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
+import Signup from './Signup';
 
 const Login = () => {
-  const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
+  const [isSignup, setIsSignup] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
     email: '',
     password: ''
   });
 
-  const { login, register } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -30,18 +31,6 @@ const Login = () => {
       setError('Email and password are required');
       return false;
     }
-
-    if (!isLogin) {
-      if (!formData.name) {
-        setError('Name is required');
-        return false;
-      }
-      if (formData.password.length < 8) {
-        setError('Password must be at least 8 characters');
-        return false;
-      }
-    }
-
     return true;
   };
 
@@ -54,13 +43,8 @@ const Login = () => {
     setError('');
 
     try {
-      if (isLogin) {
-        await login(formData.email, formData.password);
-        navigate('/login');
-      } else {
-        await register(formData);
-        navigate('/login');
-      }
+      await login(formData.email, formData.password);
+      navigate('/posts');
     } catch (err) {
       setError(err.response?.data?.message || 'Authentication failed. Please try again.');
     } finally {
@@ -70,17 +54,12 @@ const Login = () => {
 
   return (
     <div className="page-root">
-      <div className="container">
+      <div className="login-container">
         {/* Card */}
-        <div className="auth-card">
+        <div className="auth-card login-card">
           {/* Header */}
           <div className="auth-card__header">
-            <h2 className="auth-title">
-              {isLogin ? 'Welcome Back' : 'Create Account'}
-            </h2>
-            <p className="auth-subtitle">
-              {isLogin ? 'Login to continue shopping' : 'Join our fashion community'}
-            </p>
+            <h2 className="auth-title">Welcome back!</h2>
           </div>
 
           {/* Form */}
@@ -92,33 +71,11 @@ const Login = () => {
             )}
 
             <div className="form">
-              {!isLogin && (
-                <>
-                  {/* Name Input */}
-                  <div>
-                    <label className="form-label">
-                      Full Name
-                    </label>
-                    <div className="input-wrapper">
-                      <User className="icon" size={20} />
-                      <input
-                        type="text"
-                        name="name"
-                        placeholder="John Doe"
-                        value={formData.name}
-                        onChange={handleChange}
-                        className="input"
-                      />
-                    </div>
-                  </div>
-                </>
-              )}
+              <p className="form-section-title">Sign in</p>
 
               {/* Email Input */}
               <div>
-                <label className="form-label">
-                  Email Address
-                </label>
+                <label className="form-label">Email</label>
                 <div className="input-wrapper">
                   <Mail className="icon" size={20} />
                   <input
@@ -134,9 +91,7 @@ const Login = () => {
 
               {/* Password Input */}
               <div>
-                <label className="form-label">
-                  Password
-                </label>
+                <label className="form-label">Password</label>
                 <div className="input-wrapper">
                   <Lock className="icon" size={20} />
                   <input
@@ -157,53 +112,38 @@ const Login = () => {
                 </div>
               </div>
 
+              {/* Remember Me Checkbox */}
+              <div className="checkbox-wrapper">
+                <input
+                  type="checkbox"
+                  id="remember-me"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                />
+                <label htmlFor="remember-me">Remember me</label>
+              </div>
+
               {/* Submit Button */}
               <button
                 onClick={handleSubmit}
                 disabled={loading}
                 className="btn btn--primary"
               >
-                {loading ? 'Processing...' : (isLogin ? 'Login' : 'Create Account')}
+                {loading ? 'Processing...' : 'Login'}
               </button>
             </div>
 
-            {/* Toggle Login/Register */}
-            <div className="mt-6 text-center">
-              <button
+            {/* Toggle to Signup */}
+            <div className="auth-toggle">
+              <p>Don't have an account? <button 
                 onClick={() => {
-                  setIsLogin(!isLogin);
+                  setIsSignup(true);
                   setError('');
-                  setFormData({
-                    email: '',
-                    password: '',
-                    name: '',
-                    role: 'customer',
-                    storeName: ''
-                  });
+                  setFormData({ email: '', password: '' });
                 }}
-                className="toggle-link"
-              >
-                {isLogin ? (
-                  <>
-                    Don't have an account?{' '}
-                    <span className="text-highlight">Register</span>
-                  </>
-                ) : (
-                  <>
-                    Already have an account?{' '}
-                    <span className="text-highlight">Login</span>
-                  </>
-                )}
-              </button>
+                className="toggle-button"
+              >Sign Up</button></p>
             </div>
-
-            {isLogin && (
-              <div className="mt-4 text-center">
-                <a href="#" className="muted-link">
-                  Forgot your password?
-                </a>
-              </div>
-            )}
           </div>
         </div>
 
@@ -214,6 +154,17 @@ const Login = () => {
           </Link>
         </div>
       </div>
+
+      {/* Signup Modal */}
+      {isSignup && (
+        <Signup 
+          onClose={() => setIsSignup(false)} 
+          onSignupSuccess={() => {
+            setIsSignup(false);
+            setFormData({ email: '', password: '' });
+          }}
+        />
+      )}
     </div>
   );
 };
