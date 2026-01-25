@@ -126,7 +126,7 @@ a {
 
 .input {
   width: 100%;
-  padding: .75rem .75rem .75rem 2.5rem;
+  padding: .75rem 2.5rem .75rem 2.5rem;
   background: #f9faf9;
   border: 1px solid var(--border);
   border-radius: .5rem;

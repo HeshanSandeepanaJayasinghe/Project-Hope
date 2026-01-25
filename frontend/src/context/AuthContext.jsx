@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     setLoading(true);
     try {
-      const res = await fetch('/authenticate/login', {
+      const res = await fetch('http://localhost:8080/authenticate/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
         password: formData.password
       };
 
-      const res = await fetch('/authenticate/register', {
+      const res = await fetch('http://localhost:8080/register/donor', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

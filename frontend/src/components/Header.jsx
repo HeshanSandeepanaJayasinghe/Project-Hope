@@ -14,8 +14,7 @@ const Header = () => {
                     <Link to="/posts" className="nav-item">Posts</Link>
                     <Link to="/features" className="nav-item">Features</Link>
                     <Link to="/about" className="nav-item">About Us</Link>
-                    <Link to="/donate" className="nav-item">Donate</Link>
-                    <Link to="/contact" className="nav-item">Contact us</Link>
+                    <Link to="/pool-donation" className="nav-item">Donate</Link>
                 </nav>
                 <Link to="/login">
                     <button className="get-started-btn">Get Started</button>

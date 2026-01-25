@@ -27,7 +27,7 @@ export default function Footer() {
         <div style={styles.column}>
           <h3 style={styles.columnTitle}>Quick Links</h3>
           <ul style={styles.linkList}>
-            {['Home', 'Posts', 'Features', 'About Us', 'Contact'].map((item) => (
+            {['Home', 'Posts', 'Features', 'About Us'].map((item) => (
               <li key={item}>
                 <Link
                   to={item === 'Home' ? '/' : `/${item.toLowerCase().replace(' ', '-')}`}
@@ -50,7 +50,7 @@ export default function Footer() {
         <div style={styles.column}>
           <h3 style={styles.columnTitle}>Resources</h3>
           <ul style={styles.linkList}>
-            {['Blog Posts', 'Success Stories', 'Volunteer', 'Donate'].map((item) => (
+            {['Blog Posts', 'Success Stories', 'Volunteer'].map((item) => (
               <li key={item}>
                 <a
                   href={`#${item.toLowerCase().replace(' ', '-')}`}
@@ -66,6 +66,20 @@ export default function Footer() {
                 </a>
               </li>
             ))}
+            <li key="Donate">
+              <Link
+                to="/pool-donation"
+                style={{
+                  ...styles.link,
+                  color: hoveredLink === 'Donate' ? '#10b981' : '#9ca3af',
+                  paddingLeft: hoveredLink === 'Donate' ? '8px' : '0',
+                }}
+                onMouseEnter={() => setHoveredLink('Donate')}
+                onMouseLeave={() => setHoveredLink(null)}
+              >
+                Donate
+              </Link>
+            </li>
           </ul>
         </div>
 
@@ -74,15 +88,15 @@ export default function Footer() {
           <h3 style={styles.columnTitle}>Get in Touch</h3>
           <div style={styles.contactItem}>
             <span style={styles.icon}>📍</span>
-            <span>123 Hope Street, Colombo, LK</span>
+            <span>University of Sri Jayewardenepura</span>
           </div>
           <div style={styles.contactItem}>
             <span style={styles.icon}>📞</span>
-            <span>+94 71 753 4345</span>
+            <span>+94 718639759</span>
           </div>
           <div style={styles.contactItem}>
             <span style={styles.icon}>✉️</span>
-            <span>contact@projecthope.com</span>
+            <span>heshansandeepanajayasinghe@gmail.com</span>
           </div>
         </div>
 
