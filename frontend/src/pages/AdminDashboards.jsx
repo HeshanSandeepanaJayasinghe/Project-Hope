@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
-import CopyrightBar from '../components/CopyrightBar';
 import './AdminDashboard.css';
 
 const createAdminDashboard = (role, roleLabel, sidebarItems) => {
@@ -98,8 +97,6 @@ const createAdminDashboard = (role, roleLabel, sidebarItems) => {
                                 </div>
                             )}
                         </main>
-
-                        <CopyrightBar />
                     </div>
                 </div>
             </div>
