@@ -26,22 +26,28 @@
 
 .placeholder-top {
     text-align: center;
-    padding: 2rem;
-    color: #d1d5db;
-    font-size: 2rem;
-    font-weight: 300;
+    padding: 1.5rem;
+    color: #6b7280;
+    font-size: 0.95rem;
+    font-weight: 400;
     margin-bottom: 2rem;
-    letter-spacing: 2px;
+    letter-spacing: 0.5px;
+    background: #f9fafb;
+    border-radius: 0.5rem;
+    border-left: 4px solid #16a34a;
 }
 
 .placeholder-bottom {
     text-align: center;
-    padding: 2rem;
-    color: #d1d5db;
-    font-size: 2rem;
-    font-weight: 300;
+    padding: 1.5rem;
+    color: #6b7280;
+    font-size: 0.95rem;
+    font-weight: 400;
     margin-top: 2rem;
-    letter-spacing: 2px;
+    letter-spacing: 0.5px;
+    background: #f9fafb;
+    border-radius: 0.5rem;
+    border-left: 4px solid #16a34a;
 }
 
 .post-view-content {

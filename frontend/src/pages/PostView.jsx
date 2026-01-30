@@ -78,7 +78,7 @@ const PostView = () => {
 
             {/* Top Placeholder */}
             <div className="placeholder-top">
-                xxxxxxxxxxxxxx
+                We highly recommend to donate to posts with verified tag. Be careful with unverified and specially fraud tagged posts since the details presented may be incorrect.
             </div>
 
             {/* Main Content */}
@@ -162,7 +162,7 @@ const PostView = () => {
 
             {/* Bottom Placeholder */}
             <div className="placeholder-bottom">
-                yyyyyyyyyyy
+                Note: You can donate any amount to this post and if credit amount exceed the required amount, the extra credits will be automatically forwarded to the donation pool. The credit in the pool will be forwarded to recipients according to a calculated emergency need value. Thank you.
             </div>
         </div>
     );

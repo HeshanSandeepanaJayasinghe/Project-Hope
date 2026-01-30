@@ -14,7 +14,7 @@ const Posts = () => {
             title: "Need Medical Support",
             category: "Financial",
             description: "I need funds for my surgery",
-            image: "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            image: "https://images.unsplash.com/photo-1741769766414-188500c6d143?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             tag: "verified",
             postDate: "2025-03-20",
             postTime: "14:20",
@@ -26,7 +26,7 @@ const Posts = () => {
             title: "Education Fees Support",
             category: "Educational",
             description: "Help me complete my studies",
-            image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            image: "https://images.unsplash.com/photo-1698993026848-f67c1eb7f989?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             tag: "verified",
             postDate: "2025-03-19",
             postTime: "10:15",
@@ -38,7 +38,7 @@ const Posts = () => {
             title: "Food Aid Needed",
             category: "Health",
             description: "Family needs nutritious food",
-            image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            image: "https://images.unsplash.com/photo-1497486751825-1233686d5d80?q=80&w=1113&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             tag: "unverified",
             postDate: "2025-03-18",
             postTime: "09:30",
@@ -50,7 +50,7 @@ const Posts = () => {
             title: "Water Supply Project",
             category: "Environmental",
             description: "Provide clean water to village",
-            image: "https://images.unsplash.com/photo-1538300342682-cf57afb97285?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            image: "https://images.unsplash.com/photo-1588815776517-c5a3f874bad9?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             tag: "verified",
             postDate: "2025-03-17",
             postTime: "15:45",
@@ -62,7 +62,7 @@ const Posts = () => {
             title: "Housing Assistance",
             category: "Financial",
             description: "Help rebuild after disaster",
-            image: "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            image: "https://images.unsplash.com/photo-1764118810617-fd7eddc6d2f3?q=80&w=1229&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             tag: "fraud",
             postDate: "2025-03-16",
             postTime: "12:00",
@@ -74,7 +74,7 @@ const Posts = () => {
             title: "Medical Equipment Needed",
             category: "Health",
             description: "Purchase hospital equipment",
-            image: "https://images.unsplash.com/photo-1579208575657-c595a05383b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            image: "https://images.unsplash.com/photo-1690356107613-aac6326bcb6c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             tag: "verified",
             postDate: "2025-03-15",
             postTime: "11:20",
@@ -86,7 +86,7 @@ const Posts = () => {
             title: "School Building Renovation",
             category: "Educational",
             description: "Improve school infrastructure",
-            image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            image: "https://images.unsplash.com/photo-1624903715293-afe920c6adad?q=80&w=1331&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             tag: "verified",
             postDate: "2025-03-14",
             postTime: "08:50",
@@ -98,7 +98,7 @@ const Posts = () => {
             title: "Elderly Care Support",
             category: "Health",
             description: "Support for elderly citizens",
-            image: "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            image: "https://images.unsplash.com/photo-1595243880357-bcf8de1be94f?q=80&w=1173&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             tag: "unverified",
             postDate: "2025-03-13",
             postTime: "13:30",
@@ -110,7 +110,7 @@ const Posts = () => {
             title: "Scholarship Program",
             category: "Educational",
             description: "Support bright students",
-            image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            image: "https://images.unsplash.com/photo-1569173675610-42c361a86e37?q=80&w=1167&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             tag: "verified",
             postDate: "2025-03-12",
             postTime: "16:15",
@@ -134,11 +134,6 @@ const Posts = () => {
 
     return (
         <div className="posts-container">
-            <div className="posts-header">
-                <h1>Causes We Support</h1>
-                <p>Browse and support meaningful causes in your community</p>
-            </div>
-
             <div className="posts-grid">
                 {posts.map((post) => (
                     <div

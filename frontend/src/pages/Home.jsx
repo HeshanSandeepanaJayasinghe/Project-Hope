@@ -4,6 +4,10 @@ import { useInView } from "react-intersection-observer";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
 
+import undrawInterview from "../assets/home-images/undraw_interview_yz52.svg";
+import undrawShowingSupport from "../assets/home-images/undraw_showing-support_ixfc.svg";
+import undrawChildren from "../assets/home-images/undraw_children_e6ln.svg";
+
 import img1 from "../assets/hpictures/img1.jpg";
 import img2 from "../assets/hpictures/img2.jpg";
 import img3 from "../assets/hpictures//img3.avif";
@@ -16,6 +20,11 @@ const heroSlides = [
   "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1579621970588-a35d0e7ab9b6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 ];
+
+// Undraw images
+// const undrawInterview = "https://illustrations.popsy.co/blue/undraw_interview_yz52.svg";
+// const undrawShowingSupport = "https://illustrations.popsy.co/blue/showing-support.svg";
+// const undrawChildren = "https://illustrations.popsy.co/blue/undraw_children_e6ln.svg";
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -93,11 +102,11 @@ export default function Home() {
         {...animationProps}
       >
         <div className="img">
-          <img src={img1} alt="Recipient" />
+          <img src={undrawInterview} alt="Recipient" />
         </div>
         <div className="rec">
           <h2>Become a Recipient<br />Share Your Story</h2>
-          <p>You’re not alone. Tell your story, reach out to a caring community.</p>
+          <p>You’re not alone. Tell your story, reach out to a caring community and get the help you need to move forward with hope and dignity.</p>
           <button onClick={() => navigate('/login')}>Sign up</button>
         </div>
       </motion.section>
@@ -110,11 +119,11 @@ export default function Home() {
         {...animationProps}
       >
         <div className="img">
-          <img src={img2} alt="donate" />
+          <img src={undrawShowingSupport} alt="donate" />
         </div>
         <div className="don">
           <h2>Become a Donor<br />Change Lives</h2>
-          <p>Every act of generosity brings someone closer to hope.</p>
+          <p>Every act of generosity brings someone closer to stability, healing and hope. Give with compassion and see how your kindness creates real, human impact.</p>
           <button onClick={() => navigate('/login')}>Sign up</button>
         </div>
       </motion.section>
@@ -134,7 +143,7 @@ export default function Home() {
             <span className="tag">Healthcare</span>
           </div>
           <div className="column img">
-            <img src={img3} alt="support" />
+            <img src={undrawChildren} alt="support" />
           </div>
           <div className="column para">
             <p>

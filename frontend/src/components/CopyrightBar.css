@@ -1,0 +1,14 @@
+.copyright-bar {
+    background: #0f172a;
+    color: white;
+    padding: 1.5rem;
+    text-align: center;
+    border-top: 1px solid #1e293b;
+    margin-top: auto;
+}
+
+.copyright-bar p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #9ca3af;
+}

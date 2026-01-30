@@ -9,6 +9,9 @@ import PostView from './pages/PostView.jsx'
 import PostDonation from './pages/PostDonation.jsx'
 import PoolDonation from './pages/PoolDonation.jsx'
 import Home from './pages/Home.jsx'
+import RecipientDashboard from './pages/RecipientDashboard.jsx'
+import DonorDashboard from './pages/DonorDashboard.jsx'
+import { VerifierDashboard, FinancierDashboard, AdminDashboard, SuperAdminDashboard } from './pages/AdminDashboards.jsx'
 import { AuthProvider } from './context/AuthContext'
 
 function App() {
@@ -27,6 +30,12 @@ function App() {
                 <Route path="/post-view/:postId" element={<PostView />} />
                 <Route path="/post-donation" element={<PostDonation />} />
                 <Route path="/pool-donation" element={<PoolDonation />} />
+                <Route path="/recipient-dashboard" element={<RecipientDashboard />} />
+                <Route path="/donor-dashboard" element={<DonorDashboard />} />
+                <Route path="/verifier-dashboard" element={<VerifierDashboard />} />
+                <Route path="/financier-dashboard" element={<FinancierDashboard />} />
+                <Route path="/admin-dashboard" element={<AdminDashboard />} />
+                <Route path="/superadmin-dashboard" element={<SuperAdminDashboard />} />
               </Routes>
             </div>
             <Footer />
