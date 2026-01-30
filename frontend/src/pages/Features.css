@@ -54,6 +54,25 @@
     box-shadow: 0 6px 20px rgba(214, 122, 17, 0.4);
 }
 
+.get-started-btn {
+    background-color: #052e26;
+    color: white;
+    padding: 12px 35px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(5, 46, 38, 0.3);
+}
+
+.get-started-btn:hover {
+    background-color: #16a34a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(22, 163, 74, 0.4);
+}
+
 /* Features Grid Section */
 .features-grid-section {
     padding: 80px 40px;

@@ -175,20 +175,18 @@ const Features = () => {
                             <h4>Join</h4>
                             <p>Sign up as a donor, volunteer, or recipient</p>
                         </div>
-                        <div className="step-connector"></div>
                         <div className="step">
                             <div className="step-number">2</div>
                             <h4>Connect</h4>
                             <p>Find verified campaigns or submit your request</p>
                         </div>
-                        <div className="step-connector"></div>
                         <div className="step">
                             <div className="step-number">3</div>
                             <h4>Impact</h4>
                             <p>Make a difference and see real results</p>
                         </div>
                     </div>
-                    <button className="join-us-btn" onClick={() => navigate('/login')}>
+                    <button className="get-started-btn" onClick={() => navigate('/login')}>
                         Get Started
                     </button>
                 </div>

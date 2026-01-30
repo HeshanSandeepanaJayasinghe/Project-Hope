@@ -1,8 +1,5 @@
 .sidebar {
-    position: fixed;
-    left: 0;
-    top: 80px;
-    height: calc(100vh - 80px);
+    position: static;
     width: 250px;
     background: linear-gradient(180deg, #16a34a, #15803d);
     color: white;
