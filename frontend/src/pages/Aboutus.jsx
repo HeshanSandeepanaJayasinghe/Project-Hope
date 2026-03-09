@@ -16,10 +16,10 @@ import Dummy_face from '../assets/hpictures/img3.avif'
 import Savina from '../assets/hpictures/Savina-Edirisinghe.png'
 import Isumi from '../assets/hpictures/Isumi-Livisarani.jpeg'
 import Heshan from '../assets/hpictures/Heshan-Jayasinghe.jpeg'
-// import Isuru from '../assets/hpictures/Isuru-Akalanka.jpeg'
-// import Nethmika from '../assets/hpictures/Nethmika-Mendis.jpeg'
-// import Nishanthan from '../assets/hpictures/V-Nishanthan.jpeg'
-// import Thinil from '../assets/hpictures/Thinil-Sandaru.jpeg'
+import Isuru from '../assets/hpictures/Isuru-Akalanka.jpeg'
+import Nethmika from '../assets/hpictures/Nethmika-Mendis.jpeg'
+import Nishanthan from '../assets/hpictures/V-Nishanthan.png'
+import Thinil from '../assets/hpictures/Thinil-Sandaru.jpeg'
 // import Shehani from '../assets/hpictures/Shehani-Yashoda.jpeg'
 
 const Aboutus = () => {
@@ -33,10 +33,10 @@ const Aboutus = () => {
     { name: "Heshan Jayasinghe", image: Heshan, role: "Core Founder" },
     { name: "Savina Hansindu", image:Savina, role: "Core Founder" },
     { name: "Isumi Livisarani", image: Isumi, role: "Core Founder" },
-    { name: "Isuru Akalanka", image: Dummy_face, role: "Core Founder" },
-    { name: "Nethmika Mendis", image: Dummy_face, role: "Core Founder" },
-    { name: "V. Nishanthan", image: Dummy_face, role: "Core Founder" },
-    { name: "Thinil Sandaru", image: Dummy_face, role: "Core Founder" },
+    { name: "Isuru Akalanka", image: Isuru, role: "Core Founder" },
+    { name: "Nethmika Mendis", image: Nethmika, role: "Core Founder" },
+    { name: "V. Nishanthan", image: Nishanthan, role: "Core Founder" },
+    { name: "Thinil Sandaru", image: Thinil, role: "Core Founder" },
     { name: "Shehani Yashoda", image: Dummy_face, role: "Core Founder" }
   ];
 
