@@ -20,7 +20,7 @@ public class FinanceManagerRegisterController {
 		this.financeManagerRegisterService = financeManagerRegisterService;
 	}
 
-	@PostMapping("/register/finance-manger")
+	@PostMapping("/register/finance-manager")
 	public ResponseEntity<Map<String, String>> registerAdmin(@RequestBody RegisterFinanceManagerDTO registerFinanceManagerDTO) {
 		return ResponseEntity.ok(financeManagerRegisterService.registerFinanceManager(registerFinanceManagerDTO));
 	}
