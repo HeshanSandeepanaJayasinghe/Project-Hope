@@ -20,6 +20,7 @@ public class User {
 		SUPERADMIN,
 		ADMIN,
 		FINANCE_MANAGER,
+		VERIFIER,
 		DONOR,
 		RECIPIENT
 	}
