@@ -13,7 +13,6 @@ public class DeleteAdminService {
 
 	private final UserRepository userRepository;
 	private final AdminRepository adminRepository;
-	private final FinanceManagerRepository financeManagerRepository;
 
 	public DeleteAdminService(
 			UserRepository userRepository,
@@ -22,7 +21,6 @@ public class DeleteAdminService {
 	) {
 		this.userRepository = userRepository;
 		this.adminRepository = adminRepository;
-		this.financeManagerRepository = financeManagerRepository;
 	}
 
 	public Map<String, String> deleteAdmin(String userId) {
@@ -31,11 +29,8 @@ public class DeleteAdminService {
 				.orElseThrow(() -> new RuntimeException("User not found!"));
 
 		String role = user.getRoles().getFirst().name();
-		if (role.equals("FINANCE_MANAGER")) {
-			financeManagerRepository.deleteByUserId(userId);
-			return Map.of("Message","Successfully deleted the finance manager.");
 
-		} else if (role.equals("ADMIN")) {
+		if (role.equals("ADMIN")) {
 			adminRepository.deleteByUserId(userId);
 			return Map.of("Message","Successfully deleted the admin.");
 

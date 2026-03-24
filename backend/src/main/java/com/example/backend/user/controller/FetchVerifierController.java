@@ -20,7 +20,7 @@ public class FetchVerifierController {
 		this.fetchVerifierService = fetchVerifierService;
 	}
 
-	@GetMapping("/get/verifier")
+	@GetMapping("/get/verifiers")
 	public ResponseEntity<List<FetchAdministratorsDTO>> getVerifierDetails() {
 		return ResponseEntity.ok(fetchVerifierService.getVerifierDetails());
 	}

@@ -44,7 +44,5 @@ public class FetchVerifierService {
 				mongoTemplate.aggregate(aggregation, "verifier", FetchAdministratorsDTO.class);
 
 		return results.getMappedResults();
-
 	}
-
 }
