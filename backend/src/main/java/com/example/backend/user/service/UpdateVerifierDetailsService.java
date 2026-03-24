@@ -2,8 +2,8 @@ package com.example.backend.user.service;
 
 import com.example.backend.authentication.CustomUserDetails;
 import com.example.backend.user.dto.UpdateAdministratorDTO;
-import com.example.backend.user.model.FinanceManager;
 import com.example.backend.user.model.User;
+import com.example.backend.user.model.Verifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -15,12 +15,12 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service
-public class UpdateFinanceManagerDetailsService {
+public class UpdateVerifierDetailsService {
 
 	private final MongoTemplate mongoTemplate;
 	private final PasswordEncoder passwordEncoder;
 
-	public UpdateFinanceManagerDetailsService(
+	public UpdateVerifierDetailsService(
 			MongoTemplate mongoTemplate,
 			PasswordEncoder passwordEncoder
 	) {
@@ -28,17 +28,17 @@ public class UpdateFinanceManagerDetailsService {
 		this.passwordEncoder = passwordEncoder;
 	}
 
-	public Map<String, String> updateFinanceManagerDetails(
-			String financeManagerId,
+	public Map<String, String> updateVerifierDetails(
+			String verifierId,
 			UpdateAdministratorDTO updateAdministratorDTO
 	) {
 
-		if (financeManagerId == null) {
+		if (verifierId == null) {
 			CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			financeManagerId = userDetails.getUserId();
+			verifierId = userDetails.getUserId();
 		}
 
-		Query query1 = new Query(Criteria.where("_id").is(financeManagerId));
+		Query query1 = new Query(Criteria.where("_id").is(verifierId));
 		Update update1 = new Update();
 
 		if (updateAdministratorDTO.getEmail() != null) {
@@ -51,7 +51,7 @@ public class UpdateFinanceManagerDetailsService {
 
 		mongoTemplate.updateFirst(query1, update1, User.class);
 
-		Query query2 = new Query(Criteria.where("userId").is(financeManagerId));
+		Query query2 = new Query(Criteria.where("userId").is(verifierId));
 		Update update2 = new Update();
 
 		if (updateAdministratorDTO.getFirstName() != null) {
@@ -66,9 +66,9 @@ public class UpdateFinanceManagerDetailsService {
 			update2.set("phoneNumber", updateAdministratorDTO.getPhoneNumber());
 		}
 
-		mongoTemplate.updateFirst(query2, update2, FinanceManager.class);
+		mongoTemplate.updateFirst(query2, update2, Verifier.class);
 
-		return Map.of("Message", "Successfully updated the finance manager.");
+		return Map.of("Message", "Successfully updated the verifier.");
 
 	}
 }
