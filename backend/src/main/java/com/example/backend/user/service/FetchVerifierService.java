@@ -8,15 +8,15 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class FetchFinanceManagersService {
+public class FetchVerifierService {
 
 	private final MongoTemplate mongoTemplate;
 
-	public FetchFinanceManagersService(MongoTemplate mongoTemplate) {
+	public FetchVerifierService(MongoTemplate mongoTemplate) {
 		this.mongoTemplate = mongoTemplate;
 	}
 
-	public List<FetchAdministratorsDTO> getFinanceManagerDetails() {
+	public List<FetchAdministratorsDTO> getVerifierDetails() {
 		AddFieldsOperation addFields = Aggregation.addFields()
 				.addField("userIdObj")
 				.withValue(ConvertOperators.ToObjectId.toObjectId("$userId"))
@@ -41,11 +41,10 @@ public class FetchFinanceManagersService {
 		);
 
 		AggregationResults<FetchAdministratorsDTO> results =
-				mongoTemplate.aggregate(aggregation, "financeManager", FetchAdministratorsDTO.class);
+				mongoTemplate.aggregate(aggregation, "verifier", FetchAdministratorsDTO.class);
 
 		return results.getMappedResults();
 
 	}
-
 
 }
