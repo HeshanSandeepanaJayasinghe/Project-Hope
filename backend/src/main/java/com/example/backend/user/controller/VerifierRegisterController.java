@@ -2,6 +2,7 @@ package com.example.backend.user.controller;
 
 import com.example.backend.user.dto.RegisterVerifierDTO;
 import com.example.backend.user.service.VerifierRegisterService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +22,9 @@ public class VerifierRegisterController {
 	}
 
 	@PostMapping("/register/verifier")
-	public ResponseEntity<Map<String, String>> registerVerifier(@RequestBody RegisterVerifierDTO registerVerifierDTO) {
+	public ResponseEntity<Map<String, String>> registerVerifier(
+			@Valid @RequestBody RegisterVerifierDTO registerVerifierDTO
+	) {
 		return ResponseEntity.ok(verifierRegisterService.registerFinanceManager(registerVerifierDTO));
 	}
 }

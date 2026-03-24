@@ -2,6 +2,7 @@ package com.example.backend.user.controller;
 
 import com.example.backend.user.dto.RegisterAdminDTO;
 import com.example.backend.user.service.AdminRegisterService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +23,9 @@ public class AdminRegisterController {
 	}
 
 	@PostMapping("/register/admin")
-	public ResponseEntity<Map<String, String>> registerAdmin(@RequestBody RegisterAdminDTO registerAdminDTO) {
+	public ResponseEntity<Map<String, String>> registerAdmin(
+			@Valid @RequestBody RegisterAdminDTO registerAdminDTO
+	) {
 		return ResponseEntity.ok(adminRegisterService.registerAdmin(registerAdminDTO));
 	}
 }
