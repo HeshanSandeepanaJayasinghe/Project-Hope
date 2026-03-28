@@ -2,6 +2,7 @@ package com.example.backend.user.controller;
 
 import com.example.backend.user.dto.RegisterFinanceManagerDTO;
 import com.example.backend.user.service.FinanceManagerRegisterService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/superadmin")
+@RequestMapping("/admin")
 public class FinanceManagerRegisterController {
 
 	private final FinanceManagerRegisterService financeManagerRegisterService;
@@ -21,7 +22,9 @@ public class FinanceManagerRegisterController {
 	}
 
 	@PostMapping("/register/finance-manager")
-	public ResponseEntity<Map<String, String>> registerAdmin(@RequestBody RegisterFinanceManagerDTO registerFinanceManagerDTO) {
+	public ResponseEntity<Map<String, String>> registerAdmin(
+			@Valid @RequestBody RegisterFinanceManagerDTO registerFinanceManagerDTO
+	) {
 		return ResponseEntity.ok(financeManagerRegisterService.registerFinanceManager(registerFinanceManagerDTO));
 	}
 

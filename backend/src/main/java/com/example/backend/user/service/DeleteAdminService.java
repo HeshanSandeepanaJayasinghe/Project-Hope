@@ -9,33 +9,28 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service
-public class DeleteAdministratorService {
+public class DeleteAdminService {
 
 	private final UserRepository userRepository;
 	private final AdminRepository adminRepository;
-	private final FinanceManagerRepository financeManagerRepository;
 
-	public DeleteAdministratorService(
+	public DeleteAdminService(
 			UserRepository userRepository,
 			AdminRepository adminRepository,
 			FinanceManagerRepository financeManagerRepository
 	) {
 		this.userRepository = userRepository;
 		this.adminRepository = adminRepository;
-		this.financeManagerRepository = financeManagerRepository;
 	}
 
-	public Map<String, String> deleteAdministrator(String userId) {
+	public Map<String, String> deleteAdmin(String userId) {
 
 		User user = userRepository.findByUserId(userId)
 				.orElseThrow(() -> new RuntimeException("User not found!"));
 
 		String role = user.getRoles().getFirst().name();
-		if (role.equals("FINANCE_MANAGER")) {
-			financeManagerRepository.deleteByUserId(userId);
-			return Map.of("Message","Successfully deleted the finance manager.");
 
-		} else if (role.equals("ADMIN")) {
+		if (role.equals("ADMIN")) {
 			adminRepository.deleteByUserId(userId);
 			return Map.of("Message","Successfully deleted the admin.");
 

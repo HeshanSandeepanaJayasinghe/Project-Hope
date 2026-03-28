@@ -1,9 +1,6 @@
 package com.example.backend.user.service;
 
 import com.example.backend.user.dto.FetchAdministratorsDTO;
-import com.example.backend.user.repository.AdminRepository;
-import com.example.backend.user.repository.FinanceManagerRepository;
-import com.example.backend.user.repository.UserRepository;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.stereotype.Service;
@@ -11,11 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class FetchAdministratorsService {
+public class FetchAdminsService {
 
 	private  MongoTemplate mongoTemplate;
 
-	public FetchAdministratorsService(MongoTemplate mongoTemplate) {
+	public FetchAdminsService(MongoTemplate mongoTemplate) {
 		this.mongoTemplate = mongoTemplate;
 	}
 

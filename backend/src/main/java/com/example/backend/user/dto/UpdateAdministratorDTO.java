@@ -4,7 +4,7 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 
 @Data
-public class RegisterFinanceManagerDTO {
+public class UpdateAdministratorDTO {
 
 	@NotBlank(message = "Email is required")
 	@Email(message = "Email format is invalid")
