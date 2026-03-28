@@ -10,7 +10,6 @@
 }
 
 .admin-content {
-    margin-left: 250px;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -90,6 +89,22 @@
 
 .content-placeholder p {
     font-size: 1.125rem;
+}
+
+.nav-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.nav-btn:hover {
+    background-color: #0056b3;
 }
 
 /* Responsive Design */

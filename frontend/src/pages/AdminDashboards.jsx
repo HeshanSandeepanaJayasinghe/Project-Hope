@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
-import CopyrightBar from '../components/CopyrightBar';
 import './AdminDashboard.css';
 
 const createAdminDashboard = (role, roleLabel, sidebarItems) => {
@@ -92,14 +91,24 @@ const createAdminDashboard = (role, roleLabel, sidebarItems) => {
                                 </div>
                             )}
 
-                            {activeTab !== 'dashboard' && activeTab !== sidebarItems[0]?.id && (
+                            {activeTab === 'staff-management' && role === 'superadmin' && (
+                                <div className="content-placeholder">
+                                    <p>Manage staff and administrators</p>
+                                    <button 
+                                        className="nav-btn"
+                                        onClick={() => navigate('/superadmin/manage-admins')}
+                                    >
+                                        Manage Admins
+                                    </button>
+                                </div>
+                            )}
+
+                            {activeTab === 'staff-management' && role !== 'superadmin' && (
                                 <div className="content-placeholder">
                                     <p>Content for {activeTab}</p>
                                 </div>
                             )}
                         </main>
-
-                        <CopyrightBar />
                     </div>
                 </div>
             </div>
