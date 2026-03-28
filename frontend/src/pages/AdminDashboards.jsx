@@ -91,7 +91,19 @@ const createAdminDashboard = (role, roleLabel, sidebarItems) => {
                                 </div>
                             )}
 
-                            {activeTab !== 'dashboard' && activeTab !== sidebarItems[0]?.id && (
+                            {activeTab === 'staff-management' && role === 'superadmin' && (
+                                <div className="content-placeholder">
+                                    <p>Manage staff and administrators</p>
+                                    <button 
+                                        className="nav-btn"
+                                        onClick={() => navigate('/superadmin/manage-admins')}
+                                    >
+                                        Manage Admins
+                                    </button>
+                                </div>
+                            )}
+
+                            {activeTab === 'staff-management' && role !== 'superadmin' && (
                                 <div className="content-placeholder">
                                     <p>Content for {activeTab}</p>
                                 </div>
