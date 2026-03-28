@@ -13,7 +13,7 @@ import Aboutus from './pages/Aboutus.jsx'
 import RecipientDashboard from './pages/RecipientDashboard.jsx'
 import DonorDashboard from './pages/DonorDashboard.jsx'
 import { VerifierDashboard, FinancierDashboard, AdminDashboard, SuperAdminDashboard } from './pages/AdminDashboards.jsx'
-import SuperAdminManageAdmins from './pages/SuperAdminManageAdmins.jsx'
+import SuperAdminManageAdmins from './pages/SuperAdminDashboard.jsx'
 import { AuthProvider } from './context/AuthContext'
 
 function App() {
