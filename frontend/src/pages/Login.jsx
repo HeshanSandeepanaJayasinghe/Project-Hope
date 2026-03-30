@@ -170,3 +170,21 @@ const Login = () => {
 };
 
 export default Login;
+
+/*
+const login = async (email, password) => {
+  setLoading(true);
+  try {
+    const res = await axios.post(`${BACKEND_URL}/authenticate/login`, 
+      { email, password }
+    );
+
+    setToken(res.data.token);
+    return res.data;
+  } catch (err){
+    handleResponseError(err.response);
+  } finally {
+    setLoading(false);
+  }
+};
+*/
