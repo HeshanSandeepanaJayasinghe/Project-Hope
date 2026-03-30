@@ -6,7 +6,7 @@ import Header from './components/Header.jsx'
 import Features from './pages/Features.jsx'
 import Posts from './pages/Posts.jsx'
 import PostView from './pages/PostView.jsx'
-import PostDonation from './pages/PostDonation.jsx'
+import PostDonation from './pages/PoolDonation.jsx'
 import PoolDonation from './pages/PoolDonation.jsx'
 import Home from './pages/Home.jsx'
 import Aboutus from './pages/Aboutus.jsx'
@@ -14,38 +14,35 @@ import RecipientDashboard from './pages/RecipientDashboard.jsx'
 import DonorDashboard from './pages/DonorDashboard.jsx'
 import { VerifierDashboard, FinancierDashboard, AdminDashboard, SuperAdminDashboard } from './pages/AdminDashboards.jsx'
 import SuperAdminManageAdmins from './pages/SuperAdminDashboard.jsx'
-import { AuthProvider } from './context/AuthContext'
 
 function App() {
   return (
     <>
-      <AuthProvider>
-        <Router>
-          <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-            <Header />
-            <div style={{ flex: 1 }}>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/features" element={<Features />} />
-                <Route path="/posts" element={<Posts />} />
-                <Route path="/post-view/:postId" element={<PostView />} />
-                <Route path="/post-donation" element={<PostDonation />} />
-                <Route path="/pool-donation" element={<PoolDonation />} />
-                <Route path="/recipient-dashboard" element={<RecipientDashboard />} />
-                <Route path="/donor-dashboard" element={<DonorDashboard />} />
-                <Route path="/verifier-dashboard" element={<VerifierDashboard />} />
-                <Route path="/financier-dashboard" element={<FinancierDashboard />} />
-                <Route path="/admin-dashboard" element={<AdminDashboard />} />
-                <Route path="/superadmin-dashboard" element={<SuperAdminDashboard />} />
-                <Route path="/superadmin/manage-admins" element={<SuperAdminManageAdmins />} />
-                <Route path="/aboutus" element={<Aboutus />} />
-              </Routes>
-            </div>
-            <Footer />
+      <Router>
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+          <Header />
+          <div style={{ flex: 1 }}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/features" element={<Features />} />
+              <Route path="/posts" element={<Posts />} />
+              <Route path="/post-view/:postId" element={<PostView />} />
+              <Route path="/post-donation" element={<PostDonation />} />
+              <Route path="/pool-donation" element={<PoolDonation />} />
+              <Route path="/recipient-dashboard" element={<RecipientDashboard />} />
+              <Route path="/donor-dashboard" element={<DonorDashboard />} />
+              <Route path="/verifier-dashboard" element={<VerifierDashboard />} />
+              <Route path="/financier-dashboard" element={<FinancierDashboard />} />
+              <Route path="/admin-dashboard" element={<AdminDashboard />} />
+              <Route path="/superadmin-dashboard" element={<SuperAdminDashboard />} />
+              <Route path="/superadmin/manage-admins" element={<SuperAdminManageAdmins />} />
+              <Route path="/aboutus" element={<Aboutus />} />
+            </Routes>
           </div>
-        </Router>
-      </AuthProvider>
+          <Footer />
+        </div>
+      </Router>
     </>
   )
 }
