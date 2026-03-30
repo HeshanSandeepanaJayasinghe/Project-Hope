@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import axios from 'axios';
 
 const AuthContext = createContext(null);
+const BACKEND_URL = import.meta.env.BACKEND_URL || 'http://localhost:8080';
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(() => localStorage.getItem('token'));
@@ -14,6 +16,10 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
+  const logout = () => {
+  setToken(null);
+  };
+  
   const handleResponseError = async (res) => {
     let body;
     try { body = await res.json(); } catch (e) { body = null; }
@@ -22,59 +28,10 @@ export const AuthProvider = ({ children }) => {
     throw err;
   };
 
-  const login = async (email, password) => {
-    setLoading(true);
-    try {
-      const res = await fetch('http://localhost:8080/authenticate/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
-
-      if (!res.ok) return handleResponseError(res);
-
-      const data = await res.json();
-      setToken(data.token);
-      return data;
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const register = async (formData) => {
-    setLoading(true);
-    try {
-      // simple register endpoint used by the backend test controller
-      const payload = {
-        email: formData.email,
-        password: formData.password
-      };
-
-      const res = await fetch('http://localhost:8080/register/donor', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      if (!res.ok) return handleResponseError(res);
-
-      const data = await res.json().catch(() => ({}));
-      return data;
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const logout = () => {
-    setToken(null);
-  };
-
   const value = {
     token,
     isAuthenticated: !!token,
     loading,
-    login,
-    register,
     logout,
   };
 

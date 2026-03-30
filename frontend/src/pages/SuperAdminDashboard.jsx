@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
-import './SuperAdminManageAdmins.css';
+import './SuperAdminDashboard.css';
 
 const SuperAdminManageAdmins = () => {
     const { token } = useAuth();
