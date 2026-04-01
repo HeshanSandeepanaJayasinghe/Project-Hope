@@ -36,6 +36,7 @@ public class SecurityConfiguration {
 				.requestMatchers("/register/superadmin/**").permitAll()
 				.requestMatchers("/superadmin/**").hasRole("SUPERADMIN")
 				.requestMatchers("/admin/**").hasRole("ADMIN")
+				.requestMatchers("/recipient/**").hasRole("RECIPIENT")
 				.requestMatchers(
 							"/swagger-ui/**",
 							"/v3/api-docs/**",
