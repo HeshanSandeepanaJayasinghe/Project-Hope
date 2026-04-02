@@ -6,7 +6,34 @@ const BACKEND_URL = import.meta.env.BACKEND_URL || 'http://localhost:8080';
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(() => localStorage.getItem('token'));
-  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(null);
+
+  const authAxios = axios.create({
+    baseURL: BACKEND_URL,
+  });
+
+  authAxios.interceptors.request.use(config => {
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+  });
+
+   const login = async (email, password) => {
+    try {
+      const res = await axios.post(`${BACKEND_URL}/auth/login`, {
+        email,
+        password,
+      });
+
+      const { token, user } = res.data;
+
+      localStorage.setItem("token", token);
+      setToken(token);
+      setUser(user);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   useEffect(() => {
     if (token) {
@@ -17,7 +44,9 @@ export const AuthProvider = ({ children }) => {
   }, [token]);
 
   const logout = () => {
-  setToken(null);
+    localStorage.removeItem("token");
+    setToken(null);
+    setUser(null);
   };
   
   const handleResponseError = async (res) => {
@@ -30,8 +59,9 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     token,
-    isAuthenticated: !!token,
-    loading,
+    user,
+    authAxios,
+    login,
     logout,
   };
 
