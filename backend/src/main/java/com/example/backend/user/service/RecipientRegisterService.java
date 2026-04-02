@@ -46,7 +46,7 @@ public class RecipientRegisterService {
 		recipient.setAddress(registerRecipientDTO.getAddress());
 		recipient.setPostalCode(registerRecipientDTO.getPostalCode());
 		recipient.setAccountNo(registerRecipientDTO.getAccountNo());
-		recipient.setStatus(Recipient.Status.UNVERIFIED);
+		recipient.setVerificationStatus(Recipient.VerificationStatus.UNVERIFIED);
 		recipientRepository.save(recipient);
 
 		Map<String, String> response = new HashMap<>();
