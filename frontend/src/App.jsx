@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Login from './pages/Login.jsx'
 import Signup from './pages/Signup.jsx'
@@ -19,6 +21,7 @@ import SuperAdminManageAdmins from './pages/SuperAdminDashboard.jsx'
 function App() {
   return (
     <>
+      <ToastContainer />
       <Router>
         <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
           <Header />

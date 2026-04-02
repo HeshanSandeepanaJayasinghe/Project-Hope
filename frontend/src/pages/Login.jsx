@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -42,6 +43,7 @@ const Login = () => {
 
     try {
       const loggedInUser = await login(formData.email, formData.password);
+      toast.success("Login successful!");
       if (loggedInUser.Role === "ADMIN") navigate("/admin-dashboard");
       else if (loggedInUser.Role === "SUPERADMIN") navigate("/superadmin-dashboard");
       else if (loggedInUser.Role === "FINANCIER") navigate("/financier-dashboard");
@@ -49,7 +51,8 @@ const Login = () => {
       else if (loggedInUser.Role === "RECIPIENT") navigate("/recipient-dashboard");
       else if (loggedInUser.Role === "DONOR") navigate("/donor-dashboard");
     } catch (err) {
-      setError(err.response?.data?.message || 'Authentication failed. Please try again.');
+      const message = err.response?.data?.message || 'Authentication failed. Please try again.';
+      toast.error(message);
     } finally {
       setLoading(false);
     }
