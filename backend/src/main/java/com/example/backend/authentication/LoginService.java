@@ -44,7 +44,10 @@ public class LoginService {
 			User user = userRepository.findByEmail(loginDTO.getEmail())
 					.orElseThrow(()-> new UsernameNotFoundException("Incorrect email!"));
 
-			return Map.of("Token", jwtUtilities.generateToken(loginDTO.getEmail()));
+			return Map.of(
+					"Token", jwtUtilities.generateToken(loginDTO.getEmail()),
+					"Role" , user.getRoles().getFirst().toString()
+			);
 
 		} catch (BadCredentialsException exception) {
 			throw new BadCredentialsException("Invalid login credentials!", exception);
