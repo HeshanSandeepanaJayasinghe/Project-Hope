@@ -41,13 +41,13 @@ const Login = () => {
     setError('');
 
     try {
-      await login(formData.email, formData.password);
-      if (user?.role === "ADMIN") navigate("/admin-dashboard");
-      else if (user?.role === "SUPERADMIN") navigate("/superadmin-dashboard");
-      else if (user?.role === "FINANCIER") navigate("/financier-dashboard");
-      else if (user?.role === "VERIFIER") navigate("/verifier-dashboard");
-      else if (user?.role === "RECIPIENT") navigate("/recipient-dashboard");
-      else if (user?.role === "DONOR") navigate("/donor-dashboard");
+      const loggedInUser = await login(formData.email, formData.password);
+      if (loggedInUser.Role === "ADMIN") navigate("/admin-dashboard");
+      else if (loggedInUser.Role === "SUPERADMIN") navigate("/superadmin-dashboard");
+      else if (loggedInUser.Role === "FINANCIER") navigate("/financier-dashboard");
+      else if (loggedInUser.Role === "VERIFIER") navigate("/verifier-dashboard");
+      else if (loggedInUser.Role === "RECIPIENT") navigate("/recipient-dashboard");
+      else if (loggedInUser.Role === "DONOR") navigate("/donor-dashboard");
     } catch (err) {
       setError(err.response?.data?.message || 'Authentication failed. Please try again.');
     } finally {

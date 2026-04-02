@@ -26,13 +26,14 @@ export const AuthProvider = ({ children }) => {
         password,
       });
 
-      const { token, user } = res.data;
+      const { Token, Role } = res.data;
 
       localStorage.setItem("token", token);
-      setToken(token);
-      setUser(user);
+      setToken(Token);
+      setUser(Role);
+      return {Token, Role};
     } catch (err) {
-      console.error(err);
+      throw err;
     }
   };
 
