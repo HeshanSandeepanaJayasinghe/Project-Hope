@@ -1,21 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { AuthContext } from '../context/AuthContext';
 import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
-import Signup from './Signup';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
-  const [isSignup, setIsSignup] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
 
-  const { login } = useAuth();
+  const { login, user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -43,8 +41,13 @@ const Login = () => {
     setError('');
 
     try {
-      await login(formData.email, formData.password);
-      navigate('/posts');
+      const loggedInUser = await login(formData.email, formData.password);
+      if (loggedInUser.Role === "ADMIN") navigate("/admin-dashboard");
+      else if (loggedInUser.Role === "SUPERADMIN") navigate("/superadmin-dashboard");
+      else if (loggedInUser.Role === "FINANCIER") navigate("/financier-dashboard");
+      else if (loggedInUser.Role === "VERIFIER") navigate("/verifier-dashboard");
+      else if (loggedInUser.Role === "RECIPIENT") navigate("/recipient-dashboard");
+      else if (loggedInUser.Role === "DONOR") navigate("/donor-dashboard");
     } catch (err) {
       setError(err.response?.data?.message || 'Authentication failed. Please try again.');
     } finally {
@@ -136,11 +139,7 @@ const Login = () => {
             {/* Toggle to Signup */}
             <div className="auth-toggle">
               <p>Don't have an account? <button 
-                onClick={() => {
-                  setIsSignup(true);
-                  setError('');
-                  setFormData({ email: '', password: '' });
-                }}
+                onClick={() => navigate('/signup')}
                 className="toggle-button"
               >Sign Up</button></p>
             </div>
@@ -154,17 +153,6 @@ const Login = () => {
           </Link>
         </div>
       </div>
-
-      {/* Signup Modal */}
-      {isSignup && (
-        <Signup 
-          onClose={() => setIsSignup(false)} 
-          onSignupSuccess={() => {
-            setIsSignup(false);
-            setFormData({ email: '', password: '' });
-          }}
-        />
-      )}
     </div>
   );
 };

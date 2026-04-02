@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
+import { AuthContext } from '../context/AuthContext';
 import { Eye, EyeOff, Lock, Mail, User, X } from 'lucide-react';
 import './Signup.css';
+
+
 
 const Signup = ({ onClose, onSignupSuccess }) => {
     const [userType, setUserType] = useState('recipient');
@@ -24,7 +26,7 @@ const Signup = ({ onClose, onSignupSuccess }) => {
         occupation: ''
     });
 
-    const { register } = useAuth();
+    const { register } = useContext(AuthContext);
 
     const handleChange = (e) => {
         setFormData({
@@ -80,11 +82,7 @@ const Signup = ({ onClose, onSignupSuccess }) => {
         setError('');
 
         try {
-            await register({
-                ...formData,
-                type: userType
-            });
-            onSignupSuccess();
+            await register({...formData, userType});
         } catch (err) {
             setError(err.response?.data?.message || 'Registration failed. Please try again.');
         } finally {
