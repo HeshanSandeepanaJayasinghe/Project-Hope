@@ -13,10 +13,10 @@ import PostDonation from './pages/PoolDonation.jsx'
 import PoolDonation from './pages/PoolDonation.jsx'
 import Home from './pages/Home.jsx'
 import Aboutus from './pages/Aboutus.jsx'
-import RecipientDashboard from './pages/RecipientDashboard.jsx'
-import DonorDashboard from './pages/DonorDashboard.jsx'
-import { VerifierDashboard, FinancierDashboard, AdminDashboard, SuperAdminDashboard } from './pages/AdminDashboards.jsx'
-import SuperAdminManageAdmins from './pages/SuperAdminDashboard.jsx'
+import RecipientDashboard from './pages/dashboards/RecipientDashboard.jsx'
+import DonorDashboard from './pages/dashboards/DonorDashboard.jsx'
+import { VerifierDashboard, FinancierDashboard, AdminDashboard, SuperAdminDashboard } from './pages/dashboards/AdminDashboards.jsx'
+import SuperAdminManageAdmins from './pages/dashboards/SuperAdminDashboard.jsx'
 
 function App() {
   return (

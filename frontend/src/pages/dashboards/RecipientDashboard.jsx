@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LogOut } from 'lucide-react';
-import Sidebar from '../components/Sidebar';
-import { provincesData, divisionalSecretarialsData } from '../data/sriLankanLocations';
+import Sidebar from '../../components/Sidebar';
+import { provincesData, divisionalSecretarialsData } from '../../data/sriLankanLocations';
 import './RecipientDashboard.css';
 
 const RecipientDashboard = () => {
