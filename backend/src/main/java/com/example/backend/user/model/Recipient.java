@@ -20,9 +20,9 @@ public class Recipient {
 	private String address;
 	private String postalCode;
 	private String accountNo;
-	private Status status;
+	private VerificationStatus verificationStatus;
 
-	public enum Status {
+	public enum VerificationStatus {
 		VERIFIED,
 		UNVERIFIED,
 		FRAUD
