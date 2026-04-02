@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useAuth } from '../context/AuthContext';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 import './SuperAdminDashboard.css';
 
 const SuperAdminManageAdmins = () => {
-    const { token } = useAuth();
+    const { token } = useContext(AuthContext);
     const [admins, setAdmins] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');

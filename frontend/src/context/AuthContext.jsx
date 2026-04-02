@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { Navigate } from 'react-router-dom';
 
-const AuthContext = createContext(null);
+export const AuthContext = createContext();
 const BACKEND_URL = import.meta.env.BACKEND_URL || 'http://localhost:8080';
 
 export const AuthProvider = ({ children }) => {
@@ -20,7 +21,7 @@ export const AuthProvider = ({ children }) => {
 
    const login = async (email, password) => {
     try {
-      const res = await axios.post(`${BACKEND_URL}/auth/login`, {
+      const res = await axios.post(`${BACKEND_URL}/authenticate/login`, {
         email,
         password,
       });
@@ -35,6 +36,20 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+const register = async (userData, role) => {
+  const endpoint = `${BACKEND_URL}/authenticate/register/${role}`;
+
+  try {
+    const res = await axios.post(endpoint, userData);
+    if (res.status === 200 || res.status === 201) {
+      navigate("/login"); 
+    }
+  } catch (err) {
+    console.error("Registration failed:", err.response?.data || err.message);
+    alert("Registration failed. Please try again.");
+  }
+};
+
   useEffect(() => {
     if (token) {
       localStorage.setItem('token', token);
@@ -48,14 +63,6 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     setUser(null);
   };
-  
-  const handleResponseError = async (res) => {
-    let body;
-    try { body = await res.json(); } catch (e) { body = null; }
-    const message = (body && (body.error || body.message)) || 'Request failed';
-    const err = { response: { data: { message } } };
-    throw err;
-  };
 
   const value = {
     token,
@@ -63,13 +70,10 @@ export const AuthProvider = ({ children }) => {
     authAxios,
     login,
     logout,
+    register,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-};
-
-export const useAuth = () => {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error('useAuth must be used within AuthProvider');
-  return ctx;
+  return <AuthContext.Provider value={value}>
+    {children}
+  </AuthContext.Provider>;
 };
