@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import './SuperAdminDashboard.css';
+import axios from 'axios';
 
 const SuperAdminManageAdmins = () => {
     const { token } = useContext(AuthContext);
