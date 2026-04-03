@@ -8,21 +8,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping({"/admin","/superadmin"})
+@RequestMapping("/admin")
 public class UpdateAdminDetailsController {
 
 	private final UpdateAdminDetailsService updateAdminDetailsService;
 
 	public UpdateAdminDetailsController(UpdateAdminDetailsService updateAdminDetailsService) {
 		this.updateAdminDetailsService = updateAdminDetailsService;
-	}
-
-	@PatchMapping("/update/admin/{adminId}")
-	public ResponseEntity<Map<String,String>> updateAdmin(
-			@PathVariable String adminId,
-			@RequestBody UpdateAdministratorDTO updateAdministratorDTO
-	) {
-		return ResponseEntity.ok(updateAdminDetailsService.updateAdminDetails(adminId, updateAdministratorDTO));
 	}
 
 	@PatchMapping("/update/profile")
