@@ -72,6 +72,8 @@ public class UploadPostService {
 		post.setTotalAmount(postRequestDTO.getDonationTarget());
 		post.setCurrentAmount(0);
 		post.setRemainingAmount(0);
+		post.setPostUrgency(Post.PostUrgency.MEDIUM);
+		post.setVerificationStatus(recipient.getVerificationStatus());
 		post.setCreationTime(Instant.now());
 		postRepository.save(post);
 		recipient.setPostCount(postCount+1);

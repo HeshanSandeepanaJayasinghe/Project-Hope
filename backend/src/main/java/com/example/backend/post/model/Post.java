@@ -22,6 +22,7 @@ public class Post {
 	private double remainingAmount;
 	private Instant creationTime;
 	private PostCategory postCategory;
+	private PostUrgency postUrgency;
 	private Recipient.VerificationStatus verificationStatus;
 
 	public enum PostCategory {
@@ -29,6 +30,12 @@ public class Post {
 		EDUCATION,
 		HEALTH,
 		GOODS
+	}
+
+	public enum PostUrgency {
+		HIGH,
+		LOW,
+		MEDIUM
 	}
 
 }
