@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -49,4 +50,12 @@ public class GlobalExceptions {
 					.status(HttpStatus.NOT_FOUND)
 					.body(Map.of("Message", exception.getMessage()));
 	}
+
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<Map<String, String>> handleIllegalArgument(IllegalArgumentException exception) {
+		return ResponseEntity
+				.status(HttpStatus.FORBIDDEN)
+				.body(Map.of("Message", exception.getMessage()));
+	}
+
 }
