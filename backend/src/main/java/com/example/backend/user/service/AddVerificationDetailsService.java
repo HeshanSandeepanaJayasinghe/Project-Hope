@@ -67,7 +67,7 @@ public class AddVerificationDetailsService {
 			verification.setNumberOfFamilyMembers(verificationDTO.getNumberOfFamilyMembers());
 			verification.setLongTermHealthIssues(verificationDTO.getLongTermHealthIssues());
 			verification.setRecipientId(recipientId);
-			verification.setDocumentUrl("http://localhost:8080/get/document/"+fileName);
+			verification.setDocumentUrl(fileName);
 			verificationRepository.save(verification);
 
 			return Map.of("Message", "Successfully submitted the verification form.");
