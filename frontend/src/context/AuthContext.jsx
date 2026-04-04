@@ -1,10 +1,55 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import axios from 'axios';
+import { Navigate } from 'react-router-dom';
 
-const AuthContext = createContext(null);
+export const AuthContext = createContext();
+const BACKEND_URL = import.meta.env.BACKEND_URL || 'http://localhost:8080';
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(() => localStorage.getItem('token'));
-  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(null);
+
+  const authAxios = axios.create({
+    baseURL: BACKEND_URL,
+  });
+
+  authAxios.interceptors.request.use(config => {
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+  });
+
+   const login = async (email, password) => {
+    try {
+      const res = await axios.post(`${BACKEND_URL}/authenticate/login`, {
+        email,
+        password,
+      });
+
+      const { Token, Role } = res.data;
+
+      localStorage.setItem("token", token);
+      setToken(Token);
+      setUser(Role);
+      return {Token, Role};
+    } catch (err) {
+      throw err;
+    }
+  };
+
+const register = async (userData, role) => {
+  const endpoint = `${BACKEND_URL}/authenticate/register/${role}`;
+
+  try {
+    const res = await axios.post(endpoint, userData);
+    if (res.status === 200 || res.status === 201) {
+      navigate("/login"); 
+    }
+  } catch (err) {
+    console.error("Registration failed:", err.response?.data || err.message);
+    alert("Registration failed. Please try again.");
+  }
+};
 
   useEffect(() => {
     if (token) {
@@ -14,75 +59,22 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
-  const handleResponseError = async (res) => {
-    let body;
-    try { body = await res.json(); } catch (e) { body = null; }
-    const message = (body && (body.error || body.message)) || 'Request failed';
-    const err = { response: { data: { message } } };
-    throw err;
-  };
-
-  const login = async (email, password) => {
-    setLoading(true);
-    try {
-      const res = await fetch('http://localhost:8080/authenticate/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
-
-      if (!res.ok) return handleResponseError(res);
-
-      const data = await res.json();
-      setToken(data.token);
-      return data;
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const register = async (formData) => {
-    setLoading(true);
-    try {
-      // simple register endpoint used by the backend test controller
-      const payload = {
-        email: formData.email,
-        password: formData.password
-      };
-
-      const res = await fetch('http://localhost:8080/register/donor', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      if (!res.ok) return handleResponseError(res);
-
-      const data = await res.json().catch(() => ({}));
-      return data;
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const logout = () => {
+    localStorage.removeItem("token");
     setToken(null);
+    setUser(null);
   };
 
   const value = {
     token,
-    isAuthenticated: !!token,
-    loading,
+    user,
+    authAxios,
     login,
-    register,
     logout,
+    register,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-};
-
-export const useAuth = () => {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error('useAuth must be used within AuthProvider');
-  return ctx;
+  return <AuthContext.Provider value={value}>
+    {children}
+  </AuthContext.Provider>;
 };
