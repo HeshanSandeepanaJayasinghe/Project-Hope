@@ -20,7 +20,7 @@ import Isuru from '../assets/hpictures/Isuru-Akalanka.jpeg'
 import Nethmika from '../assets/hpictures/Nethmika-Mendis.jpeg'
 import Nishanthan from '../assets/hpictures/V-Nishanthan.png'
 import Thinil from '../assets/hpictures/Thinil-Sandaru.jpeg'
-// import Shehani from '../assets/hpictures/Shehani-Yashoda.jpeg'
+import Shehani from '../assets/hpictures/Shehani-Yashoda.jpeg'
 
 const Aboutus = () => {
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ const Aboutus = () => {
     { name: "Nethmika Mendis", image: Nethmika, role: "Core Founder" },
     { name: "V. Nishanthan", image: Nishanthan, role: "Core Founder" },
     { name: "Thinil Sandaru", image: Thinil, role: "Core Founder" },
-    { name: "Shehani Yashoda", image: Dummy_face, role: "Core Founder" }
+    { name: "Shehani Yashoda", image: Shehani, role: "Core Founder" }
   ];
 
   const factArray = [
