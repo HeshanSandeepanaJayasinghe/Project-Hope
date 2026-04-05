@@ -68,7 +68,7 @@ public class UploadPostService {
 		post.setRecipientId(recipientId);
 		Post.PostCategory category = Post.PostCategory.valueOf(postRequestDTO.getPostCategory());		post.setDescription(postRequestDTO.getDescription());
 		post.setTitle(postRequestDTO.getTitle());
-		post.setImageUrl(uniqueFileName);
+		post.setImageUrl("http://localhost:8080/open/get/image/"+uniqueFileName);
 		post.setTotalAmount(postRequestDTO.getDonationTarget());
 		post.setCurrentAmount(0);
 		post.setRemainingAmount(0);
