@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.Observer;
 
 @RestController
 @RequestMapping("/verifier")
@@ -20,6 +21,7 @@ public class SetRecipientStatusController {
 	@PatchMapping("/edit/recipient")
 	public ResponseEntity<Map<String, String>> editRecipientStatus(
 			@RequestBody EditRecipientStatusDTO editRecipientStatusDTO) {
+
 		return ResponseEntity.ok(setRecipientStatusService.setRecipientStatus(editRecipientStatusDTO));
 	}
 }
