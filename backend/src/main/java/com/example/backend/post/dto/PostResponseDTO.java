@@ -1,17 +1,14 @@
-package com.example.backend.post.model;
+package com.example.backend.post.dto;
 
+import com.example.backend.post.model.Post;
 import com.example.backend.user.model.Recipient;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 
 @Data
-@Document(collection  = "post")
-public class Post {
+public class PostResponseDTO {
 
-	@Id
 	private String postId;
 	private String recipientId;
 	private String title;
@@ -21,21 +18,8 @@ public class Post {
 	private double totalAmount;
 	private double remainingAmount;
 	private Instant creationTime;
-	private PostCategory postCategory;
-	private PostUrgency postUrgency;
+	private Post.PostCategory postCategory;
+	private Post.PostUrgency postUrgency;
 	private Recipient.VerificationStatus verificationStatus;
-
-	public enum PostCategory {
-		FINANCIAL,
-		EDUCATION,
-		HEALTH,
-		GOODS
-	}
-
-	public enum PostUrgency {
-		HIGH,
-		LOW,
-		MEDIUM
-	}
 
 }
