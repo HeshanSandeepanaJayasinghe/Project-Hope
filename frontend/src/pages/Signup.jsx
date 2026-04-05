@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Eye, EyeOff, Lock, Mail, User, X } from 'lucide-react';
 import './Signup.css';
 
-
-
 const Signup = ({ onClose, onSignupSuccess }) => {
+
+    const { register } = React.useContext(AuthContext);
+
     const [userType, setUserType] = useState('recipient');
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -25,8 +26,6 @@ const Signup = ({ onClose, onSignupSuccess }) => {
         organization: '',
         occupation: ''
     });
-
-    const { register } = useContext(AuthContext);
 
     const handleChange = (e) => {
         setFormData({
@@ -60,12 +59,12 @@ const Signup = ({ onClose, onSignupSuccess }) => {
 
         if (userType === 'recipient') {
             if (!formData.nic || !formData.birthday || !formData.telephone || !formData.address || !formData.postalCode) {
-                setError('All recipient fields are required');
+                setError('All fields are required');
                 return false;
             }
         } else {
-            if (!formData.nic || !formData.organization || !formData.occupation) {
-                setError('All donor fields are required');
+            if (!formData.nic || !formData.occupation) {
+                setError('All fields are required');
                 return false;
             }
         }
