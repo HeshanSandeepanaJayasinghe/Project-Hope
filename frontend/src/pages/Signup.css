@@ -1,3 +1,62 @@
+/* Page layout styles */
+.signup-container {
+  width: 100%;
+  max-width: 800px; /* Wider than login's 420px to accommodate two columns */
+}
+
+.auth-card {
+  background: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1);
+  overflow: hidden;
+  border: 1px solid #e6e9ec;
+}
+
+.signup-card {
+  /* Additional styles if needed */
+}
+
+.auth-card__header {
+  padding: 2rem;
+  text-align: center;
+  background: linear-gradient(90deg, #15803d, #16a34a);
+  color: #fff;
+}
+
+.auth-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-bottom: .5rem;
+  margin-top: 0;
+}
+
+.auth-card__body {
+  padding: 2rem;
+}
+
+.auth-toggle {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.auth-toggle p {
+  margin: 0;
+  color: #6b7280;
+}
+
+.toggle-button {
+  color: #16a34a;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.toggle-button:hover {
+  color: #15803d;
+}
+
 .signup-overlay {
     position: fixed;
     top: 0;
@@ -222,21 +281,23 @@
     font-size: 0.875rem;
 }
 
-@media (max-width: 640px) {
-    .signup-modal {
-        max-width: 95vw;
-    }
+/* Responsive design */
+@media (max-width: 768px) {
+  .signup-container {
+    max-width: 95vw;
+  }
 
-    .form-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 
-    .signup-header h2 {
-        font-size: 1.25rem;
-    }
+  .user-type-switcher {
+    flex-direction: column;
+  }
 
-    .user-type-switcher {
-        flex-direction: column;
-    }
+  .auth-card__header,
+  .auth-card__body {
+    padding: 1.5rem;
+  }
 }
