@@ -1,11 +1,13 @@
 import React, { useState, useContext } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { Eye, EyeOff, Lock, Mail, User, X } from 'lucide-react';
+import { Eye, EyeOff, Lock, Mail, User } from 'lucide-react';
+import { toast } from 'react-toastify';
 import './Signup.css';
 
-const Signup = ({ onClose, onSignupSuccess }) => {
-
-    const { register } = React.useContext(AuthContext);
+const Signup = () => {
+    const { register } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const [userType, setUserType] = useState('recipient');
     const [showPassword, setShowPassword] = useState(false);
@@ -82,6 +84,8 @@ const Signup = ({ onClose, onSignupSuccess }) => {
 
         try {
             await register({...formData, userType});
+            toast.success("Registration successful! Please login.");
+            navigate('/login');
         } catch (err) {
             setError(err.response?.data?.message || 'Registration failed. Please try again.');
         } finally {
@@ -90,43 +94,44 @@ const Signup = ({ onClose, onSignupSuccess }) => {
     };
 
     return (
-        <div className="signup-overlay">
-            <div className="signup-modal">
-                {/* Header */}
-                <div className="signup-header">
-                    <h2>Create Account</h2>
-                    <button onClick={onClose} className="close-button">
-                        <X size={24} />
-                    </button>
-                </div>
+        <div className="page-root">
+            <div className="signup-container">
+                {/* Card */}
+                <div className="auth-card signup-card">
+                    {/* Header */}
+                    <div className="auth-card__header">
+                        <h2 className="auth-title">Create Account</h2>
+                    </div>
 
-                {/* User Type Switcher */}
-                <div className="user-type-switcher">
-                    <button
-                        className={`type-button ${userType === 'recipient' ? 'active' : ''}`}
-                        onClick={() => setUserType('recipient')}
-                    >
-                        I'm a Recipient
-                    </button>
-                    <button
-                        className={`type-button ${userType === 'donor' ? 'active' : ''}`}
-                        onClick={() => setUserType('donor')}
-                    >
-                        I'm a Donor
-                    </button>
-                </div>
+                    {/* User Type Switcher */}
+                    <div className="user-type-switcher">
+                        <button
+                            className={`type-button ${userType === 'recipient' ? 'active' : ''}`}
+                            onClick={() => setUserType('recipient')}
+                        >
+                            I'm a Recipient
+                        </button>
+                        <button
+                            className={`type-button ${userType === 'donor' ? 'active' : ''}`}
+                            onClick={() => setUserType('donor')}
+                        >
+                            I'm a Donor
+                        </button>
+                    </div>
 
-                {/* Form */}
-                <div className="signup-body">
-                    {error && (
-                        <div className="alert alert--danger">
-                            {error}
-                        </div>
-                    )}
+                    {/* Form */}
+                    <div className="auth-card__body">
+                        {error && (
+                            <div className="alert alert--danger">
+                                {error}
+                            </div>
+                        )}
 
-                    <form onSubmit={handleSubmit}>
-                        <div className="form-grid">
-                            {/* Name */}
+                        <div className="form">
+                            <p className="form-section-title">Sign up</p>
+
+                            <form onSubmit={handleSubmit}>
+                                <div className="form-grid">
                             <div className="form-group">
                                 <label className="form-label">Name *</label>
                                 <div className="input-wrapper">
@@ -316,11 +321,21 @@ const Signup = ({ onClose, onSignupSuccess }) => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="btn btn--primary btn--full"
+                            className="btn btn--primary"
                         >
                             {loading ? 'Creating Account...' : 'Sign Up'}
                         </button>
-                    </form>
+                            </form>
+                        </div>
+
+                        {/* Toggle to Login */}
+                        <div className="auth-toggle">
+                            <p>Already have an account? <button 
+                                onClick={() => navigate('/login')}
+                                className="toggle-button"
+                            >Sign In</button></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

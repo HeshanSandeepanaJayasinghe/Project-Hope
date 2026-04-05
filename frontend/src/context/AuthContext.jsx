@@ -43,11 +43,11 @@ const register = async (userData, role) => {
   try {
     const res = await axios.post(endpoint, userData);
     if (res.status === 200 || res.status === 201) {
+      toast.success("Registration successful!");
       navigate("/login"); 
     }
   } catch (err) {
-    console.error("Registration failed:", err.response?.data || err.message);
-    alert("Registration failed. Please try again.");
+    toast.error("Registration failed:", err.response?.data || err.message);
   }
 };
 
