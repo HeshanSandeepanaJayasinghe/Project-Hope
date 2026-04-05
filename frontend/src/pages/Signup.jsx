@@ -26,7 +26,8 @@ const Signup = () => {
         address: '',
         postalCode: '',
         organization: '',
-        occupation: ''
+        occupation: '',
+        agreeToTerms: false
     });
 
     const handleChange = (e) => {
@@ -74,8 +75,19 @@ const Signup = () => {
         return true;
     };
 
+    const validatePassword = (pw) => {
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+        return passwordRegex.test(pw);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!validatePassword(formData.password)) {
+            toast.error("Password must contain at least one digit, one lowercase, one uppercase, and one special character", {
+            });
+            return;
+        }
 
         if (!validateForm()) return;
 
@@ -312,7 +324,13 @@ const Signup = () => {
                                 type="checkbox"
                                 id="agree-terms"
                                 checked={agreeTerms}
-                                onChange={(e) => setAgreeTerms(e.target.checked)}
+                                onChange={(e) => {
+                                    setAgreeTerms(e.target.checked);
+                                    setFormData({
+                                        ...formData,
+                                        agreeToTerms: e.target.checked,
+                                    });
+                                }}
                             />
                             <label htmlFor="agree-terms">I agree with terms and conditions</label>
                         </div>
