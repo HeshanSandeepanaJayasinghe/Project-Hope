@@ -1,6 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
 
 export const AuthContext = createContext();
 const BACKEND_URL = import.meta.env.BACKEND_URL || 'http://localhost:8080';
@@ -17,9 +16,10 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
+    return config;
   });
 
-   const login = async (email, password) => {
+  const login = async (email, password) => {
     try {
       const res = await axios.post(`${BACKEND_URL}/authenticate/login`, {
         email,
@@ -28,28 +28,27 @@ export const AuthProvider = ({ children }) => {
 
       const { Token, Role } = res.data;
 
-      localStorage.setItem("token", token);
+      localStorage.setItem('token', Token);
       setToken(Token);
       setUser(Role);
-      return {Token, Role};
+      return { Token, Role };
     } catch (err) {
       throw err;
     }
   };
 
-const register = async (userData, role) => {
-  const endpoint = `${BACKEND_URL}/authenticate/register/${role}`;
+  const register = async (userData) => {
+    const { userType, ...payload } = userData;
+    const role = userType || 'recipient';
+    const endpoint = `${BACKEND_URL}/authenticate/register/${role}`;
 
-  try {
-    const res = await axios.post(endpoint, userData);
-    if (res.status === 200 || res.status === 201) {
-      toast.success("Registration successful!");
-      navigate("/login"); 
+    try {
+      const res = await axios.post(endpoint, payload);
+      return res;
+    } catch (err) {
+      throw err;
     }
-  } catch (err) {
-    toast.error("Registration failed:", err.response?.data || err.message);
-  }
-};
+  };
 
   useEffect(() => {
     if (token) {
