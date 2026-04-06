@@ -14,6 +14,8 @@ import PoolDonation from './pages/PoolDonation.jsx'
 import Home from './pages/Home.jsx'
 import Aboutus from './pages/Aboutus.jsx'
 import RecipientDashboard from './pages/recipient/RecipientDashboard.jsx'
+import RecipientMyPosts from './pages/recipient/RecipientMyPosts.jsx'
+import RecipientNewPost from './pages/recipient/RecipientNewPost.jsx'
 import DonorDashboard from './pages/donor/DonorDashboard.jsx'
 import { VerifierDashboard, FinancierDashboard, AdminDashboard, SuperAdminDashboard } from './pages/admin/AdminDashboards.jsx'
 import SuperAdminManageAdmins from './pages/superadmin/SuperAdminDashboard.jsx'
@@ -36,6 +38,8 @@ function App() {
               <Route path="/post-donation" element={<PostDonation />} />
               <Route path="/pool-donation" element={<PoolDonation />} />
               <Route path="/recipient-dashboard" element={<RecipientDashboard />} />
+              <Route path="/recipient/my-posts" element={<RecipientMyPosts />} />
+              <Route path="/recipient/new-post" element={<RecipientNewPost />} />
               <Route path="/donor-dashboard" element={<DonorDashboard />} />
               <Route path="/verifier-dashboard" element={<VerifierDashboard />} />
               <Route path="/financier-dashboard" element={<FinancierDashboard />} />

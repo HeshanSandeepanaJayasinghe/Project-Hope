@@ -23,8 +23,9 @@ export const MENU_CONFIG = {
     ],
     recipient: [
         { id: 'dashboard', label: 'Dashboard', path: '/recipient-dashboard', icon: <LayoutDashboard size={20} /> },
-        { id: 'donations', label: 'My Donations', path: '/donor/donations', icon: <Heart size={20} /> },
-        { id: 'wallet', label: 'Wallet', path: '/donor/wallet', icon: <Wallet size={20} /> },
+        { id: 'viewProfile', label: 'View Profile', path: '/recipient/view-profile', icon: <Heart size={20} /> },
+        { id: 'myPosts', label: 'My Posts', path: '/donor/wallet', icon: <Wallet size={20} /> },
+        { id: 'verification', label: 'Verification', path: '/donor/wallet', icon: <Wallet size={20} /> },
     ],
     donor: [
         { id: 'dashboard', label: 'Dashboard', path: '/donor-dashboard', icon: <LayoutDashboard size={20} /> },
