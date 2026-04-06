@@ -36,9 +36,7 @@ public class RegisterRecipientDTO {
 	@Pattern(regexp = "^[0-9]{4,10}$", message = "Invalid postal code format. Must be 4-10 digits")
 	private String postalCode;
 
-	@NotBlank(message = "Account number is required")
-	@Pattern(regexp = "^[A-Za-z0-9]{6,20}$", message = "Account number must be 6-20 alphanumeric characters")
-	private String accountNo;
+
 
 	@NotBlank(message = "Password is required")
 	@Size(min = 8, message = "Password must be at least 8 characters")

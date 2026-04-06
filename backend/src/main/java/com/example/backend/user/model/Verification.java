@@ -18,6 +18,7 @@ public class Verification {
 	private String employmentCategory;
 	private String occupation;
 	private Double annualSalary;
+	private String accountNo;
 	private String assetStatus;
 	private Integer numberOfFamilyMembers;
 	private String longTermHealthIssues;

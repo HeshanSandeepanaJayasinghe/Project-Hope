@@ -23,6 +23,10 @@ public class VerificationDTO {
 	@NotBlank(message = "Grama Niladhari division is required")
 	private String gramaNiladhariDivision;
 
+	@NotBlank(message = "Account number is required")
+	@Pattern(regexp = "^[A-Za-z0-9]{6,20}$", message = "Account number must be 6-20 alphanumeric characters")
+	private String accountNo;
+
 	@NotBlank(message = "Employment category is required")
 	private String employmentCategory;
 
