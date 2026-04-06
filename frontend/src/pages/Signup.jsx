@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { Eye, EyeOff, Lock, Mail, User } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 import { toast } from 'react-toastify';
 import './Signup.css';
 
@@ -147,7 +147,6 @@ const Signup = () => {
                             <div className="form-group">
                                 <label className="form-label">Name *</label>
                                 <div className="input-wrapper">
-                                    <User className="icon" size={18} />
                                     <input
                                         type="text"
                                         name="name"
@@ -163,7 +162,6 @@ const Signup = () => {
                             <div className="form-group">
                                 <label className="form-label">Email *</label>
                                 <div className="input-wrapper">
-                                    <Mail className="icon" size={18} />
                                     <input
                                         type="email"
                                         name="email"
@@ -179,7 +177,6 @@ const Signup = () => {
                             <div className="form-group">
                                 <label className="form-label">Password *</label>
                                 <div className="input-wrapper">
-                                    <Lock className="icon" size={18} />
                                     <input
                                         type={showPassword ? 'text' : 'password'}
                                         name="password"
@@ -202,7 +199,6 @@ const Signup = () => {
                             <div className="form-group">
                                 <label className="form-label">Confirm Password *</label>
                                 <div className="input-wrapper">
-                                    <Lock className="icon" size={18} />
                                     <input
                                         type={showConfirmPassword ? 'text' : 'password'}
                                         name="confirmPassword"
