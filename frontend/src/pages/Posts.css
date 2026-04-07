@@ -29,14 +29,14 @@
     margin: 0 auto;
 }
 
-.post-card {
+.post-card-post-page {
     position: relative;
     background: white;
     border-radius: 1rem;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
-    height: 320px;
+    height: 360px;
     cursor: pointer;
 }
 

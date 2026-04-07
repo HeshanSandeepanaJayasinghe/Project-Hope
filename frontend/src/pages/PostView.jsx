@@ -1,59 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
+import axios from 'axios';
 import './PostView.css';
 
 const PostView = () => {
     const { postId } = useParams();
     const navigate = useNavigate();
+    const [post, setPost] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    // Mock post data - in reality this would come from backend
-    const postsData = {
-        1: {
-            id: 1,
-            title: "Need Medical Support",
-            category: "Financial",
-            description: "I need funds for my surgery",
-            image: "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-            tag: "verified",
-            postDate: "2025-03-20",
-            postTime: "14:20",
-            district: "Kandy",
-            donationsMade: "Rs. 10,250.00",
-            fullDescription: "I am a patient requiring urgent surgical intervention. The medical team has recommended an operation, but I am facing financial difficulties in affording the treatment. Any support from the community would be greatly appreciated."
-        },
-        2: {
-            id: 2,
-            title: "Education Fees Support",
-            category: "Educational",
-            description: "Help me complete my studies",
-            image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-            tag: "verified",
-            postDate: "2025-03-19",
-            postTime: "10:15",
-            district: "Colombo",
-            donationsMade: "Rs. 5,500.00",
-            fullDescription: "I am a dedicated student working hard to complete my education. However, due to financial constraints, I am struggling to pay my tuition fees. With your support, I can continue my studies and build a better future."
-        },
-        3: {
-            id: 3,
-            title: "Food Aid Needed",
-            category: "Health",
-            description: "Family needs nutritious food",
-            image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-            tag: "unverified",
-            postDate: "2025-03-18",
-            postTime: "09:30",
-            district: "Galle",
-            donationsMade: "Rs. 2,100.00",
-            fullDescription: "My family is going through difficult times and we need assistance with food. Any donation to help us get nutritious meals would be a blessing for us."
-        },
+    useEffect(() => {
+        fetchPost();
+    }, [postId]);
+
+    const fetchPost = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get('http://localhost:8080/open/get/all/posts');
+            const posts = response.data || [];
+            const foundPost = posts.find(p => p.postId === postId);
+            setPost(foundPost || null);
+        } catch (error) {
+            console.error(error);
+            setPost(null);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const post = postsData[postId] || postsData[1];
-
-    const getTagColor = (tag) => {
-        switch (tag) {
+    const getTagColor = (verificationStatus) => {
+        const status = (verificationStatus || 'UNVERIFIED').toLowerCase();
+        switch (status) {
             case 'verified':
                 return '#10b981';
             case 'unverified':
@@ -64,6 +42,30 @@ const PostView = () => {
                 return '#6b7280';
         }
     };
+
+    const getImageSource = (post) => {
+        return post?.imageUrl || 'https://via.placeholder.com/640x420?text=No+Image';
+    };
+
+    const formatDate = (creationTime) => {
+        if (!creationTime) return 'N/A';
+        const date = new Date(creationTime);
+        return date.toLocaleDateString();
+    };
+
+    const formatTime = (creationTime) => {
+        if (!creationTime) return 'N/A';
+        const date = new Date(creationTime);
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    };
+
+    if (loading) {
+        return <div className="loading-state">Loading post...</div>;
+    }
+
+    if (!post) {
+        return <div className="error-state">Post not found.</div>;
+    }
 
     return (
         <div className="post-view-container">
@@ -90,18 +92,18 @@ const PostView = () => {
                         {/* Tag */}
                         <div 
                             className="post-view-tag" 
-                            style={{ backgroundColor: getTagColor(post.tag) }}
+                            style={{ backgroundColor: getTagColor(post.verificationStatus) }}
                         >
-                            {post.tag.charAt(0).toUpperCase() + post.tag.slice(1)}
+                            {post.verificationStatus ? post.verificationStatus.charAt(0).toUpperCase() + post.verificationStatus.slice(1).toLowerCase() : 'Unverified'}
                         </div>
 
                         {/* Image */}
-                        <img src={post.image} alt={post.title} className="post-view-image" />
+                        <img src={getImageSource(post)} alt={post.title} className="post-view-image" />
 
                         {/* Card Details */}
                         <div className="post-view-details">
-                            <h2 className="post-view-title">{post.title}</h2>
-                            <p className="post-view-description">{post.fullDescription}</p>
+                            <h2 className="post-view-title">{post.title || 'Untitled'}</h2>
+                            <p className="post-view-description">{post.description || 'No description'}</p>
                         </div>
                     </div>
 
@@ -110,35 +112,35 @@ const PostView = () => {
                         <h3 className="info-title">Post Details</h3>
                         <div className="info-item">
                             <span className="info-label">Post ID:</span>
-                            <span className="info-value">Post {post.id}</span>
+                            <span className="info-value">Post {post.postId}</span>
                         </div>
                         <div className="info-item">
                             <span className="info-label">Title:</span>
-                            <span className="info-value">{post.title}</span>
+                            <span className="info-value">{post.title || 'N/A'}</span>
                         </div>
                         <div className="info-item">
                             <span className="info-label">Category:</span>
-                            <span className="info-value">{post.category}</span>
+                            <span className="info-value">{post.postCategory || 'Uncategorized'}</span>
                         </div>
                         <div className="info-item">
                             <span className="info-label">Description:</span>
-                            <span className="info-value">{post.description}</span>
+                            <span className="info-value">{post.description || 'N/A'}</span>
                         </div>
                         <div className="info-item">
                             <span className="info-label">Posted Date:</span>
-                            <span className="info-value">{post.postDate}</span>
+                            <span className="info-value">{formatDate(post.creationTime)}</span>
                         </div>
                         <div className="info-item">
                             <span className="info-label">Posted Time:</span>
-                            <span className="info-value">{post.postTime}</span>
+                            <span className="info-value">{formatTime(post.creationTime)}</span>
                         </div>
                         <div className="info-item">
                             <span className="info-label">District:</span>
-                            <span className="info-value">{post.district}</span>
+                            <span className="info-value">N/A</span>
                         </div>
                         <div className="info-item highlight">
                             <span className="info-label">Donations Made:</span>
-                            <span className="info-value">{post.donationsMade}</span>
+                            <span className="info-value">Rs. {post.currentAmount || 0}</span>
                         </div>
                     </div>
                 </div>
