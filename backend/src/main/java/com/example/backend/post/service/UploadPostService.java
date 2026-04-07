@@ -45,7 +45,7 @@ public class UploadPostService {
 		String userId = userDetails.getUserId();
 		Recipient recipient = recipientRepository.findByUserId(userId);
 		int postCount = recipient.getPostCount();
-		if (postCount>=3) {
+		if (postCount>3) {
 			throw new IllegalArgumentException("Post limit exceeded: maximum 3 posts allowed");
 		}
 		String recipientId = recipient.getRecipientId();
