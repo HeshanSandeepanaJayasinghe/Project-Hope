@@ -1,4 +1,4 @@
-upackage com.example.backend.post.model;
+package com.example.backend.post.model;
 
 import com.example.backend.user.model.Recipient;
 import lombok.Data;
