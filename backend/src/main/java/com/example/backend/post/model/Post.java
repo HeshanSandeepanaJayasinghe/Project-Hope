@@ -1,4 +1,4 @@
-upackage com.example.backend.post.model;
+package com.example.backend.post.model;
 
 import com.example.backend.user.model.Recipient;
 import lombok.Data;
@@ -27,10 +27,10 @@ public class Post {
 
 	public enum PostCategory {
 		FINANCIAL, 
-HEALTH,
-EDUCATIONAL, 
-NUTRITIONAL,
-HOUSING
+		HEALTH,
+		EDUCATIONAL,
+		NUTRITIONAL,
+		HOUSING
 	}
 
 	public enum PostUrgency {
