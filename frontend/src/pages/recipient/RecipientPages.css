@@ -114,6 +114,7 @@
   overflow: hidden;
   box-shadow: 0 14px 40px rgba(15, 23, 42, 0.08);
   border: 1px solid #e2e8f0;
+  min-height: 500px;
 }
 
 .post-card img {
@@ -182,6 +183,9 @@
 .post-meta {
   color: #64748b;
   font-size: 0.95rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 .post-actions {
