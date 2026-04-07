@@ -1,4 +1,4 @@
-package com.example.backend.post.model;
+upackage com.example.backend.post.model;
 
 import com.example.backend.user.model.Recipient;
 import lombok.Data;
@@ -26,10 +26,11 @@ public class Post {
 	private Recipient.VerificationStatus verificationStatus;
 
 	public enum PostCategory {
-		FINANCIAL,
-		EDUCATION,
-		HEALTH,
-		GOODS
+		FINANCIAL, 
+HEALTH,
+EDUCATIONAL, 
+NUTRITIONAL,
+HOUSING
 	}
 
 	public enum PostUrgency {
