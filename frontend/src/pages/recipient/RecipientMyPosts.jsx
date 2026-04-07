@@ -44,7 +44,7 @@ const RecipientMyPosts = () => {
 
     setDeleting(postId);
     try {
-      await authAxios.delete(`/posts/${postId}`);
+      await authAxios.delete(`recipient/delete/post/${postId}`);
       setPosts((current) => current.filter((post) => post.postId !== postId));
       toast.success('Post deleted successfully.');
     } catch (error) {
@@ -57,15 +57,15 @@ const RecipientMyPosts = () => {
 
   const getStatusClass = (verificationStatus) => {
     const normalized = (verificationStatus || 'UNVERIFIED').toString().toLowerCase();
-    if (normalized.includes('verified')) return 'verified';
-    if (normalized.includes('fraud')) return 'fraud';
+    if (normalized === 'verified') return 'verified';
+    if (normalized === 'fraud') return 'fraud';
     return 'unverified';
   };
 
   const getStatusLabel = (verificationStatus) => {
     const normalized = (verificationStatus || 'UNVERIFIED').toString().toLowerCase();
-    if (normalized.includes('verified')) return 'Verified';
-    if (normalized.includes('fraud')) return 'Fraud';
+    if (normalized === 'verified') return 'Verified';
+    if (normalized === 'fraud') return 'Fraud';
     return 'Unverified';
   };
 
@@ -82,8 +82,7 @@ const RecipientMyPosts = () => {
             <div className="recipient-posts-page">
               <div className="posts-header">
                 <div>
-                  <h2>My Posts</h2>
-                  <p>These are the posts created by the logged-in recipient. You can edit or delete any existing request.</p>
+                  <h1>My Posts</h1>
                 </div>
                 <button type="button" className="button primary" onClick={handleCreate}>
                   + Create New Post
