@@ -45,7 +45,7 @@ const RecipientMyPosts = () => {
     setDeleting(postId);
     try {
       await authAxios.delete(`/posts/${postId}`);
-      setPosts((current) => current.filter((post) => post.id !== postId));
+      setPosts((current) => current.filter((post) => post.postId !== postId));
       toast.success('Post deleted successfully.');
     } catch (error) {
       console.error(error);
@@ -55,22 +55,22 @@ const RecipientMyPosts = () => {
     }
   };
 
-  const getStatusClass = (tag) => {
-    const normalized = (tag || 'unverified').toString().toLowerCase();
+  const getStatusClass = (verificationStatus) => {
+    const normalized = (verificationStatus || 'UNVERIFIED').toString().toLowerCase();
     if (normalized.includes('verified')) return 'verified';
     if (normalized.includes('fraud')) return 'fraud';
     return 'unverified';
   };
 
-  const getStatusLabel = (tag) => {
-    const normalized = (tag || 'unverified').toString().toLowerCase();
+  const getStatusLabel = (verificationStatus) => {
+    const normalized = (verificationStatus || 'UNVERIFIED').toString().toLowerCase();
     if (normalized.includes('verified')) return 'Verified';
     if (normalized.includes('fraud')) return 'Fraud';
     return 'Unverified';
   };
 
   const getImageSource = (post) => {
-    return post.imageUrl || post.photo || post.image || 'https://via.placeholder.com/640x420?text=No+Image';
+    return post.imageUrl || 'https://via.placeholder.com/640x420?text=No+Image';
   };
 
   return (
@@ -97,29 +97,31 @@ const RecipientMyPosts = () => {
               ) : (
                 <div className="posts-grid">
                   {posts.map((post) => (
-                    <article key={post.id} className="post-card">
-                      <span className={`status-tag ${getStatusClass(post.tag || post.status)}`}>
-                        {getStatusLabel(post.tag || post.status)}
+                    <article key={post.postId} className="post-card">
+                      <span className={`status-tag ${getStatusClass(post.verificationStatus)}`}>
+                        {getStatusLabel(post.verificationStatus)}
                       </span>
                       <img src={getImageSource(post)} alt={post.title || 'Recipient post image'} />
                       <div className="post-body">
-                        <div className="post-category">{post.category || 'Uncategorized'}</div>
+                        <div className="post-category">{post.postCategory || 'Uncategorized'}</div>
                         <h3 className="post-title">{post.title || 'Untitled post'}</h3>
                         <p className="post-description">{post.description || 'No description provided.'}</p>
-                        {post.donationTarget !== undefined && post.donationTarget !== null && (
-                          <div className="post-meta">Donation target: Rs. {post.donationTarget}</div>
-                        )}
+                        <div className="post-meta">
+                          <div>Target: Rs. {post.totalAmount || 0}</div>
+                          <div>Current: Rs. {post.currentAmount || 0}</div>
+                          <div>Remaining: Rs. {post.remainingAmount || 0}</div>
+                        </div>
                         <div className="post-actions">
-                          <button type="button" className="action-btn edit" onClick={() => handleEdit(post.id)}>
+                          <button type="button" className="action-btn edit" onClick={() => handleEdit(post.postId)}>
                             Edit
                           </button>
                           <button
                             type="button"
                             className="action-btn delete"
-                            onClick={() => handleDelete(post.id)}
-                            disabled={deleting === post.id}
+                            onClick={() => handleDelete(post.postId)}
+                            disabled={deleting === post.postId}
                           >
-                            {deleting === post.id ? 'Deleting' : 'Delete'}
+                            {deleting === post.postId ? 'Deleting' : 'Delete'}
                           </button>
                         </div>
                       </div>
