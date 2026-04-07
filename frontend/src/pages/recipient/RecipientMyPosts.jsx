@@ -20,7 +20,7 @@ const RecipientMyPosts = () => {
   const fetchMyPosts = async () => {
     setLoading(true);
     try {
-      const response = await authAxios.get('/posts/user');
+      const response = await authAxios.get('/recipient/get/posts');
       setPosts(response.data || []);
     } catch (error) {
       console.error(error);

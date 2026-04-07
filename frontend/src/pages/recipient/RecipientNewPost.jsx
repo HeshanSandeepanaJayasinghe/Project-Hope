@@ -15,10 +15,11 @@ const RecipientNewPost = () => {
 
   const [formData, setFormData] = useState({
     title: '',
-    category: 'financial',
+    category: 'FINANCIAL',
     description: '',
     donationTarget: '',
-    imageUrl: '',
+    imageFile: null,
+    existingImageUrl: '',
   });
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -39,7 +40,8 @@ const RecipientNewPost = () => {
         category: post.category || 'financial',
         description: post.description || '',
         donationTarget: post.donationTarget || '',
-        imageUrl: post.imageUrl || post.photo || post.image || '',
+        imageFile: null,
+        existingImageUrl: post.imageUrl || post.photo || post.image || '',
       });
     } catch (error) {
       console.error(error);
@@ -50,38 +52,46 @@ const RecipientNewPost = () => {
   };
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    const { name, value, files } = event.target;
+    if (name === 'imageFile') {
+      setFormData((prev) => ({
+        ...prev,
+        imageFile: files?.[0] || null,
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setSaving(true);
 
-    if (!formData.title || !formData.category || !formData.description || !formData.donationTarget || !formData.imageUrl) {
-      toast.error('Please fill in all required fields.');
+    const imageRequired = !isEditing || !formData.existingImageUrl;
+    if (!formData.title || !formData.category || !formData.description || !formData.donationTarget || (imageRequired && !formData.imageFile)) {
+      toast.error('Please fill in all required fields and select an image.');
       setSaving(false);
       return;
     }
 
-    const payload = {
-      title: formData.title,
-      category: formData.category,
-      description: formData.description,
-      donationTarget: Number(formData.donationTarget),
-      imageUrl: formData.imageUrl,
-      photo: formData.imageUrl,
-    };
+    const payload = new FormData();
+    payload.append('title', formData.title);
+    payload.append('postCategory', formData.category);
+    payload.append('description', formData.description);
+    payload.append('donationTarget', formData.donationTarget);
+    if (formData.imageFile) {
+      payload.append('imageFile', formData.imageFile);
+    }
 
     try {
       if (isEditing) {
         await authAxios.put(`/posts/${postId}`, payload);
         toast.success('Post updated successfully.');
       } else {
-        await authAxios.post('/posts', payload);
+        await authAxios.post('/recipient/add/post', payload);
         toast.success('Post created successfully.');
       }
       navigate('/recipient/my-posts');
@@ -164,15 +174,18 @@ const RecipientNewPost = () => {
                     </div>
 
                     <div className="form-row">
-                      <label htmlFor="imageUrl">Image URL *</label>
+                      <label htmlFor="imageFile">Upload Image *</label>
                       <input
-                        id="imageUrl"
-                        name="imageUrl"
-                        type="url"
-                        placeholder="https://example.com/photo.jpg"
-                        value={formData.imageUrl}
+                        id="imageFile"
+                        name="imageFile"
+                        type="file"
+                        accept="image/*"
                         onChange={handleChange}
                       />
+                      {formData.imageFile && <p className="file-note">Selected file: {formData.imageFile.name}</p>}
+                      {!formData.imageFile && formData.existingImageUrl && (
+                        <p className="file-note">Current image will be kept unless you choose a new file.</p>
+                      )}
                     </div>
 
                     <div className="form-footer">
