@@ -113,6 +113,10 @@ a {
   color: var(--muted);
 }
 
+.login-eye {
+  left: 102px;
+}
+
 .icon--clickable {
   position: absolute;
   right: .75rem;
