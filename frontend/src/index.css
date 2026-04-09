@@ -18,6 +18,14 @@ body {
   height: 100%;
 }
 
+.header {
+  margin-bottom: 0 !important;
+}
+
+.header + * {
+  margin-top: 0 !important;
+}
+
 body {
   margin: 0;
   font-family: var(--font-sans);
