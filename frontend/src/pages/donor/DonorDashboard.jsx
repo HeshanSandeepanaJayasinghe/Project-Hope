@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
+import { AuthContext } from '../../context/AuthContext.jsx';
 import './DonorDashboard.css';
 
 const DonorDashboard = () => {
     const [activeTab, setActiveTab] = useState('posts');
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const { authAxios } = useContext(AuthContext);
 
     const sidebarItems = [
         { id: 'posts', label: 'View Posts' },
@@ -14,56 +18,22 @@ const DonorDashboard = () => {
         { id: 'donation-history', label: 'Donation History' }
     ];
 
-    const posts = [
-        {
-            id: 1,
-            title: "Need Medical Support",
-            category: "Financial",
-            description: "I need funds for my surgery",
-            image: "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-            tag: "verified"
-        },
-        {
-            id: 2,
-            title: "Education Fees",
-            category: "Educational",
-            description: "Help with school fees",
-            image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-            tag: "verified"
-        },
-        {
-            id: 3,
-            title: "Food Support",
-            category: "Health",
-            description: "Family needs nutritious food",
-            image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-            tag: "unverified"
-        },
-        {
-            id: 4,
-            title: "Water Supply",
-            category: "Environmental",
-            description: "Provide clean water",
-            image: "https://images.unsplash.com/photo-1538300342682-cf57afb97285?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-            tag: "verified"
-        },
-        {
-            id: 5,
-            title: "Housing Support",
-            category: "Financial",
-            description: "Help rebuild after disaster",
-            image: "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-            tag: "verified"
-        },
-        {
-            id: 6,
-            title: "Healthcare",
-            category: "Health",
-            description: "Medical checkup needed",
-            image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-            tag: "verified"
-        }
-    ];
+    useEffect(() => {
+        const fetchPosts = async () => {
+            setLoading(true);
+            try {
+                const response = await authAxios.get('/open/get/all/posts');
+                setPosts(response.data || []);
+            } catch (error) {
+                console.error('Failed to load posts:', error);
+                setPosts([]);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPosts();
+    }, [authAxios]);
 
     const handleTabClick = (tabId) => {
         setActiveTab(tabId);
@@ -83,7 +53,7 @@ const DonorDashboard = () => {
 
                 <div className="dashboard-content">
                     <main className="dashboard-main">
-                        {activeTab === 'posts' && <PostsList posts={posts} />}
+                        {activeTab === 'posts' && <PostsList posts={posts} loading={loading} />}
                         {activeTab === 'view-profile' && <ViewProfile />}
                         {activeTab === 'wishlist' && <Wishlist posts={posts} />}
                         {activeTab === 'donation-history' && <DonationHistory />}
@@ -94,33 +64,42 @@ const DonorDashboard = () => {
     );
 };
 
-// Posts List Component
-const PostsList = ({ posts }) => {
+const PostsList = ({ posts, loading }) => {
+    if (loading) {
+        return <div className="loading-state">Loading posts...</div>;
+    }
+
+    if (!posts.length) {
+        return <div className="empty-state">No posts available.</div>;
+    }
+
     return (
         <div className="posts-list">
             <h2>Available Posts</h2>
             <div className="posts-grid-donor">
-                {posts.map((post) => (
-                    <div key={post.id} className="post-card-donor">
-                        <div className="post-tag-donor" style={{
-                            backgroundColor: post.tag === 'verified' ? '#10b981' : '#f59e0b'
-                        }}>
-                            {post.tag}
+                {posts.map((post) => {
+                    const postId = post.postId ?? post.id;
+                    return (
+                        <div key={postId} className="post-card-donor">
+                            <div className="post-tag-donor" style={{
+                                backgroundColor: (post.verificationStatus || post.tag) === 'verified' ? '#10b981' : '#f59e0b'
+                            }}>
+                                {post.verificationStatus || post.tag || 'unverified'}
+                            </div>
+                            <img src={post.imageUrl || post.image || 'https://via.placeholder.com/320x220'} alt={post.title || 'Post image'} className="post-image-donor" />
+                            <div className="post-content-donor">
+                                <h4>{post.title || 'Untitled post'}</h4>
+                                <p><strong>Category:</strong> {post.postCategory || post.category || 'Uncategorized'}</p>
+                                <p><strong>Description:</strong> {post.description || 'No description provided.'}</p>
+                            </div>
                         </div>
-                        <img src={post.image} alt={post.title} className="post-image-donor" />
-                        <div className="post-content-donor">
-                            <h4>{post.title}</h4>
-                            <p><strong>Category:</strong> {post.category}</p>
-                            <p><strong>Description:</strong> {post.description}</p>
-                        </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         </div>
     );
 };
 
-// View Profile Component
 const ViewProfile = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({
@@ -218,13 +197,16 @@ const ViewProfile = () => {
     );
 };
 
-// Wishlist Component
 const Wishlist = ({ posts }) => {
     const navigate = useNavigate();
-    const [wishlistedPosts, setWishlistedPosts] = useState(posts.slice(0, 3));
+    const [wishlistedPosts, setWishlistedPosts] = useState([]);
+
+    useEffect(() => {
+        setWishlistedPosts(posts.slice(0, 3));
+    }, [posts]);
 
     const handleRemove = (id) => {
-        setWishlistedPosts(wishlistedPosts.filter(post => post.id !== id));
+        setWishlistedPosts((current) => current.filter(post => post.postId !== id && post.id !== id));
     };
 
     const handleClearAll = () => {
@@ -234,6 +216,10 @@ const Wishlist = ({ posts }) => {
     const handleViewPost = (postId) => {
         navigate(`/post-view/${postId}`);
     };
+
+    if (!wishlistedPosts.length) {
+        return <div className="empty-state">No wishlisted posts yet.</div>;
+    }
 
     return (
         <div className="wishlist">
@@ -245,45 +231,42 @@ const Wishlist = ({ posts }) => {
             </div>
 
             <div className="wishlist-grid">
-                {wishlistedPosts.map((post) => (
-                    <div key={post.id} className="wishlist-card">
-                        <img src={post.image} alt={post.title} className="wishlist-image" />
-                        <div className="wishlist-content">
-                            <h4>{post.title}</h4>
-                            <p><strong>Category:</strong> {post.category}</p>
-                            <p><strong>Description:</strong> {post.description}</p>
+                {wishlistedPosts.map((post) => {
+                    const postId = post.postId ?? post.id;
+                    return (
+                        <div key={postId} className="wishlist-card">
+                            <img src={post.imageUrl || post.image || 'https://via.placeholder.com/300x200'} alt={post.title || 'Post image'} className="wishlist-image" />
+                            <div className="wishlist-content">
+                                <h4>{post.title || 'Untitled post'}</h4>
+                                <p><strong>Category:</strong> {post.postCategory || post.category || 'Uncategorized'}</p>
+                                <p><strong>Description:</strong> {post.description || 'No description provided.'}</p>
+                            </div>
+                            <div className="wishlist-actions">
+                                <button 
+                                    className="view-button-wish"
+                                    onClick={() => handleViewPost(postId)}
+                                >
+                                    View
+                                </button>
+                                <button 
+                                    className="remove-button-wish"
+                                    onClick={() => handleRemove(postId)}
+                                >
+                                    Remove
+                                </button>
+                            </div>
                         </div>
-                        <div className="wishlist-actions">
-                            <button 
-                                className="view-button-wish"
-                                onClick={() => handleViewPost(post.id)}
-                            >
-                                View
-                            </button>
-                            <button 
-                                className="remove-button-wish"
-                                onClick={() => handleRemove(post.id)}
-                            >
-                                Remove
-                            </button>
-                        </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         </div>
     );
 };
 
-// Donation History Component
 const DonationHistory = () => {
     const handleCheckEmails = () => {
-        // Get user's email from localStorage or session
         const userEmail = localStorage.getItem('userEmail') || 'user@example.com';
-        
-        // Construct mailto link
         const mailtoLink = `mailto:${userEmail}`;
-        
-        // Open email client
         window.location.href = mailtoLink;
     };
 

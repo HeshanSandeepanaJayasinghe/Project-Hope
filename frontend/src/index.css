@@ -18,6 +18,14 @@ body {
   height: 100%;
 }
 
+.header {
+  margin-bottom: 0 !important;
+}
+
+.header + * {
+  margin-top: 0 !important;
+}
+
 body {
   margin: 0;
   font-family: var(--font-sans);
@@ -111,6 +119,10 @@ a {
   top: 50%;
   transform: translateY(-50%);
   color: var(--muted);
+}
+
+.login-eye {
+  left: 102px;
 }
 
 .icon--clickable {
