@@ -49,7 +49,7 @@ const Sidebar = ({isOpen, setIsOpen }) => {
                             key={item.id}
                             className="sidebar-item"
                             onClick={() => {
-                                navigate(item.path); // Navigate to the path defined in config
+                                navigate(item.path);
                                 setIsOpen(false);
                             }}
                         >
