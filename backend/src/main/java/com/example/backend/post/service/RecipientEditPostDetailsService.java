@@ -3,13 +3,18 @@ package com.example.backend.post.service;
 import com.example.backend.post.dto.EditPostDetailsDTO;
 import com.example.backend.post.model.Post;
 import com.example.backend.post.repository.PostRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Map;
 
 @Service
@@ -17,6 +22,8 @@ public class RecipientEditPostDetailsService {
 
 	private final PostRepository postRepository;
 	private final MongoTemplate mongoTemplate;
+	@Value("${image.upload.directory}")
+	private String postImageUploadDirectory;
 
 	public RecipientEditPostDetailsService(
 			PostRepository postRepository,
@@ -28,6 +35,8 @@ public class RecipientEditPostDetailsService {
 
 	public Map<String, String> editPostDetails(EditPostDetailsDTO dto) {
 
+
+
 		if (dto.getPostId() == null || dto.getPostId().isEmpty()) {
 			throw new RuntimeException("Post ID is required");
 		}
@@ -37,6 +46,7 @@ public class RecipientEditPostDetailsService {
 		}
 
 		Query query = new Query(Criteria.where("_id").is(dto.getPostId()));
+		Post existingPost = mongoTemplate.findOne(query, Post.class);
 		Update update = new Update();
 
 		if (dto.getTitle() != null && !dto.getTitle().trim().isEmpty()) {
@@ -51,7 +61,7 @@ public class RecipientEditPostDetailsService {
 			update.set("totalAmount", dto.getTotalAmount());
 
 			Query findQuery = new Query(Criteria.where("_id").is(dto.getPostId()));
-			Post existingPost = mongoTemplate.findOne(findQuery, Post.class);
+			existingPost = mongoTemplate.findOne(findQuery, Post.class);
 			if (existingPost != null) {
 				double newRemaining = dto.getTotalAmount() - existingPost.getCurrentAmount();
 				update.set("remainingAmount", newRemaining);
@@ -65,11 +75,26 @@ public class RecipientEditPostDetailsService {
 		if (dto.getPostCategory() != null) {
 			update.set("postCategory", dto.getPostCategory());
 		}
-//
-//		if (dto.getImage() != null && !dto.getImage().isEmpty()) {
-//			String imageUrl = uploadImage(dto.getImage());
-//			update.set("imageUrl", imageUrl);
-//		}
+
+		if (dto.getImage() != null && !dto.getImage().isEmpty()) {
+			try {
+				Path postImagePath = Paths.get(postImageUploadDirectory);
+				if (!Files.exists(postImagePath)) {
+					Files.createDirectories(postImagePath);
+				}
+				String imageUrl = existingPost.getImageUrl();
+				String uniqueFileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+				Path imagePath = postImagePath.resolve(uniqueFileName);
+				Files.copy(
+						dto.getImage().getInputStream(),
+						imagePath,
+						StandardCopyOption.REPLACE_EXISTING
+				);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
 
 		if (update.getUpdateObject().isEmpty()) {
 			return Map.of("Message", "No fields provided to update");
@@ -83,16 +108,4 @@ public class RecipientEditPostDetailsService {
 		);
 	}
 
-//	private String uploadImage(MultipartFile image) {
-//		if (image == null || image.isEmpty()) {
-//			throw new RuntimeException("Image file is empty");
-//		}
-//
-//		// TODO: Implement actual image upload logic
-//		// Example: Upload to AWS S3, Cloudinary, or local storage
-//		// String imageUrl = cloudinaryService.upload(image);
-//		// return imageUrl;
-//
-//		return "image-url-here";
-//	}
 }
