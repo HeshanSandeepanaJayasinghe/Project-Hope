@@ -39,35 +39,64 @@ const Signup = () => {
     };
 
     const validateForm = () => {
+        const nameRegex = /^[a-zA-Z\s]+$/;
+        const nicRegex = /^[0-9]{9,12}[vV]?$/;
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const postalCodeRegex = /^[0-9]{4,10}$/;
+
         if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
-            setError('All required fields must be filled');
+            toast.error('All required fields must be filled');
             return false;
         }
 
+        if (!nameRegex.test(formData.name)) {
+        toast.error('Name must contain only letters and spaces');
+        return false;
+        }  
+
+        if (!nicRegex.test(formData.nic)) {
+        toast.error('Invalid NIC format. Must be 9-12 digits, optionally ending with v or V');
+        return false;
+        }
+
+        if (!emailRegex.test(formData.email)) {
+        toast.error('Invalid email format');
+        return false;
+        }
+
+        if (!postalCodeRegex.test(formData.postalCode)) {
+        toast.error('Invalid postal code format. Must be 4-10 digits');
+        return false;
+        }
+
         if (formData.password !== formData.confirmPassword) {
-            setError('Passwords do not match');
+            toast.error('Passwords do not match');
             return false;
         }
 
         if (formData.password.length < 8) {
-            setError('Password must be at least 8 characters');
+            toast.error('Password must be at least 8 characters');
+            return false;
+        }
+
+        if (formData.address.length < 5 || formData.address.length > 255) {
+            toast.error('Address must be between 5 and 255 characters');
             return false;
         }
 
         if (!agreeTerms) {
-            
-            setError('You must agree to the terms and conditions');
+            toast.error('You must agree to the terms and conditions');
             return false;
         }
 
         if (userType === 'recipient') {
             if (!formData.nic || !formData.birthday || !formData.telephone || !formData.address || !formData.postalCode) {
-                setError('All fields are required');
+                toast.error('All fields are required');
                 return false;
             }
         } else {
             if (!formData.nic || !formData.occupation) {
-                setError('All fields are required');
+                toast.error('All fields are required');
                 return false;
             }
         }
@@ -83,13 +112,13 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (!validateForm()) return;
+
         if (!validatePassword(formData.password)) {
             toast.error("Password must contain at least one digit, one lowercase, one uppercase, and one special character", {
             });
             return;
         }
-
-        if (!validateForm()) return;
 
         setLoading(true);
         setError('');
@@ -99,7 +128,7 @@ const Signup = () => {
             toast.success("Registration successful! Please login.");
             navigate('/login');
         } catch (err) {
-            setError(err.response?.data?.message || 'Registration failed. Please try again.');
+            toast.error(err.response?.data?.message || 'Registration failed. Please try again.');
         } finally {
             setLoading(false);
         }

@@ -1,10 +1,12 @@
 .verification-form {
-  max-width: 940px;
+  width: 940px;
   margin: 0 auto;
   padding: 24px;
   background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
 
 .verification-form h2 {
@@ -16,6 +18,13 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
+}
+
+.verification-layout {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  min-height: 90vh;
 }
 
 .form-group {

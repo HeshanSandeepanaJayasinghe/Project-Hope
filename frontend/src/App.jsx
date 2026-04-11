@@ -14,11 +14,17 @@ import PostDonation from './pages/PoolDonation.jsx'
 import PoolDonation from './pages/PoolDonation.jsx'
 import Home from './pages/Home.jsx'
 import Aboutus from './pages/Aboutus.jsx'
+
 import RecipientDashboard from './pages/recipient/RecipientDashboard.jsx'
 import RecipientMyPosts from './pages/recipient/RecipientMyPosts.jsx'
 import RecipientNewPost from './pages/recipient/RecipientNewPost.jsx'
+import RecipientViewProfile from './pages/recipient/RecipientViewProfile.jsx'
+import VerificationForm from './pages/recipient/VerificationForm.jsx';
+
 import DonorDashboard from './pages/donor/DonorDashboard.jsx'
+
 import { VerifierDashboard, FinancierDashboard, AdminDashboard, SuperAdminDashboard } from './pages/admin/AdminDashboards.jsx'
+
 import SuperAdminManageAdmins from './pages/superadmin/SuperAdminDashboard.jsx'
 
 function App() {
@@ -43,6 +49,8 @@ function App() {
               <Route path="/recipient-dashboard" element={<ProtectedRoute allowedRoles={['RECIPIENT']}><RecipientDashboard /></ProtectedRoute>} />
               <Route path="/recipient/my-posts" element={<ProtectedRoute allowedRoles={['RECIPIENT']}><RecipientMyPosts /></ProtectedRoute>} />
               <Route path="/recipient/new-post" element={<ProtectedRoute allowedRoles={['RECIPIENT']}><RecipientNewPost /></ProtectedRoute>} />
+              <Route path="/recipient/view-profile" element={<ProtectedRoute allowedRoles={['RECIPIENT']}><RecipientViewProfile /></ProtectedRoute>} />
+              <Route path="/recipient/verification" element={<ProtectedRoute allowedRoles={['RECIPIENT']}><VerificationForm /></ProtectedRoute>} />
 
               <Route path="/donor-dashboard" element={<ProtectedRoute allowedRoles={['DONOR']}><DonorDashboard /></ProtectedRoute>} />
 
