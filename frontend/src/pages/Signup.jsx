@@ -40,34 +40,33 @@ const Signup = () => {
 
     const validateForm = () => {
         if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
-            setError('All required fields must be filled');
+            toast.error('All required fields must be filled');
             return false;
         }
 
         if (formData.password !== formData.confirmPassword) {
-            setError('Passwords do not match');
+            toast.error('Passwords do not match');
             return false;
         }
 
         if (formData.password.length < 8) {
-            setError('Password must be at least 8 characters');
+            toast.error('Password must be at least 8 characters');
             return false;
         }
 
         if (!agreeTerms) {
-            
-            setError('You must agree to the terms and conditions');
+            toast.error('You must agree to the terms and conditions');
             return false;
         }
 
         if (userType === 'recipient') {
             if (!formData.nic || !formData.birthday || !formData.telephone || !formData.address || !formData.postalCode) {
-                setError('All fields are required');
+                toast.error('All fields are required');
                 return false;
             }
         } else {
             if (!formData.nic || !formData.occupation) {
-                setError('All fields are required');
+                toast.error('All fields are required');
                 return false;
             }
         }
@@ -99,7 +98,7 @@ const Signup = () => {
             toast.success("Registration successful! Please login.");
             navigate('/login');
         } catch (err) {
-            setError(err.response?.data?.message || 'Registration failed. Please try again.');
+            toast.error(err.response?.data?.message || 'Registration failed. Please try again.');
         } finally {
             setLoading(false);
         }
