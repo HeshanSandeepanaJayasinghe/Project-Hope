@@ -39,9 +39,34 @@ const Signup = () => {
     };
 
     const validateForm = () => {
+        const nameRegex = /^[a-zA-Z\s]+$/;
+        const nicRegex = /^[0-9]{9,12}[vV]?$/;
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const postalCodeRegex = /^[0-9]{4,10}$/;
+
         if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
             toast.error('All required fields must be filled');
             return false;
+        }
+
+        if (!nameRegex.test(formData.name)) {
+        toast.error('Name must contain only letters and spaces');
+        return false;
+        }  
+
+        if (!nicRegex.test(formData.nic)) {
+        toast.error('Invalid NIC format. Must be 9-12 digits, optionally ending with v or V');
+        return false;
+        }
+
+        if (!emailRegex.test(formData.email)) {
+        toast.error('Invalid email format');
+        return false;
+        }
+
+        if (!postalCodeRegex.test(formData.postalCode)) {
+        toast.error('Invalid postal code format. Must be 4-10 digits');
+        return false;
         }
 
         if (formData.password !== formData.confirmPassword) {
@@ -51,6 +76,11 @@ const Signup = () => {
 
         if (formData.password.length < 8) {
             toast.error('Password must be at least 8 characters');
+            return false;
+        }
+
+        if (formData.address.length < 5 || formData.address.length > 255) {
+            toast.error('Address must be between 5 and 255 characters');
             return false;
         }
 
@@ -82,13 +112,13 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (!validateForm()) return;
+
         if (!validatePassword(formData.password)) {
             toast.error("Password must contain at least one digit, one lowercase, one uppercase, and one special character", {
             });
             return;
         }
-
-        if (!validateForm()) return;
 
         setLoading(true);
         setError('');
