@@ -7,7 +7,7 @@ import Login from './pages/Login.jsx'
 import Signup from './pages/Signup.jsx'
 import Footer from './components/Footer.jsx'
 import Header from './components/Header.jsx'
-import Features from './pages/Features.jsx'
+import Features_new from './pages/Features_new.jsx'
 import Posts from './pages/Posts.jsx'
 import PostView from './pages/PostView.jsx'
 import PostDonation from './pages/PoolDonation.jsx'
@@ -37,7 +37,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
-              <Route path="/features" element={<Features />} />
+              <Route path="/features" element={<Features_new />} />
               <Route path="/posts" element={<Posts />} />
               <Route path="/post-view/:postId" element={<PostView />} />
               <Route path="/post-donation" element={<PostDonation />} />
@@ -62,7 +62,7 @@ function App() {
 
               <Route path="/superadmin-dashboard" element={<ProtectedRoute allowedRoles={['SUPERADMIN']}><SuperAdminDashboard /></ProtectedRoute>} />
               <Route path="/superadmin/manage-admins" element={<ProtectedRoute allowedRoles={['SUPERADMIN']}><SuperAdminManageAdmins /></ProtectedRoute>} />
-              
+
             </Routes>
           </div>
           <Footer />
