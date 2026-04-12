@@ -10,18 +10,30 @@
     transition: transform 0.3s ease;
 }
 
-.sidebar-toggle {
-    display: none;
+.sidebar-open-btn {
+    display: flex;
+    /* Always available when closed */
+    align-items: center;
+    justify-content: center;
     position: fixed;
-    top: 1rem;
-    left: 1rem;
+    top: 1.25rem;
+    left: 1.25rem;
     z-index: 101;
-    background: #16a34a;
+    background: rgba(22, 163, 74, 0.9);
+    backdrop-filter: blur(8px);
     color: white;
-    border: none;
-    border-radius: 0.5rem;
-    padding: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    width: 45px;
+    height: 45px;
     cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-open-btn:hover {
+    transform: scale(1.05);
+    background: #16a34a;
 }
 
 .sidebar-overlay {
@@ -171,6 +183,34 @@
         padding: 0.75rem 1rem;
         font-size: 0.9rem;
     }
+
+    /*  Premium styling for the Sidebar close button */
+    .sidebar-close-btn {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        color: white;
+        cursor: pointer;
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        transition: all 0.2s ease;
+    }
+
+    .sidebar-close-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: rotate(90deg);
+    }
+}
+
+.sidebar-close-btn {
+    display: none;
 }
 
 @media (max-width: 480px) {
