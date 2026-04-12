@@ -1,33 +1,73 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import ProtectedRoute from './context/ProtectedRoute.jsx';
+
+import Login from './pages/Login.jsx'
+import Signup from './pages/Signup.jsx'
+import Footer from './components/Footer.jsx'
+import Header from './components/Header.jsx'
+import Features from './pages/Features.jsx'
+import Posts from './pages/Posts.jsx'
+import PostView from './pages/PostView.jsx'
+import PostDonation from './pages/PoolDonation.jsx'
+import PoolDonation from './pages/PoolDonation.jsx'
+import Home from './pages/Home.jsx'
+import Aboutus from './pages/Aboutus.jsx'
+
+import RecipientDashboard from './pages/recipient/RecipientDashboard.jsx'
+import RecipientMyPosts from './pages/recipient/RecipientMyPosts.jsx'
+import RecipientNewPost from './pages/recipient/RecipientNewPost.jsx'
+import RecipientViewProfile from './pages/recipient/RecipientViewProfile.jsx'
+import VerificationForm from './pages/recipient/VerificationForm.jsx';
+
+import DonorDashboard from './pages/donor/DonorDashboard.jsx'
+
+import { VerifierDashboard, FinancierDashboard, AdminDashboard, SuperAdminDashboard } from './pages/admin/AdminDashboards.jsx'
+
+import SuperAdminManageAdmins from './pages/superadmin/SuperAdminDashboard.jsx'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <ToastContainer />
+      <Router>
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+          <Header />
+          <div style={{ flex: 1 }}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/features" element={<Features />} />
+              <Route path="/posts" element={<Posts />} />
+              <Route path="/post-view/:postId" element={<PostView />} />
+              <Route path="/post-donation" element={<PostDonation />} />
+              <Route path="/pool-donation" element={<PoolDonation />} />
+              <Route path="/aboutus" element={<Aboutus />} />
+
+              <Route path="/recipient-dashboard" element={<ProtectedRoute allowedRoles={['RECIPIENT']}><RecipientDashboard /></ProtectedRoute>} />
+              <Route path="/recipient/my-posts" element={<ProtectedRoute allowedRoles={['RECIPIENT']}><RecipientMyPosts /></ProtectedRoute>} />
+              <Route path="/recipient/new-post" element={<ProtectedRoute allowedRoles={['RECIPIENT']}><RecipientNewPost /></ProtectedRoute>} />
+              <Route path="/recipient/view-profile" element={<ProtectedRoute allowedRoles={['RECIPIENT']}><RecipientViewProfile /></ProtectedRoute>} />
+              <Route path="/recipient/verification" element={<ProtectedRoute allowedRoles={['RECIPIENT']}><VerificationForm /></ProtectedRoute>} />
+
+              <Route path="/donor-dashboard" element={<ProtectedRoute allowedRoles={['DONOR']}><DonorDashboard /></ProtectedRoute>} />
+
+              <Route path="/verifier-dashboard" element={<ProtectedRoute allowedRoles={['VERIFIER']}><VerifierDashboard /></ProtectedRoute>} />
+
+              <Route path="/financier-dashboard" element={<ProtectedRoute allowedRoles={['FINANCIER']}><FinancierDashboard /></ProtectedRoute>} />
+
+              <Route path="/admin-dashboard" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminDashboard /></ProtectedRoute>} />
+
+              <Route path="/superadmin-dashboard" element={<ProtectedRoute allowedRoles={['SUPERADMIN']}><SuperAdminDashboard /></ProtectedRoute>} />
+              <Route path="/superadmin/manage-admins" element={<ProtectedRoute allowedRoles={['SUPERADMIN']}><SuperAdminManageAdmins /></ProtectedRoute>} />
+              
+            </Routes>
+          </div>
+          <Footer />
+        </div>
+      </Router>
     </>
   )
 }

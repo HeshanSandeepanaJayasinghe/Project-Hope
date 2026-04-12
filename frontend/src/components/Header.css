@@ -1,0 +1,72 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 40px;
+  background-color: #F1F8E9;
+  height: 80px;
+  box-sizing: border-box;
+
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logo-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  /* Optional: if they want circular logo image */
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-item {
+  color: #37474F;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-item:hover {
+  background-color: #DCEDC8;
+  color: #1B5E20;
+}
+
+.get-started-btn {
+  background-color: #2E7D32;
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 25px;
+  /* Pill shape */
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.get-started-btn:hover {
+  background-color: #1B5E20;
+}
+
+.get-started-btn:active {
+  transform: translateY(1px);
+}
