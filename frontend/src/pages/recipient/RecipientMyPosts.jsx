@@ -35,7 +35,7 @@ const RecipientMyPosts = () => {
   };
 
   const handleEdit = (postId) => {
-    navigate(`/recipient/edit/post`);
+    navigate(`/recipient/new-post?postId=${postId}`);
   };
 
   const handleDelete = async (postId) => {

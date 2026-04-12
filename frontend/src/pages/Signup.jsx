@@ -39,13 +39,8 @@ const Signup = () => {
     };
 
     const validateForm = () => {
-        const nameRegex = /^[a-zA-Z\s]+$/;
-        const nicRegex = /^[0-9]{9,12}[vV]?$/;
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        const postalCodeRegex = /^[0-9]{4,10}$/;
-
         if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
-            toast.error('All required fields must be filled');
+            setError('All required fields must be filled');
             return false;
         }
 
@@ -70,7 +65,7 @@ const Signup = () => {
         }
 
         if (formData.password !== formData.confirmPassword) {
-            toast.error('Passwords do not match');
+            setError('Passwords do not match');
             return false;
         }
 
@@ -85,18 +80,19 @@ const Signup = () => {
         }
 
         if (!agreeTerms) {
-            toast.error('You must agree to the terms and conditions');
+            
+            setError('You must agree to the terms and conditions');
             return false;
         }
 
         if (userType === 'recipient') {
             if (!formData.nic || !formData.birthday || !formData.telephone || !formData.address || !formData.postalCode) {
-                toast.error('All fields are required');
+                setError('All fields are required');
                 return false;
             }
         } else {
             if (!formData.nic || !formData.occupation) {
-                toast.error('All fields are required');
+                setError('All fields are required');
                 return false;
             }
         }
@@ -112,13 +108,13 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!validateForm()) return;
-
         if (!validatePassword(formData.password)) {
             toast.error("Password must contain at least one digit, one lowercase, one uppercase, and one special character", {
             });
             return;
         }
+
+        if (!validateForm()) return;
 
         setLoading(true);
         setError('');
@@ -128,7 +124,7 @@ const Signup = () => {
             toast.success("Registration successful! Please login.");
             navigate('/login');
         } catch (err) {
-            toast.error(err.response?.data?.message || 'Registration failed. Please try again.');
+            setError(err.response?.data?.message || 'Registration failed. Please try again.');
         } finally {
             setLoading(false);
         }
