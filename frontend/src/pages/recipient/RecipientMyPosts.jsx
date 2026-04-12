@@ -35,7 +35,7 @@ const RecipientMyPosts = () => {
   };
 
   const handleEdit = (postId) => {
-    navigate(`/recipient/edit/post`);
+    navigate(`/recipient/new-post?postId=${postId}`);
   };
 
   const handleDelete = async (postId) => {
@@ -92,7 +92,7 @@ const RecipientMyPosts = () => {
               {loading ? (
                 <div className="loading-state">Loading your posts</div>
               ) : posts.length === 0 ? (
-                <div className="empty-state">No posts found. Click Create New Post to add your first request.</div>
+                <div className="empty-state">No posts found.</div>
               ) : (
                 <div className="posts-grid">
                   {posts.map((post) => (
