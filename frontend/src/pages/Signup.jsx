@@ -64,7 +64,7 @@ const Signup = () => {
         return false;
         }
 
-        if (userType === 'recipient' & !postalCodeRegex.test(formData.postalCode)) {
+        if (!postalCodeRegex.test(formData.postalCode)) {
         toast.error('Invalid postal code format. Must be 4-10 digits');
         return false;
         }
@@ -79,7 +79,7 @@ const Signup = () => {
             return false;
         }
 
-        if (userType === 'recipient' & formData.address.length < 5 || formData.address.length > 255) {
+        if (formData.address.length < 5 || formData.address.length > 255) {
             toast.error('Address must be between 5 and 255 characters');
             return false;
         }

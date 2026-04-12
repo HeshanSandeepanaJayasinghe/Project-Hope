@@ -2,16 +2,21 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
 import { AuthContext } from '../../context/AuthContext.jsx';
-import { Eye, MapPin, Tag, Search, Filter, Menu } from 'lucide-react';
-import './donor-shared.css';
+import './DonorDashboard.css';
 
 const DonorDashboard = () => {
-    const navigate = useNavigate();
-    const { authAxios, user, email, userProfile } = useContext(AuthContext);
+    const [activeTab, setActiveTab] = useState('posts');
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [searchTerm, setSearchTerm] = useState('');
+    const { authAxios } = useContext(AuthContext);
+
+    const sidebarItems = [
+        { id: 'posts', label: 'View Posts' },
+        { id: 'view-profile', label: 'View Profile' },
+        { id: 'wishlist', label: 'Wishlist' },
+        { id: 'donation-history', label: 'Donation History' }
+    ];
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -21,117 +26,316 @@ const DonorDashboard = () => {
                 setPosts(response.data || []);
             } catch (error) {
                 console.error('Failed to load posts:', error);
+                setPosts([]);
             } finally {
                 setLoading(false);
             }
         };
+
         fetchPosts();
     }, [authAxios]);
 
-    const filteredPosts = posts.filter(post =>
-        post.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        post.postCategory?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        post.description?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const handleTabClick = (tabId) => {
+        setActiveTab(tabId);
+        setSidebarOpen(false);
+    };
 
     return (
-        <div className="donor-page-container">
-            <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
+        <div className="donor-dashboard-wrapper">
+            <div className="dashboard-layout">
+                <Sidebar 
+                    role="donor"
+                    items={sidebarItems}
+                    onItemClick={handleTabClick}
+                    isOpen={sidebarOpen}
+                    setIsOpen={setSidebarOpen}
+                />
 
-            <main className="donor-main-content">
-                <header className="donor-header">
-                    <div>
-                        <h1 className="donor-title" style={{ marginBottom: '0.5rem' }}>
-                            {/* [UPDATED] Dynamic personalized greeting logic with fallbacks */}
-                            Welcome, {userProfile?.name || email?.split('@')[0] || user || 'Donor'}!
-                        </h1>
-                        <p style={{ color: 'var(--donor-text-muted)', fontSize: '1.1rem' }}>Ready to make an impact today?</p>
-                    </div>
-                    
-                    <div className="dashboard-actions" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', width: '100%', maxWidth: '500px' }}>
-                        <div style={{ position: 'relative', flex: 1 }}>
-                            <Search style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--donor-text-muted)' }} size={18} />
-                            <input 
-                                type="text" 
-                                placeholder="Search posts..." 
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                style={{ padding: '0.75rem 1rem 0.75rem 3rem', borderRadius: '50px', border: '1px solid var(--donor-glass-border)', background: 'white', width: '100%' }}
-                            />
+                <div className="dashboard-content">
+                    <main className="dashboard-main">
+                        {activeTab === 'posts' && <PostsList posts={posts} loading={loading} />}
+                        {activeTab === 'view-profile' && <ViewProfile />}
+                        {activeTab === 'wishlist' && <Wishlist posts={posts} />}
+                        {activeTab === 'donation-history' && <DonationHistory />}
+                    </main>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const PostsList = ({ posts, loading }) => {
+    if (loading) {
+        return <div className="loading-state">Loading posts...</div>;
+    }
+
+    if (!posts.length) {
+        return <div className="empty-state">No posts available.</div>;
+    }
+
+    return (
+        <div className="posts-list">
+            <h2>Available Posts</h2>
+            <div className="posts-grid-donor">
+                {posts.map((post) => {
+                    const postId = post.postId ?? post.id;
+                    return (
+                        <div key={postId} className="post-card-donor">
+                            <div className="post-tag-donor" style={{
+                                backgroundColor: (post.verificationStatus || post.tag) === 'verified' ? '#10b981' : '#f59e0b'
+                            }}>
+                                {post.verificationStatus || post.tag || 'unverified'}
+                            </div>
+                            <img src={post.imageUrl || post.image || 'https://via.placeholder.com/320x220'} alt={post.title || 'Post image'} className="post-image-donor" />
+                            <div className="post-content-donor">
+                                <h4>{post.title || 'Untitled post'}</h4>
+                                <p><strong>Category:</strong> {post.postCategory || post.category || 'Uncategorized'}</p>
+                                <p><strong>Description:</strong> {post.description || 'No description provided.'}</p>
+                            </div>
                         </div>
-                        <button className="donor-btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', whiteSpace: 'nowrap' }}>
-                            <Filter size={18} /> Filters
+                    );
+                })}
+            </div>
+        </div>
+    );
+};
+
+const ViewProfile = () => {
+    const [isEditing, setIsEditing] = useState(false);
+    const [formData, setFormData] = useState({
+        name: 'Jane Smith',
+        nic: '987654321V',
+        organization: 'Tech Solutions Inc',
+        occupation: 'Software Engineer'
+    });
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    return (
+        <div className="view-profile-donor">
+            <h2>My Profile</h2>
+            
+            <div className="profile-header-donor">
+                <div className="profile-image-section-donor">
+                    <div className="profile-image-placeholder-donor">
+                        <span>👤</span>
+                    </div>
+                    <button className="upload-button-donor">Upload Image</button>
+                </div>
+
+                <div className="profile-buttons-donor">
+                    {!isEditing && (
+                        <button 
+                            className="edit-button-donor"
+                            onClick={() => setIsEditing(true)}
+                        >
+                            Edit Profile
                         </button>
-                    </div>
-                </header>
-
-                <div className="donor-section">
-                    <h2 className="donor-section-title">Available Donation Requests</h2>
-
-                    {loading ? (
-                        <div style={{ textAlign: 'center', padding: '5rem' }}>
-                            <div className="loading-spinner"></div>
-                            <p style={{ marginTop: '1rem', color: 'var(--donor-text-muted)' }}>Finding people in need...</p>
-                        </div>
-                    ) : filteredPosts.length === 0 ? (
-                        <div className="donor-glass-card" style={{ padding: '4rem', textAlign: 'center' }}>
-                            <h3>No posts found matching "{searchTerm}"</h3>
-                            <button className="donor-btn-secondary" style={{ marginTop: '1rem' }} onClick={() => setSearchTerm('')}>Clear Search</button>
-                        </div>
-                    ) : (
-                        <div className="donor-grid">
-                            {filteredPosts.map((post, index) => {
-                                const postId = post.postId ?? post.id;
-                                const isVerified = (post.verificationStatus || post.tag) === 'verified';
-                                return (
-                                    <div key={postId} className="donor-glass-card" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                                        <div style={{ position: 'relative', height: '180px' }}>
-                                            <img
-                                                src={post.imageUrl || post.image || 'https://via.placeholder.com/320x180'}
-                                                alt={post.title}
-                                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                            />
-                                            <div style={{ position: 'absolute', top: '0.75rem', right: '0.75rem' }}>
-                                                <span className={`donor-tag ${isVerified ? 'donor-tag-verified' : 'donor-tag-unverified'}`}>
-                                                    {isVerified ? 'Verified' : 'Unverified'}
-                                                </span>
-                                            </div>
-                                            <div style={{ position: 'absolute', bottom: '0.5rem', left: '0.5rem', background: 'rgba(0,0,0,0.6)', color: 'white', padding: '0.2rem 0.6rem', borderRadius: '4px', fontSize: '0.7rem' }}>
-                                                POST #{postId || (index + 100).toString().padStart(4, '0')}
-                                            </div>
-                                        </div>
-
-                                        <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                                            <h4 style={{ fontSize: '1.2rem', marginBottom: '0.75rem', color: 'var(--donor-secondary)', fontWeight: '700' }}>{post.title}</h4>
-
-                                            <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
-                                                <span style={{ fontSize: '0.75rem', background: 'var(--donor-primary-light)', color: 'var(--donor-primary-dark)', padding: '0.2rem 0.6rem', borderRadius: '4px', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                                                    <Tag size={12} /> {post.postCategory || 'General'}
-                                                </span>
-                                                <span style={{ fontSize: '0.75rem', background: '#f1f5f9', color: '#64748b', padding: '0.2rem 0.6rem', borderRadius: '4px', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                                                    <MapPin size={12} /> {post.location || post.district || 'Islandwide'}
-                                                </span>
-                                            </div>
-
-                                            <p style={{ fontSize: '0.9rem', color: 'var(--donor-text-muted)', marginBottom: '1.5rem', lineHeight: '1.5', flex: 1 }}>
-                                                {post.description?.substring(0, 80)}...
-                                            </p>
-
-                                            <button
-                                                className="donor-btn-primary"
-                                                style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}
-                                                onClick={() => navigate(`/donor/post/${postId}`)}
-                                            >
-                                                <Eye size={18} /> View Details
-                                            </button>
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
+                    )}
+                    {isEditing && (
+                        <button 
+                            className="done-button-donor"
+                            onClick={() => setIsEditing(false)}
+                        >
+                            Done
+                        </button>
                     )}
                 </div>
-            </main>
+            </div>
+
+            <div className="profile-details-donor">
+                <h3>Registered Details</h3>
+                <div className="profile-form-donor">
+                    <div className="form-group-donor">
+                        <label>Name</label>
+                        <input 
+                            type="text" 
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            disabled={!isEditing}
+                        />
+                    </div>
+                    <div className="form-group-donor">
+                        <label>NIC</label>
+                        <input 
+                            type="text" 
+                            name="nic"
+                            value={formData.nic}
+                            onChange={handleChange}
+                            disabled={!isEditing}
+                        />
+                    </div>
+                    <div className="form-group-donor">
+                        <label>Organization</label>
+                        <input 
+                            type="text" 
+                            name="organization"
+                            value={formData.organization}
+                            onChange={handleChange}
+                            disabled={!isEditing}
+                        />
+                    </div>
+                    <div className="form-group-donor">
+                        <label>Occupation</label>
+                        <input 
+                            type="text" 
+                            name="occupation"
+                            value={formData.occupation}
+                            onChange={handleChange}
+                            disabled={!isEditing}
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const Wishlist = ({ posts }) => {
+    const navigate = useNavigate();
+    const [wishlistedPosts, setWishlistedPosts] = useState([]);
+
+    useEffect(() => {
+        setWishlistedPosts(posts.slice(0, 3));
+    }, [posts]);
+
+    const handleRemove = (id) => {
+        setWishlistedPosts((current) => current.filter(post => post.postId !== id && post.id !== id));
+    };
+
+    const handleClearAll = () => {
+        setWishlistedPosts([]);
+    };
+
+    const handleViewPost = (postId) => {
+        navigate(`/post-view/${postId}`);
+    };
+
+    if (!wishlistedPosts.length) {
+        return <div className="empty-state">No wishlisted posts yet.</div>;
+    }
+
+    return (
+        <div className="wishlist">
+            <div className="wishlist-header">
+                <h2>My Wishlist</h2>
+                <button className="clear-all-button" onClick={handleClearAll}>
+                    Clear All
+                </button>
+            </div>
+
+            <div className="wishlist-grid">
+                {wishlistedPosts.map((post) => {
+                    const postId = post.postId ?? post.id;
+                    return (
+                        <div key={postId} className="wishlist-card">
+                            <img src={post.imageUrl || post.image || 'https://via.placeholder.com/300x200'} alt={post.title || 'Post image'} className="wishlist-image" />
+                            <div className="wishlist-content">
+                                <h4>{post.title || 'Untitled post'}</h4>
+                                <p><strong>Category:</strong> {post.postCategory || post.category || 'Uncategorized'}</p>
+                                <p><strong>Description:</strong> {post.description || 'No description provided.'}</p>
+                            </div>
+                            <div className="wishlist-actions">
+                                <button 
+                                    className="view-button-wish"
+                                    onClick={() => handleViewPost(postId)}
+                                >
+                                    View
+                                </button>
+                                <button 
+                                    className="remove-button-wish"
+                                    onClick={() => handleRemove(postId)}
+                                >
+                                    Remove
+                                </button>
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
+    );
+};
+
+const DonationHistory = () => {
+    const handleCheckEmails = () => {
+        const userEmail = localStorage.getItem('userEmail') || 'user@example.com';
+        const mailtoLink = `mailto:${userEmail}`;
+        window.location.href = mailtoLink;
+    };
+
+    const donations = [
+        {
+            id: 1,
+            paymentId: '00023',
+            amount: 'Rs. 2000.00',
+            date: '2025-11-22',
+            time: '21:23'
+        },
+        {
+            id: 2,
+            paymentId: '00024',
+            amount: 'Rs. 5000.00',
+            date: '2025-11-20',
+            time: '14:15'
+        },
+        {
+            id: 3,
+            paymentId: '00025',
+            amount: 'Rs. 1500.00',
+            date: '2025-11-18',
+            time: '09:45'
+        },
+        {
+            id: 4,
+            paymentId: '00026',
+            amount: 'Rs. 3000.00',
+            date: '2025-11-15',
+            time: '18:30'
+        },
+        {
+            id: 5,
+            paymentId: '00027',
+            amount: 'Rs. 2500.00',
+            date: '2025-11-12',
+            time: '11:20'
+        },
+        {
+            id: 6,
+            paymentId: '00028',
+            amount: 'Rs. 4000.00',
+            date: '2025-11-10',
+            time: '16:00'
+        }
+    ];
+
+    return (
+        <div className="donation-history">
+            <div className="placeholder-top">xxxxxxxxx</div>
+
+            <div className="donation-header">
+                <h2>My Donations</h2>
+                <button className="check-emails-button" onClick={handleCheckEmails}>Check my Emails</button>
+            </div>
+
+            <div className="donations-grid">
+                {donations.map((donation) => (
+                    <div key={donation.id} className="donation-card">
+                        <div className="donation-info">
+                            <p><strong>Payment ID:</strong> {donation.paymentId}</p>
+                            <p><strong>Amount:</strong> {donation.amount}</p>
+                            <p><strong>Date:</strong> {donation.date}</p>
+                            <p><strong>Time:</strong> {donation.time}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };

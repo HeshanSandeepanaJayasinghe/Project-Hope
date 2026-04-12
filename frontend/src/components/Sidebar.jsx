@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
+import { React, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LogOut, Menu, X } from 'lucide-react';
 import './Sidebar.css';
 import { MENU_CONFIG } from './SidebarMenuConfig';
 import { AuthContext } from '../context/AuthContext';
 
-const Sidebar = ({ isOpen, setIsOpen }) => {
+const Sidebar = ({isOpen, setIsOpen }) => {
     const navigate = useNavigate();
-    const { user, userProfile, logout } = useContext(AuthContext);
+    const { user, logout } = useContext(AuthContext);
 
     const role = user?.toLowerCase() || 'guest';
     const items = MENU_CONFIG[role] || [];
@@ -29,23 +29,18 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         return labels[role] || role;
     };
 
-    //  Consolidated full-screen toggle logic
     return (
         <>
-            {/* Sidebar Overlay */}
+            {/* Mobile Toggle & Overlay */}
+            <button className="sidebar-toggle" onClick={() => setIsOpen(!isOpen)}>
+                {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
             {isOpen && <div className="sidebar-overlay" onClick={() => setIsOpen(false)} />}
 
             <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
-                <div className="sidebar-header" style={{ position: 'relative' }}>
+                <div className="sidebar-header">
                     <h3 className="sidebar-title">{getRoleLabel(role)}</h3>
-                    <p className="sidebar-user-name" style={{ textAlign: 'center', marginTop: '0.5rem', opacity: 0.9, fontSize: '0.9rem' }}>
-                        {/*  Dynamic rendering of donor name with email fallback */}
-                        {userProfile?.name || (userProfile?.email || '').split('@')[0] || user || 'Welcome'}
-                    </p>
-                    {/*  Dedicated Sidebar Close Button (X) */}
-                    <button className="sidebar-close-btn" onClick={() => setIsOpen(false)}>
-                        <X size={20} />
-                    </button>
+                    <p className="sidebar-user-name">{user?.name}</p>
                 </div>
 
                 <nav className="sidebar-nav">
