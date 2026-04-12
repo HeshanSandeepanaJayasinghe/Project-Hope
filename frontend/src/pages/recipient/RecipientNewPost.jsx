@@ -33,15 +33,17 @@ const RecipientNewPost = () => {
   const fetchPost = async () => {
     setLoading(true);
     try {
-      const response = await authAxios.get(`/posts/${postId}`);
-      const post = response.data;
+      const response = await authAxios.get(`/open/get/all/posts`);
+      const posts = response.data || [];
+      const foundPost = posts.find((p) => p.postId === postId);
+      
       setFormData({
-        title: post.title || '',
-        category: post.category || 'financial',
-        description: post.description || '',
-        donationTarget: post.donationTarget || '',
+        title: foundPost.title || '',
+        category: foundPost.category || 'FINANCIAL',
+        description: foundPost.description || '',
+        donationTarget: foundPost.donationTarget || '',
         imageFile: null,
-        existingImageUrl: post.imageUrl || post.photo || post.image || '',
+        existingImageUrl: foundPost.imageUrl || foundPost.photo || foundPost.image || '',
       });
     } catch (error) {
       console.error(error);
@@ -88,7 +90,16 @@ const RecipientNewPost = () => {
 
     try {
       if (isEditing) {
-        await authAxios.put(`/posts/${postId}`, payload);
+        const editPayload = new FormData();
+        editPayload.append('postId', postId);
+        editPayload.append('title', formData.title);
+        editPayload.append('postCategory', formData.category);
+        editPayload.append('description', formData.description);
+        editPayload.append('totalAmount', formData.donationTarget);
+        if (formData.imageFile) {
+          editPayload.append('imageFile', formData.imageFile);
+        }
+        await authAxios.patch(`/recipient/edit/post`, editPayload);
         toast.success('Post updated successfully.');
       } else {
         await authAxios.post('/recipient/add/post', payload);
