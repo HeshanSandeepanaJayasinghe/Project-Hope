@@ -9,29 +9,72 @@ const VerificationForm = () => {
         province: '',
         district: '',
         divisionalSecretarial: '',
-        gramaNiladhari: '',
+        gramaNiladhariDivision: '',
+        accountNo: '',
         employmentCategory: '',
         occupation: '',
         annualSalary: '',
         assetStatus: '',
-        familyMembers: '',
-        healthIssues: ''
+        numberOfFamilyMembers: '',
+        longTermHealthIssues: '',
+        agreeToTerms: false
     });
-    const [agreeTerms, setAgreeTerms] = useState(false);
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, type, checked } = e.target;
         setFormData({
             ...formData,
-            [name]: value,
+            [name]: type === 'checkbox' ? checked : value,
             ...(name === 'province' && { district: '', divisionalSecretarial: '' }),
             ...(name === 'district' && { divisionalSecretarial: '' })
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // TODO: Submit verification request to backend
+        
+        if (!formData.agreeToTerms) {
+            alert('Please agree to the terms and conditions');
+            return;
+        }
+
+        const verificationData = {
+            ...formData,
+            agreeToTerms: true
+        };
+
+        try {
+            const response = await fetch('/api/recipient/add/verification', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(verificationData)
+            });
+
+            if (response.ok) {
+                alert('Verification request submitted successfully');
+                setFormData({
+                    province: '',
+                    district: '',
+                    divisionalSecretarial: '',
+                    gramaNiladhariDivision: '',
+                    accountNo: '',
+                    employmentCategory: '',
+                    occupation: '',
+                    annualSalary: '',
+                    assetStatus: '',
+                    numberOfFamilyMembers: '',
+                    longTermHealthIssues: '',
+                    agreeToTerms: false
+                });
+            } else {
+                alert('Error submitting verification request');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error submitting verification request');
+        }
     };
 
     const availableDistricts = formData.province 
@@ -89,9 +132,20 @@ const VerificationForm = () => {
                             <label>Grama Niladhari Division *</label>
                             <input 
                                 type="text"
-                                name="gramaNiladhari"
+                                name="gramaNiladhariDivision"
                                 placeholder="GN Division"
-                                value={formData.gramaNiladhari}
+                                value={formData.gramaNiladhariDivision}
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Account Number *</label>
+                            <input 
+                                type="text"
+                                name="accountNo"
+                                placeholder="Your account number"
+                                value={formData.accountNo}
                                 onChange={handleChange}
                             />
                         </div>
@@ -142,9 +196,9 @@ const VerificationForm = () => {
                             <label>No. of Family Members *</label>
                             <input 
                                 type="number"
-                                name="familyMembers"
+                                name="numberOfFamilyMembers"
                                 placeholder="Number of members"
-                                value={formData.familyMembers}
+                                value={formData.numberOfFamilyMembers}
                                 onChange={handleChange}
                             />
                         </div>
@@ -152,9 +206,9 @@ const VerificationForm = () => {
                         <div className="form-group full-width">
                             <label>Long Term Health Issues (Optional)</label>
                             <textarea 
-                                name="healthIssues"
+                                name="longTermHealthIssues"
                                 placeholder="Health issues if any"
-                                value={formData.healthIssues}
+                                value={formData.longTermHealthIssues}
                                 onChange={handleChange}
                                 rows={3}
                             />
@@ -165,8 +219,9 @@ const VerificationForm = () => {
                         <input 
                             type="checkbox"
                             id="agree-terms"
-                            checked={agreeTerms}
-                            onChange={(e) => setAgreeTerms(e.target.checked)}
+                            name="agreeToTerms"
+                            checked={formData.agreeToTerms}
+                            onChange={handleChange}
                         />
                         <label htmlFor="agree-terms">I agree with all terms and conditions</label>
                     </div>
