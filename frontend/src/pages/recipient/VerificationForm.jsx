@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { provincesData, divisionalSecretarialsData } from '../../data/sriLankanLocations';
 import './VerificationForm.css';
 import Sidebar from '../../components/Sidebar';
+import { AuthContext } from '../../context/AuthContext';
+import { toast } from 'react-toastify';
 
 const VerificationForm = () => {
+    const { authAxios } = useContext(AuthContext);
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [formData, setFormData] = useState({
         province: '',
@@ -17,7 +20,8 @@ const VerificationForm = () => {
         assetStatus: '',
         numberOfFamilyMembers: '',
         longTermHealthIssues: '',
-        agreeToTerms: false
+        agreeToTerms: false,
+        verificationDocument: null
     });
 
     const handleChange = (e) => {
@@ -30,30 +34,56 @@ const VerificationForm = () => {
         });
     };
 
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file && file.type === 'application/pdf') {
+            setFormData({
+                ...formData,
+                verificationDocument: file
+            });
+        } else {
+            toast.error('Please select a valid PDF file');
+            e.target.value = '';
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         
         if (!formData.agreeToTerms) {
-            alert('Please agree to the terms and conditions');
+            toast.error('You must agree to the terms and conditions');
             return;
         }
 
-        const verificationData = {
-            ...formData,
-            agreeToTerms: true
-        };
+        if (!formData.verificationDocument) {
+            toast.error('Please attach a verification document');
+            return;
+        }
+
+        const submitData = new FormData();
+        submitData.append('province', formData.province);
+        submitData.append('district', formData.district);
+        submitData.append('divisionalSecretarial', formData.divisionalSecretarial);
+        submitData.append('gramaNiladhariDivision', formData.gramaNiladhariDivision);
+        submitData.append('accountNo', formData.accountNo);
+        submitData.append('employmentCategory', formData.employmentCategory);
+        submitData.append('occupation', formData.occupation);
+        submitData.append('annualSalary', formData.annualSalary);
+        submitData.append('assetStatus', formData.assetStatus);
+        submitData.append('numberOfFamilyMembers', formData.numberOfFamilyMembers);
+        submitData.append('longTermHealthIssues', formData.longTermHealthIssues);
+        submitData.append('verificationDocument', formData.verificationDocument);
+        submitData.append('agreeToTerms', true);
 
         try {
-            const response = await fetch('/api/recipient/add/verification', {
-                method: 'POST',
+            const response = await authAxios.post('/api/recipient/add/verification', submitData, {
                 headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(verificationData)
+                    'Content-Type': 'multipart/form-data'
+                }
             });
 
-            if (response.ok) {
-                alert('Verification request submitted successfully');
+            if (response.status === 200) {
+                toast.success('Verification request submitted successfully');
                 setFormData({
                     province: '',
                     district: '',
@@ -66,14 +96,15 @@ const VerificationForm = () => {
                     assetStatus: '',
                     numberOfFamilyMembers: '',
                     longTermHealthIssues: '',
-                    agreeToTerms: false
+                    agreeToTerms: false,
+                    verificationDocument: null
                 });
             } else {
-                alert('Error submitting verification request');
+                toast.error('Error submitting verification request');
             }
         } catch (error) {
-            console.error('Error:', error);
-            alert('Error submitting verification request');
+            toast.error('Error submitting verification request');
+            console.error('Verification submission error:', error);
         }
     };
 
@@ -213,6 +244,25 @@ const VerificationForm = () => {
                                 rows={3}
                             />
                         </div>
+
+                        <div className="form-group full-width">
+                            <label>Verification Document *</label>
+                            <p className="form-description">Attach a pdf scan of Grama Niladhari certified document of annual salary information.</p>
+                            <input 
+                                type="file"
+                                name="verificationDocument"
+                                accept=".pdf,application/pdf"
+                                onChange={handleFileChange}
+                                required
+                            />
+                            {formData.verificationDocument && (
+                                <p className="file-selected">File selected: {formData.verificationDocument.name}</p>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="warning-note">
+                        <p>Note: Your information is secure with us and filling out incorrect data may be subjected to permanent banning of the account</p>
                     </div>
 
                     <div className="checkbox-section">
