@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { provincesData, divisionalSecretarialsData } from '../../data/sriLankanLocations';
 import './VerificationForm.css';
 import Sidebar from '../../components/Sidebar';
+import { AuthContext } from '../../context/AuthContext';
+import { toast } from 'react-toastify';
 
 const VerificationForm = () => {
+    const { authAxios } = useContext(AuthContext);
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [formData, setFormData] = useState({
         province: '',
@@ -34,7 +37,7 @@ const VerificationForm = () => {
         e.preventDefault();
         
         if (!formData.agreeToTerms) {
-            alert('Please agree to the terms and conditions');
+            toast.error('You must agree to the terms and conditions');
             return;
         }
 
@@ -44,16 +47,10 @@ const VerificationForm = () => {
         };
 
         try {
-            const response = await fetch('/api/recipient/add/verification', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(verificationData)
-            });
+            const response = await authAxios.post('/api/recipient/add/verification');
 
             if (response.ok) {
-                alert('Verification request submitted successfully');
+                toast.success('Verification request submitted successfully');
                 setFormData({
                     province: '',
                     district: '',
@@ -69,11 +66,11 @@ const VerificationForm = () => {
                     agreeToTerms: false
                 });
             } else {
-                alert('Error submitting verification request');
+                toast.error('Error submitting verification request');;
             }
         } catch (error) {
-            console.error('Error:', error);
-            alert('Error submitting verification request');
+            toast.error('Error submitting verification request');
+            console.error('Verification submission error:', error);
         }
     };
 
