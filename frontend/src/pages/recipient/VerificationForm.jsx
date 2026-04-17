@@ -76,7 +76,7 @@ const VerificationForm = () => {
         submitData.append('agreeToTerms', true);
 
         try {
-            const response = await authAxios.post('/api/recipient/add/verification', submitData, {
+            const response = await authAxios.post('/recipient/add/verification', submitData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
