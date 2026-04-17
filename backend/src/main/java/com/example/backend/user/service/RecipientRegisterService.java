@@ -47,7 +47,6 @@ public class RecipientRegisterService {
 		recipient.setPhoneNUmber(registerRecipientDTO.getPhoneNumber());
 		recipient.setPostalCode(registerRecipientDTO.getPostalCode());
 
-		System.out.println();
 
 		recipient.setVerificationStatus(Recipient.VerificationStatus.UNVERIFIED);
 		recipientRepository.save(recipient);
