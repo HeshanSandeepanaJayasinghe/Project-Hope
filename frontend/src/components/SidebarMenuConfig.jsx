@@ -3,8 +3,7 @@ import { LayoutDashboard, Users, Heart, ClipboardCheck, Wallet } from 'lucide-re
 export const MENU_CONFIG = {
     superadmin: [
         { id: 'dashboard', label: 'Dashboard', path: '/superadmin-dashboard', icon: <LayoutDashboard size={20} /> },
-        { id: 'users', label: 'Manage Users', path: '/admin/users', icon: <Users size={20} /> },
-        { id: 'logs', label: 'System Logs', path: '/admin/logs', icon: <ClipboardCheck size={20} /> },
+        { id: 'users', label: 'Manage Users', path: '/superadmin/user-management', icon: <Users size={20} /> },
     ],
     admin: [
         { id: 'dashboard', label: 'Dashboard', path: '/admin-dashboard', icon: <LayoutDashboard size={20} /> },
