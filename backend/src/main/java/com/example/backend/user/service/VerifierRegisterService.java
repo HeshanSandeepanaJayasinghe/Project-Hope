@@ -1,5 +1,6 @@
 package com.example.backend.user.service;
 
+import com.example.backend.exceptions.EmailAlreadyExistsException;
 import com.example.backend.user.dto.RegisterFinanceManagerDTO;
 import com.example.backend.user.dto.RegisterVerifierDTO;
 import com.example.backend.user.model.FinanceManager;
@@ -34,7 +35,7 @@ public class VerifierRegisterService {
 	public Map<String, String> registerFinanceManager(RegisterVerifierDTO registerVerifierDTO) {
 
 		if (userRepository.existsByEmail(registerVerifierDTO.getEmail())) {
-			throw new RuntimeException("Email already exists");
+			throw new EmailAlreadyExistsException("Email already exists");
 		}
 
 		User user = new User();
