@@ -6,7 +6,7 @@ const BACKEND_URL = import.meta.env.BACKEND_URL || 'http://localhost:8080';
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(() => localStorage.getItem('token'));
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => localStorage.getItem('role'));
 
   const authAxios = axios.create({
     baseURL: BACKEND_URL,
@@ -29,6 +29,7 @@ export const AuthProvider = ({ children }) => {
       const { Token, Role } = res.data;
 
       localStorage.setItem('token', Token);
+      localStorage.setItem('role', Role);
       setToken(Token);
       setUser(Role);
       return { Token, Role };
@@ -58,8 +59,17 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem('role', user);
+    } else {
+      localStorage.removeItem('role');
+    }
+  }, [user]);
+
   const logout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
     setToken(null);
     setUser(null);
   };

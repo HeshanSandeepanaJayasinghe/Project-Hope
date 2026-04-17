@@ -1,10 +1,12 @@
 .verification-form {
-  max-width: 940px;
+  width: 940px;
   margin: 0 auto;
   padding: 24px;
   background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
 
 .verification-form h2 {
@@ -16,6 +18,13 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
+}
+
+.verification-layout {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  min-height: 90vh;
 }
 
 .form-group {
@@ -69,6 +78,36 @@
   color: #ffffff;
   font-weight: 600;
   cursor: pointer;
+}
+
+.form-description {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin: -8px 0 12px 0;
+  font-weight: 500;
+}
+
+.file-selected {
+  font-size: 0.9rem;
+  color: #059669;
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+.warning-note {
+  background: #fef2f2;
+  border-left: 4px solid #dc2626;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 20px 0;
+  grid-column: 1 / -1;
+}
+
+.warning-note p {
+  margin: 0;
+  color: #7f1d1d;
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
 @media (max-width: 760px) {
