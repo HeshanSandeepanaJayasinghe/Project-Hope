@@ -29,6 +29,11 @@ public class FinanceManagerRegisterService {
 	}
 
 	public Map<String, String> registerFinanceManager(RegisterFinanceManagerDTO registerFinanceManagerDTO) {
+
+		if (userRepository.existsByEmail(registerFinanceManagerDTO.getEmail())) {
+			throw new RuntimeException("Email already exists");
+		}
+
 		User user = new User();
 		user.setEmail(registerFinanceManagerDTO.getEmail());
 		user.setPassword(passwordEncoder.encode(registerFinanceManagerDTO.getPassword()));

@@ -32,6 +32,10 @@ public class RecipientRegisterService {
 
 	public Map<String, String> registerRecipient(RegisterRecipientDTO registerRecipientDTO) {
 
+		if (userRepository.existsByEmail(registerRecipientDTO.getEmail())) {
+			throw new RuntimeException("Email already exists");
+		}
+
 		User user = new User();
 		user.setEmail(registerRecipientDTO.getEmail());
 		user.setPassword(passwordEncoder.encode(registerRecipientDTO.getPassword()));

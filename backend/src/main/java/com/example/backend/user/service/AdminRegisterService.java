@@ -29,6 +29,11 @@ public class AdminRegisterService {
 	}
 
 	public Map<String, String> registerAdmin(RegisterAdminDTO registerAdminDTO) {
+
+		if (userRepository.existsByEmail(registerAdminDTO.getEmail())) {
+			throw new RuntimeException("Email already exists");
+		}
+
 		User user = new User();
 		user.setEmail(registerAdminDTO.getEmail());
 		user.setPassword(passwordEncoder.encode(registerAdminDTO.getPassword()));

@@ -32,6 +32,11 @@ public class VerifierRegisterService {
 	}
 
 	public Map<String, String> registerFinanceManager(RegisterVerifierDTO registerVerifierDTO) {
+
+		if (userRepository.existsByEmail(registerVerifierDTO.getEmail())) {
+			throw new RuntimeException("Email already exists");
+		}
+
 		User user = new User();
 		user.setEmail(registerVerifierDTO.getEmail());
 		user.setPassword(passwordEncoder.encode(registerVerifierDTO.getPassword()));
