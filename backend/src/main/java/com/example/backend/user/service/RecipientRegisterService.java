@@ -44,8 +44,11 @@ public class RecipientRegisterService {
 		recipient.setNic(registerRecipientDTO.getNic());
 		recipient.setBirthday(registerRecipientDTO.getBirthday());
 		recipient.setAddress(registerRecipientDTO.getAddress());
+		recipient.setPhoneNUmber(registerRecipientDTO.getPhoneNumber());
 		recipient.setPostalCode(registerRecipientDTO.getPostalCode());
-		recipient.setPostCount(0);
+
+		System.out.println();
+
 		recipient.setVerificationStatus(Recipient.VerificationStatus.UNVERIFIED);
 		recipientRepository.save(recipient);
 

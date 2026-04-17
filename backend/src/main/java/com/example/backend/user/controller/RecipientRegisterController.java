@@ -24,6 +24,7 @@ public class RecipientRegisterController {
 	public ResponseEntity<Map<String, String>> registerRecipient(
 			@Valid @RequestBody RegisterRecipientDTO registerRecipientDTO
 	) {
+
 		return ResponseEntity.ok(recipientRegisterService.registerRecipient(registerRecipientDTO));
 	}
 }
