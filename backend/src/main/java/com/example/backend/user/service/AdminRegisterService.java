@@ -1,5 +1,6 @@
 package com.example.backend.user.service;
 
+import com.example.backend.exceptions.EmailAlreadyExistsException;
 import com.example.backend.user.dto.RegisterAdminDTO;
 import com.example.backend.user.model.Admin;
 import com.example.backend.user.model.User;
@@ -29,6 +30,11 @@ public class AdminRegisterService {
 	}
 
 	public Map<String, String> registerAdmin(RegisterAdminDTO registerAdminDTO) {
+
+		if (userRepository.existsByEmail(registerAdminDTO.getEmail())) {
+			throw new EmailAlreadyExistsException("Email already exists");
+		}
+
 		User user = new User();
 		user.setEmail(registerAdminDTO.getEmail());
 		user.setPassword(passwordEncoder.encode(registerAdminDTO.getPassword()));

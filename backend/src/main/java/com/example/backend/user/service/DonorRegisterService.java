@@ -1,5 +1,6 @@
 package com.example.backend.user.service;
 
+import com.example.backend.exceptions.EmailAlreadyExistsException;
 import com.example.backend.user.dto.RegisterDonorDTO;
 import com.example.backend.user.model.Donor;
 import com.example.backend.user.model.User;
@@ -30,6 +31,10 @@ public class DonorRegisterService {
 
 	public Map<String, String> registerDonor(RegisterDonorDTO registerDonorDTO) {
 
+
+		if (userRepository.existsByEmail(registerDonorDTO.getEmail())) {
+			throw new EmailAlreadyExistsException("Email already exists");
+		}
 
 		User user = new User();
 		user.setEmail(registerDonorDTO.getEmail());

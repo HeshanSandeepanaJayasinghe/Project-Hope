@@ -1,5 +1,6 @@
 package com.example.backend;
 
+import com.example.backend.exceptions.EmailAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -55,6 +56,13 @@ public class GlobalExceptions {
 	public ResponseEntity<Map<String, String>> handleIllegalArgument(IllegalArgumentException exception) {
 		return ResponseEntity
 				.status(HttpStatus.FORBIDDEN)
+				.body(Map.of("Message", exception.getMessage()));
+	}
+
+	@ExceptionHandler(EmailAlreadyExistsException.class)
+	public ResponseEntity<Map<String, String>> handleEmailExists(EmailAlreadyExistsException exception) {
+		return ResponseEntity
+				.status(HttpStatus.CONFLICT)
 				.body(Map.of("Message", exception.getMessage()));
 	}
 
