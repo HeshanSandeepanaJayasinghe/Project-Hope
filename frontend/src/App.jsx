@@ -25,6 +25,8 @@ import DonorDashboard from './pages/donor/DonorDashboard.jsx'
 
 import { VerifierDashboard, FinancierDashboard, AdminDashboard, SuperAdminDashboard } from './pages/admin/AdminDashboards.jsx'
 import AdminUserManagement from './pages/admin/UserManagement.jsx'
+import NewVerifier from './pages/admin/NewVerifier.jsx';
+import NewFinancier from './pages/admin/NewFinancier.jsx';
 
 import SuperAdminManageAdmins from './pages/superadmin/AdminManagement.jsx'
 import SuperAdminNewAdmin from './pages/superadmin/NewAdmin.jsx'
@@ -62,6 +64,8 @@ function App() {
 
               <Route path="/admin-dashboard" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminDashboard /></ProtectedRoute>} />
               <Route path="/admin/user-management" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminUserManagement /></ProtectedRoute>} />
+              <Route path="/admin/new-verifier" element={<ProtectedRoute allowedRoles={['ADMIN']}><NewVerifier /></ProtectedRoute>} />
+              <Route path="/admin/new-financier" element={<ProtectedRoute allowedRoles={['ADMIN']}><NewFinancier /></ProtectedRoute>} />
 
               <Route path="/superadmin-dashboard" element={<ProtectedRoute allowedRoles={['SUPERADMIN']}><SuperAdminDashboard /></ProtectedRoute>} />
               <Route path="/superadmin/user-management" element={<ProtectedRoute allowedRoles={['SUPERADMIN']}><SuperAdminManageAdmins /></ProtectedRoute>} />
