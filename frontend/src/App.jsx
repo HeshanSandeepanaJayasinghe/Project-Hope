@@ -21,10 +21,18 @@ import RecipientNewPost from './pages/recipient/RecipientNewPost.jsx'
 import RecipientViewProfile from './pages/recipient/RecipientViewProfile.jsx'
 import VerificationForm from './pages/recipient/VerificationForm.jsx';
 
-import DonorDashboard from './pages/donor/DonorDashboard.jsx'
+import DonorDashboard from './pages/donor/DonorDashboard.jsx';
 
-import { VerifierDashboard, FinancierDashboard, AdminDashboard, SuperAdminDashboard } from './pages/admin/AdminDashboards.jsx'
+import VerifierDashboard from './pages/verifier/VerifierDashboard.jsx';
+import NewVerifier from './pages/admin/NewVerifier.jsx';
 
+import FinancierDashboard from './pages/financier/FinancierDashboard.jsx';
+import NewFinancier from './pages/admin/NewFinancier.jsx';
+
+import AdminDashboard from './pages/admin/AdminDashboard.jsx'
+import AdminUserManagement from './pages/admin/UserManagement.jsx'
+
+import SuperAdminDashboard from './pages/superadmin/SuperAdminDashboard.jsx'
 import SuperAdminManageAdmins from './pages/superadmin/AdminManagement.jsx'
 import SuperAdminNewAdmin from './pages/superadmin/NewAdmin.jsx'
 
@@ -57,9 +65,12 @@ function App() {
 
               <Route path="/verifier-dashboard" element={<ProtectedRoute allowedRoles={['VERIFIER']}><VerifierDashboard /></ProtectedRoute>} />
 
-              <Route path="/financier-dashboard" element={<ProtectedRoute allowedRoles={['FINANCIER']}><FinancierDashboard /></ProtectedRoute>} />
+              <Route path="/financier-dashboard" element={<ProtectedRoute allowedRoles={['FINANCE_MANAGER']}><FinancierDashboard /></ProtectedRoute>} />
 
               <Route path="/admin-dashboard" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminDashboard /></ProtectedRoute>} />
+              <Route path="/admin/user-management" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminUserManagement /></ProtectedRoute>} />
+              <Route path="/admin/new-verifier" element={<ProtectedRoute allowedRoles={['ADMIN']}><NewVerifier /></ProtectedRoute>} />
+              <Route path="/admin/new-financier" element={<ProtectedRoute allowedRoles={['ADMIN']}><NewFinancier /></ProtectedRoute>} />
 
               <Route path="/superadmin-dashboard" element={<ProtectedRoute allowedRoles={['SUPERADMIN']}><SuperAdminDashboard /></ProtectedRoute>} />
               <Route path="/superadmin/user-management" element={<ProtectedRoute allowedRoles={['SUPERADMIN']}><SuperAdminManageAdmins /></ProtectedRoute>} />

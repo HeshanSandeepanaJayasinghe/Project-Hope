@@ -46,7 +46,7 @@ const Login = () => {
       toast.success("Login successful!");
       if (loggedInUser.Role === "ADMIN") navigate("/admin-dashboard");
       else if (loggedInUser.Role === "SUPERADMIN") navigate("/superadmin-dashboard");
-      else if (loggedInUser.Role === "FINANCIER") navigate("/financier-dashboard");
+      else if (loggedInUser.Role === "FINANCE_MANAGER") navigate("/financier-dashboard");
       else if (loggedInUser.Role === "VERIFIER") navigate("/verifier-dashboard");
       else if (loggedInUser.Role === "RECIPIENT") navigate("/recipient-dashboard");
       else if (loggedInUser.Role === "DONOR") navigate("/donor-dashboard");

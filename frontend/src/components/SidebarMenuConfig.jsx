@@ -1,24 +1,34 @@
-import { LayoutDashboard, Users, Heart, ClipboardCheck, Wallet } from 'lucide-react';
+import { LayoutDashboard, Users, Heart, ClipboardCheck, Wallet, FileText, Settings, UserCheck } from 'lucide-react';
 
 export const MENU_CONFIG = {
     superadmin: [
         { id: 'dashboard', label: 'Dashboard', path: '/superadmin-dashboard', icon: <LayoutDashboard size={20} /> },
         { id: 'users', label: 'Manage Users', path: '/superadmin/user-management', icon: <Users size={20} /> },
+        { id: 'system-settings', label: 'System Settings', path: '/superadmin/system-settings', icon: <Settings size={20} /> },
+        { id: 'staff-management', label: 'Staff Management', path: '/superadmin/staff-management', icon: <UserCheck size={20} /> },
+        { id: 'verification-history', label: 'Verification History', path: '/superadmin/verification-history', icon: <ClipboardCheck size={20} /> },
+        { id: 'donation-activity', label: 'Donation Activity', path: '/superadmin/donation-activity', icon: <Heart size={20} /> },
+        { id: 'statistics', label: 'Statistics', path: '/superadmin/statistics', icon: <FileText size={20} /> },
     ],
     admin: [
         { id: 'dashboard', label: 'Dashboard', path: '/admin-dashboard', icon: <LayoutDashboard size={20} /> },
-        { id: 'donations', label: 'My Donations', path: '/donor/donations', icon: <Heart size={20} /> },
-        { id: 'wallet', label: 'Wallet', path: '/donor/wallet', icon: <Wallet size={20} /> },
+        { id: 'user-management', label: 'User Management', path: '/admin/user-management', icon: <Users size={20} /> },
+        { id: 'verification-history', label: 'Verification History', path: '/admin/verification-history', icon: <ClipboardCheck size={20} /> },
+        { id: 'donation-activity', label: 'Donation Activity', path: '/admin/donation-activity', icon: <Heart size={20} /> },
+        { id: 'statistics', label: 'Statistics', path: '/admin/statistics', icon: <FileText size={20} /> },
     ],
     verifier: [
         { id: 'dashboard', label: 'Dashboard', path: '/verifier-dashboard', icon: <LayoutDashboard size={20} /> },
-        { id: 'donations', label: 'My Donations', path: '/donor-dsshaboard', icon: <Heart size={20} /> },
-        { id: 'wallet', label: 'Wallet', path: '/', icon: <Wallet size={20} /> },
+        { id: 'verification-requests', label: 'Verification Requests', path: '/verifier/verification-requests', icon: <UserCheck size={20} /> },
+        { id: 'donation-management', label: 'Donation Management', path: '/verifier/donation-management', icon: <Heart size={20} /> },
+        { id: 'reports', label: 'Reports', path: '/verifier/reports', icon: <FileText size={20} /> },
     ],
-    financier: [
+    finance_manager: [
         { id: 'dashboard', label: 'Dashboard', path: '/financier-dashboard', icon: <LayoutDashboard size={20} /> },
-        { id: 'users', label: 'Manage Users', path: '/admin/users', icon: <Users size={20} /> },
-        { id: 'logs', label: 'System Logs', path: '/admin/logs', icon: <ClipboardCheck size={20} /> },
+        { id: 'donation-activity', label: 'Donation Activity', path: '/financier/donation-activity', icon: <Heart size={20} /> },
+        { id: 'verification-requests', label: 'Verification Requests', path: '/financier/verification-requests', icon: <UserCheck size={20} /> },
+        { id: 'donation-management', label: 'Donation Management', path: '/financier/donation-management', icon: <Wallet size={20} /> },
+        { id: 'reports', label: 'Reports', path: '/financier/reports', icon: <FileText size={20} /> },
     ],
     recipient: [
         { id: 'dashboard', label: 'Dashboard', path: '/recipient-dashboard', icon: <LayoutDashboard size={20} /> },

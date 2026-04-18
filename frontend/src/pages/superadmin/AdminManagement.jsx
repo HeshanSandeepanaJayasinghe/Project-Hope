@@ -37,7 +37,7 @@ const AdminManagement = () => {
     const fetchAdmins = async () => {
         setLoading(true);
         try {
-            const response = await authAxios.get('/get/all/admins');
+            const response = await authAxios.get('/superadmin/get/admins');
             setAdmins(response.data || []);
             if (response.data && response.data.length > 0) {
                 toast.success(`Loaded ${response.data.length} admin(s)`);
