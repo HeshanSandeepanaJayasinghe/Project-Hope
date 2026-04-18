@@ -27,17 +27,16 @@ const NewAdmin = () => {
 
     const handleTabClick = (tabId) => {
         if (tabId === 'admins-list') {
-            navigate('/superadmin/manage-admins');
+            navigate('/superadmin/user-management');
         }
         setSidebarOpen(false);
     };
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
     };
 
     const validateForm = () => {
@@ -85,9 +84,9 @@ const NewAdmin = () => {
 
         setLoading(true);
         try {
-            await authAxios.post('/superadmin/register/admin', formData);
+            const test = await authAxios.post('/superadmin/register/admin', formData);
             toast.success('Admin created successfully');
-            navigate('/superadmin/manage-admins');
+            navigate('/superadmin/user-management');
         } catch (error) {
             console.error('Failed to create admin:', error);
             const message = error.response?.data?.message || 'Failed to create admin';
@@ -182,7 +181,7 @@ const NewAdmin = () => {
                                             <input
                                                 type="tel"
                                                 name="phoneNumber"
-                                                placeholder="1234567890"
+                                                placeholder="0723456789"
                                                 value={formData.phoneNumber}
                                                 onChange={handleChange}
                                                 className="input"

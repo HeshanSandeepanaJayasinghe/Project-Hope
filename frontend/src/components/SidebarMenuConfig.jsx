@@ -7,7 +7,7 @@ export const MENU_CONFIG = {
     ],
     admin: [
         { id: 'dashboard', label: 'Dashboard', path: '/admin-dashboard', icon: <LayoutDashboard size={20} /> },
-        { id: 'donations', label: 'My Donations', path: '/donor/donations', icon: <Heart size={20} /> },
+        { id: 'users', label: 'Manage Users', path: '/admin/user-management', icon: <Heart size={20} /> },
         { id: 'wallet', label: 'Wallet', path: '/donor/wallet', icon: <Wallet size={20} /> },
     ],
     verifier: [
