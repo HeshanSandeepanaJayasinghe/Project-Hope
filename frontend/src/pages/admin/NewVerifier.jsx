@@ -102,13 +102,12 @@ const NewVerifier = () => {
           onClick={() => navigate('/admin/user-management')}
         >
           <ArrowLeft size={20} />
-          Back to User Management
+          Back
         </button>
 
         <div className="form-card">
           <div className="form-header">
-            <h2>Create New Verifier</h2>
-            <p>Add a new verifier to the system</p>
+            <h2>New Verifier Form</h2>
           </div>
 
           <form onSubmit={handleSubmit} className="verifier-form">
@@ -116,7 +115,7 @@ const NewVerifier = () => {
             <div className="form-group">
               <label className="form-label">First Name</label>
               <div className="input-wrapper">
-                <User size={20} className="input-icon" />
+                <User size={20} className="input-icon-verifier-form" />
                 <input
                   type="text"
                   name="firstName"
@@ -132,7 +131,7 @@ const NewVerifier = () => {
             <div className="form-group">
               <label className="form-label">Last Name</label>
               <div className="input-wrapper">
-                <User size={20} className="input-icon" />
+                <User size={20} className="input-icon-verifier-form" />
                 <input
                   type="text"
                   name="lastName"
@@ -148,7 +147,7 @@ const NewVerifier = () => {
             <div className="form-group">
               <label className="form-label">Email</label>
               <div className="input-wrapper">
-                <Mail size={20} className="input-icon" />
+                <Mail size={20} className="input-icon-verifier-form" />
                 <input
                   type="email"
                   name="email"
@@ -164,7 +163,7 @@ const NewVerifier = () => {
             <div className="form-group">
               <label className="form-label">Phone Number</label>
               <div className="input-wrapper">
-                <Phone size={20} className="input-icon" />
+                <Phone size={20} className="input-icon-verifier-form" />
                 <input
                   type="tel"
                   name="phoneNumber"
@@ -180,7 +179,7 @@ const NewVerifier = () => {
             <div className="form-group">
               <label className="form-label">Password</label>
               <div className="input-wrapper">
-                <Lock size={20} className="input-icon" />
+                <Lock size={20} className="input-icon-verifier-form" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   name="password"

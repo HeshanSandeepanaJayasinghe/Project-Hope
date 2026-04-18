@@ -35,7 +35,7 @@
   border-radius: 12px;
   padding: 2.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  max-width: 500px;
+  width: 600px;
   margin: 0 auto;
 }
 
@@ -93,11 +93,13 @@
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
 }
 
-.input-icon {
+.input-icon-verifier-form {
   position: absolute;
   left: 0.75rem;
   color: #adb5bd;
   pointer-events: none;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .form-input {
@@ -108,6 +110,7 @@
   font-size: 0.95rem;
   color: #212529;
   outline: none;
+  margin-left: 50px;
 }
 
 .form-input::placeholder {
