@@ -151,11 +151,11 @@ const RecipientNewPost = () => {
                     <div className="form-row">
                       <label htmlFor="category">Category *</label>
                       <select id="category" name="category" value={formData.category} onChange={handleChange}>
-                        <option value="financial">Financial</option>
-                        <option value="health">Health</option>
-                        <option value="educational">Educational</option>
-                        <option value="food">Food and Nutrition</option>
-                        <option value="housing">Housing</option>
+                        <option value="FINANCIAL">Financial</option>
+                        <option value="HEALTH">Health</option>
+                        <option value="EDUCATIONAL">Educational</option>
+                        <option value="NUTRITIONAL">Food and Nutrition</option>
+                        <option value="HOUSING">Housing</option>
                       </select>
                     </div>
 

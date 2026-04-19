@@ -59,8 +59,8 @@ const AdminManagement = () => {
         setDeleting(adminId);
         try {
             await authAxios.delete(`/superadmin/delete/admin/${adminId}`);
-            setAdmins(admins.filter(admin => admin.id !== adminId));
             toast.success('Admin deleted successfully');
+            await fetchAdmins();
         } catch (error) {
             console.error('Failed to delete admin:', error);
             toast.error(error.response?.data?.message || 'Failed to delete admin');
@@ -91,7 +91,6 @@ const AdminManagement = () => {
                         <div className="admin-management-header">
                             <div className="header-content">
                                 <h1 className="admin-management-title">Admins</h1>
-                                <p className="admin-management-subtitle">Manage administrators and their access</p>
                             </div>
                             <button
                                 className="btn btn--primary btn--add-admin"
@@ -127,29 +126,33 @@ const AdminManagement = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {admins.map((admin) => (
-                                                <tr key={admin.id} className="admin-row">
-                                                    <td className="cell-firstName">{admin.firstName}</td>
-                                                    <td className="cell-lastName">{admin.lastName}</td>
-                                                    <td className="cell-email">{admin.email}</td>
-                                                    <td className="cell-phone">{admin.phoneNumber}</td>
-                                                    <td className="cell-actions">
-                                                        <button
-                                                            className="btn btn--danger btn--small"
-                                                            onClick={() => handleDeleteAdmin(admin.id)}
-                                                            disabled={deleting === admin.id}
-                                                            title="Delete admin"
-                                                        >
-                                                            {deleting === admin.id ? (
-                                                                <Loader size={18} className="spinner-small" />
-                                                            ) : (
-                                                                <Trash2 size={18} />
-                                                            )}
-                                                            Delete
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            ))}
+                                            {admins.map((admin, index) => {
+                                                // Use id, adminId, or index as fallback for key
+                                                const adminId = admin.id || admin.adminId || admin.userId || index;
+                                                return (
+                                                    <tr key={adminId} className="admin-row">
+                                                        <td className="cell-firstName">{admin.firstName}</td>
+                                                        <td className="cell-lastName">{admin.lastName}</td>
+                                                        <td className="cell-email">{admin.email}</td>
+                                                        <td className="cell-phone">{admin.phoneNumber}</td>
+                                                        <td className="cell-actions">
+                                                            <button
+                                                                className="btn btn--danger btn--small"
+                                                                onClick={() => handleDeleteAdmin(adminId)}
+                                                                disabled={deleting === adminId}
+                                                                title="Delete admin"
+                                                            >
+                                                                {deleting === adminId ? (
+                                                                    <Loader size={18} className="spinner-small" />
+                                                                ) : (
+                                                                    <Trash2 size={18} />
+                                                                )}
+                                                                Delete
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })}
                                         </tbody>
                                     </table>
                                 </div>
