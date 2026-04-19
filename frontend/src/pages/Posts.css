@@ -4,6 +4,23 @@
     background: linear-gradient(135deg, #f6f9f6, #ffffff);
 }
 
+.posts-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.posts-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #15803d;
+    margin-bottom: 0.5rem;
+}
+
+.posts-header p {
+    font-size: 1.1rem;
+    color: #6b7280;
+}
+
 .posts-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -23,7 +40,7 @@
     cursor: pointer;
 }
 
-.post-card-post-page:hover {
+.post-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 12px 24px rgba(22, 163, 74, 0.15);
 }
@@ -56,7 +73,7 @@
     transition: transform 0.3s ease;
 }
 
-.post-card-post-page:hover .post-card-image img {
+.post-card:hover .post-card-image img {
     transform: scale(1.05);
 }
 
