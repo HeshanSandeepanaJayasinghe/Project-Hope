@@ -18,7 +18,8 @@ export const MENU_CONFIG = {
     verifier: [
         { id: 'dashboard', label: 'Dashboard', path: '/verifier-dashboard', icon: <LayoutDashboard size={20} /> },
         { id: 'verification-requests', label: 'Verification Requests', path: '/verifier/verification-requests', icon: <UserCheck size={20} /> },
-        { id: 'verification-history', label: 'Donation Management', path: '/verifier/verification-history', icon: <Heart size={20} /> },
+        { id: 'verification-history', label: 'Verification History', path: '/verifier/verification-history', icon: <Heart size={20} /> },
+    ],
     finance_manager: [
         { id: 'dashboard', label: 'Dashboard', path: '/financier-dashboard', icon: <LayoutDashboard size={20} /> },
         { id: 'donation-activity', label: 'Donation Activity', path: '/financier/donation-activity', icon: <Heart size={20} /> },

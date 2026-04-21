@@ -24,7 +24,7 @@ import VerificationForm from './pages/recipient/VerificationForm.jsx';
 import DonorDashboard from './pages/donor/DonorDashboard.jsx';
 
 import VerifierDashboard from './pages/verifier/VerifierDashboard.jsx';
-import VerificationRequest from './pages/verifier/VerificationRequests.jsx';
+import VerificationRequests from './pages/verifier/VerificationRequests.jsx';
 import VerificationRequestView from './pages/verifier/VerificationRequestView.jsx';
 import VerificationHistory from './pages/verifier/VerificationHistory.jsx';
 
@@ -67,7 +67,7 @@ function App() {
               <Route path="/donor-dashboard" element={<ProtectedRoute allowedRoles={['DONOR']}><DonorDashboard /></ProtectedRoute>} />
 
               <Route path="/verifier-dashboard" element={<ProtectedRoute allowedRoles={['VERIFIER']}><VerifierDashboard /></ProtectedRoute>} />
-              <Route path="/verifier/verification-requests" element={<ProtectedRoute allowedRoles={['VERIFIER']}><VerificationRequest /></ProtectedRoute>} />
+              <Route path="/verifier/verification-requests" element={<ProtectedRoute allowedRoles={['VERIFIER']}><VerificationRequests /></ProtectedRoute>} />
               <Route path="/verifier/verification-history" element={<ProtectedRoute allowedRoles={['VERIFIER']}><VerificationHistory /></ProtectedRoute>} />
               <Route path="/verifier/verification-view" element={<ProtectedRoute allowedRoles={['VERIFIER']}><VerificationRequestView /></ProtectedRoute>} />
 
