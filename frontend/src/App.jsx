@@ -24,13 +24,16 @@ import VerificationForm from './pages/recipient/VerificationForm.jsx';
 import DonorDashboard from './pages/donor/DonorDashboard.jsx';
 
 import VerifierDashboard from './pages/verifier/VerifierDashboard.jsx';
-import NewVerifier from './pages/admin/NewVerifier.jsx';
+import VerificationRequests from './pages/verifier/VerificationRequests.jsx';
+import VerificationRequestView from './pages/verifier/VerificationRequestView.jsx';
+import VerificationHistory from './pages/verifier/VerificationHistory.jsx';
 
 import FinancierDashboard from './pages/financier/FinancierDashboard.jsx';
 import NewFinancier from './pages/admin/NewFinancier.jsx';
 
 import AdminDashboard from './pages/admin/AdminDashboard.jsx'
 import AdminUserManagement from './pages/admin/UserManagement.jsx'
+import NewVerifier from './pages/admin/NewVerifier.jsx';
 
 import SuperAdminDashboard from './pages/superadmin/SuperAdminDashboard.jsx'
 import SuperAdminManageAdmins from './pages/superadmin/AdminManagement.jsx'
@@ -64,6 +67,9 @@ function App() {
               <Route path="/donor-dashboard" element={<ProtectedRoute allowedRoles={['DONOR']}><DonorDashboard /></ProtectedRoute>} />
 
               <Route path="/verifier-dashboard" element={<ProtectedRoute allowedRoles={['VERIFIER']}><VerifierDashboard /></ProtectedRoute>} />
+              <Route path="/verifier/verification-requests" element={<ProtectedRoute allowedRoles={['VERIFIER']}><VerificationRequests /></ProtectedRoute>} />
+              <Route path="/verifier/verification-history" element={<ProtectedRoute allowedRoles={['VERIFIER']}><VerificationHistory /></ProtectedRoute>} />
+              <Route path="/verifier/verification-view" element={<ProtectedRoute allowedRoles={['VERIFIER']}><VerificationRequestView /></ProtectedRoute>} />
 
               <Route path="/financier-dashboard" element={<ProtectedRoute allowedRoles={['FINANCE_MANAGER']}><FinancierDashboard /></ProtectedRoute>} />
 
