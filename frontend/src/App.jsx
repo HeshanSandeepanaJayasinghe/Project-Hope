@@ -22,6 +22,9 @@ import RecipientViewProfile from './pages/recipient/RecipientViewProfile.jsx'
 import VerificationForm from './pages/recipient/VerificationForm.jsx';
 
 import DonorDashboard from './pages/donor/DonorDashboard.jsx';
+import DonorViewProfile from './pages/donor/DonorViewProfile.jsx';
+import DonorWishlist from './pages/donor/DonorWishlist.jsx';
+import MyDonations from './pages/donor/MyDonations.jsx';
 
 import VerifierDashboard from './pages/verifier/VerifierDashboard.jsx';
 import VerificationRequests from './pages/verifier/VerificationRequests.jsx';
@@ -29,11 +32,11 @@ import VerificationRequestView from './pages/verifier/VerificationRequestView.js
 import VerificationHistory from './pages/verifier/VerificationHistory.jsx';
 
 import FinancierDashboard from './pages/financier/FinancierDashboard.jsx';
-import NewFinancier from './pages/admin/NewFinancier.jsx';
 
 import AdminDashboard from './pages/admin/AdminDashboard.jsx'
 import AdminUserManagement from './pages/admin/UserManagement.jsx'
 import NewVerifier from './pages/admin/NewVerifier.jsx';
+import NewFinancier from './pages/admin/NewFinancier.jsx';
 
 import SuperAdminDashboard from './pages/superadmin/SuperAdminDashboard.jsx'
 import SuperAdminManageAdmins from './pages/superadmin/AdminManagement.jsx'
@@ -65,6 +68,9 @@ function App() {
               <Route path="/recipient/verification" element={<ProtectedRoute allowedRoles={['RECIPIENT']}><VerificationForm /></ProtectedRoute>} />
 
               <Route path="/donor-dashboard" element={<ProtectedRoute allowedRoles={['DONOR']}><DonorDashboard /></ProtectedRoute>} />
+              <Route path="/donor/view-profile" element={<ProtectedRoute allowedRoles={['DONOR']}><DonorViewProfile /></ProtectedRoute>} />
+              <Route path="/donor/wishlist" element={<ProtectedRoute allowedRoles={['DONOR']}><DonorWishlist /></ProtectedRoute>} />
+              <Route path="/donor/donation-history" element={<ProtectedRoute allowedRoles={['DONOR']}><MyDonations /></ProtectedRoute>} />
 
               <Route path="/verifier-dashboard" element={<ProtectedRoute allowedRoles={['VERIFIER']}><VerifierDashboard /></ProtectedRoute>} />
               <Route path="/verifier/verification-requests" element={<ProtectedRoute allowedRoles={['VERIFIER']}><VerificationRequests /></ProtectedRoute>} />

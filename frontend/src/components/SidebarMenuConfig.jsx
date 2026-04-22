@@ -1,4 +1,4 @@
-import { LayoutDashboard, Users, Heart, ClipboardCheck, Wallet, FileText, Settings, UserCheck } from 'lucide-react';
+import { LayoutDashboard, Users, ShieldCheck, Heart, StickyNote, Star, ClipboardCheck, Wallet, History, FileText, Settings, UserCheck, UserRoundPen } from 'lucide-react';
 
 export const MENU_CONFIG = {
     superadmin: [
@@ -18,7 +18,7 @@ export const MENU_CONFIG = {
     verifier: [
         { id: 'dashboard', label: 'Dashboard', path: '/verifier-dashboard', icon: <LayoutDashboard size={20} /> },
         { id: 'verification-requests', label: 'Verification Requests', path: '/verifier/verification-requests', icon: <UserCheck size={20} /> },
-        { id: 'verification-history', label: 'Verification History', path: '/verifier/verification-history', icon: <Heart size={20} /> },
+        { id: 'verification-history', label: 'Verification History', path: '/verifier/verification-history', icon: <History size={20} /> },
     ],
     finance_manager: [
         { id: 'dashboard', label: 'Dashboard', path: '/financier-dashboard', icon: <LayoutDashboard size={20} /> },
@@ -29,13 +29,14 @@ export const MENU_CONFIG = {
     ],
     recipient: [
         { id: 'dashboard', label: 'Dashboard', path: '/recipient-dashboard', icon: <LayoutDashboard size={20} /> },
-        { id: 'viewProfile', label: 'View Profile', path: '/recipient/view-profile', icon: <Heart size={20} /> },
-        { id: 'myPosts', label: 'My Posts', path: '/recipient/my-posts', icon: <Wallet size={20} /> },
-        { id: 'verification', label: 'Verification', path: '/recipient/verification', icon: <Wallet size={20} /> },
+        { id: 'viewProfile', label: 'View Profile', path: '/recipient/view-profile', icon: <UserRoundPen size={20} /> },
+        { id: 'myPosts', label: 'My Posts', path: '/recipient/my-posts', icon: <StickyNote size={20} /> },
+        { id: 'verification', label: 'Verification', path: '/recipient/verification', icon: <ShieldCheck size={20} /> },
     ],
     donor: [
         { id: 'dashboard', label: 'Dashboard', path: '/donor-dashboard', icon: <LayoutDashboard size={20} /> },
-        { id: 'donations', label: 'My Donations', path: '/donor-dsshaboard', icon: <Heart size={20} /> },
-        { id: 'wallet', label: 'Wallet', path: '/', icon: <Wallet size={20} /> },
+        { id: 'view-profile', label: 'View profile', path: '/donor/view-profile', icon: <UserRoundPen size={20} /> },
+        { id: 'wishlist', label: 'Wishlist', path: '/donor/wishlist', icon: <Star size={20} /> },
+        { id: 'DonationHistory', label: 'Donation History', path: '/donor/donation-history', icon: <History size={20} /> },
     ],
 };

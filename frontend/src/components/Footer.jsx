@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
+import { Mail, LocateFixed, Phone } from 'lucide-react';
 
 export default function Footer() {
   const [hoveredLink, setHoveredLink] = useState(null);
@@ -87,15 +88,15 @@ export default function Footer() {
         <div style={styles.column}>
           <h3 style={styles.columnTitle}>Get in Touch</h3>
           <div style={styles.contactItem}>
-            <span style={styles.icon}>📍</span>
+            <span style={styles.icon}><LocateFixed /></span>
             <span>University of Sri Jayewardenepura</span>
           </div>
           <div style={styles.contactItem}>
-            <span style={styles.icon}>📞</span>
+            <span style={styles.icon}><Phone /></span>
             <span>+94 718639759</span>
           </div>
           <div style={styles.contactItem}>
-            <span style={styles.icon}>✉️</span>
+            <span style={styles.icon}><Mail /></span>
             <span>heshansandeepanajayasinghe@gmail.com</span>
           </div>
         </div>
