@@ -35,7 +35,8 @@ export const MENU_CONFIG = {
     ],
     donor: [
         { id: 'dashboard', label: 'Dashboard', path: '/donor-dashboard', icon: <LayoutDashboard size={20} /> },
-        { id: 'donations', label: 'My Donations', path: '/donor-dsshaboard', icon: <Heart size={20} /> },
-        { id: 'wallet', label: 'Wallet', path: '/', icon: <Wallet size={20} /> },
+        { id: 'view-profile', label: 'View profile', path: '/donor/view-profile', icon: <Heart size={20} /> },
+        { id: 'wishlist', label: 'Wishlist', path: '/donor/wishlist', icon: <Wallet size={20} /> },
+        { id: 'DonationHistory', label: 'Donation History', path: '/donor/donation-history', icon: <Wallet size={20} /> },
     ],
 };
