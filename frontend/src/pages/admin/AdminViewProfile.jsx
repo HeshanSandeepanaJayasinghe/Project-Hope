@@ -2,37 +2,40 @@
 import { toast } from 'react-toastify';
 import Sidebar from '../../components/Sidebar';
 import { AuthContext } from '../../context/AuthContext';
-import './RecipientViewProfile.css';
+import './AdminViewProfile.css';
 
-const RecipientViewProfile = () => {
+const AdminViewProfile = () => {
   const { authAxios } = useContext(AuthContext);
-  const [isEditing, setIsEditing] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
-    name: '',
-    nic: '',
-    birthday: '',
-    telephone: '',
+    fullName: '',
+    email: '',
+    phone: '',
+    department: '',
+    office: '',
     address: '',
-    postalCode: '',
   });
+
+  const syncProfile = (data) => {
+    setFormData({
+      fullName: data.fullName || data.name || '',
+      email: data.email || '',
+      phone: data.phone || data.telephone || '',
+      department: data.department || data.role || '',
+      office: data.office || '',
+      address: data.address || '',
+    });
+  };
 
   const fetchProfile = async () => {
     setLoading(true);
     try {
-      const response = await authAxios.get('/recipient/profile');
-      const userData = response.data || {};
-      setFormData({
-        name: userData.name || userData.fullName || '',
-        nic: userData.nic || userData.identityNumber || '',
-        birthday: userData.birthday || userData.dateOfBirth || '',
-        telephone: userData.telephone || userData.phone || '',
-        address: userData.address || '',
-        postalCode: userData.postalCode || userData.zip || '',
-      });
+      const response = await authAxios.get('/admin/profile');
+      syncProfile(response.data || {});
     } catch (error) {
-      toast.error('Unable to load recipient profile.');
+      toast.error('Unable to load admin profile.');
       console.error(error);
     } finally {
       setLoading(false);
@@ -43,21 +46,19 @@ const RecipientViewProfile = () => {
     fetchProfile();
   }, [authAxios]);
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSave = async () => {
     try {
-      await authAxios.patch('/recipient/update/profile', formData);
-      toast.success('Recipient profile updated successfully.');
+      await authAxios.patch('/admin/update/profile', formData);
+      toast.success('Admin profile updated successfully.');
       setIsEditing(false);
       fetchProfile();
     } catch (error) {
-      toast.error('Failed to save recipient profile.');
+      toast.error('Could not update profile.');
       console.error(error);
     }
   };
@@ -66,11 +67,14 @@ const RecipientViewProfile = () => {
     <div className="view-profile-layout">
       <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
       <div className="view-profile">
-        <h2>Recipient Profile</h2>
+        <h2>Admin Profile</h2>
         <div className="profile-header">
           <div className="profile-image-section">
-            <div className="profile-image-placeholder">R</div>
-            <button className="upload-button">Upload Image</button>
+            <div className="profile-image-placeholder">A</div>
+            <div>
+              <p className="profile-role">Administrator</p>
+              <p className="profile-email">{formData.email || 'No email available'}</p>
+            </div>
           </div>
           <div className="profile-buttons">
             {!isEditing ? (
@@ -94,64 +98,53 @@ const RecipientViewProfile = () => {
           <div className="profile-loading">Loading profile...</div>
         ) : (
           <div className="profile-details">
-            <h3>Registered Details</h3>
+            <h3>Account Details</h3>
             <div className="profile-form">
               <div className="form-group">
-                <label>Name</label>
+                <label>Full Name</label>
                 <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
+                  name="fullName"
+                  value={formData.fullName}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
               </div>
               <div className="form-group">
-                <label>NIC</label>
+                <label>Email Address</label>
+                <input name="email" value={formData.email} disabled />
+              </div>
+              <div className="form-group">
+                <label>Phone</label>
                 <input
-                  type="text"
-                  name="nic"
-                  value={formData.nic}
+                  name="phone"
+                  value={formData.phone}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
               </div>
               <div className="form-group">
-                <label>Birthday</label>
+                <label>Department</label>
                 <input
-                  type="date"
-                  name="birthday"
-                  value={formData.birthday}
+                  name="department"
+                  value={formData.department}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
               </div>
               <div className="form-group">
-                <label>Telephone</label>
+                <label>Office</label>
                 <input
-                  type="tel"
-                  name="telephone"
-                  value={formData.telephone}
+                  name="office"
+                  value={formData.office}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
               </div>
-              <div className="form-group">
-                <label>Address</label>
+              <div className="form-group full-width">
+                <label>Office Address</label>
                 <input
-                  type="text"
                   name="address"
                   value={formData.address}
-                  onChange={handleChange}
-                  disabled={!isEditing}
-                />
-              </div>
-              <div className="form-group">
-                <label>Postal Code</label>
-                <input
-                  type="text"
-                  name="postalCode"
-                  value={formData.postalCode}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
@@ -164,4 +157,4 @@ const RecipientViewProfile = () => {
   );
 };
 
-export default RecipientViewProfile;
+export default AdminViewProfile;
