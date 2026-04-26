@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext();
 const BACKEND_URL = import.meta.env.BACKEND_URL || 'http://localhost:8080';
@@ -72,6 +73,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('role');
     setToken(null);
     setUser(null);
+    navigate('/login');
   };
 
   const value = {
