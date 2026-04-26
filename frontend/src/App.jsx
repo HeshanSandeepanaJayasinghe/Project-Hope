@@ -27,14 +27,17 @@ import DonorWishlist from './pages/donor/DonorWishlist.jsx';
 import MyDonations from './pages/donor/MyDonations.jsx';
 
 import VerifierDashboard from './pages/verifier/VerifierDashboard.jsx';
+import VerifierViewProfile from './pages/verifier/VerifierViewProfile.jsx';
 import VerificationRequests from './pages/verifier/VerificationRequests.jsx';
 import VerificationRequestView from './pages/verifier/VerificationRequestView.jsx';
 import VerificationHistory from './pages/verifier/VerificationHistory.jsx';
 
 import FinancierDashboard from './pages/financier/FinancierDashboard.jsx';
+import FinancierViewProfile from './pages/financier/FinancierViewProfile.jsx';
 
 import AdminDashboard from './pages/admin/AdminDashboard.jsx'
 import AdminUserManagement from './pages/admin/UserManagement.jsx'
+import AdminViewProfile from './pages/admin/AdminViewProfile.jsx'
 import NewVerifier from './pages/admin/NewVerifier.jsx';
 import NewFinancier from './pages/admin/NewFinancier.jsx';
 
@@ -73,16 +76,19 @@ function App() {
               <Route path="/donor/donation-history" element={<ProtectedRoute allowedRoles={['DONOR']}><MyDonations /></ProtectedRoute>} />
 
               <Route path="/verifier-dashboard" element={<ProtectedRoute allowedRoles={['VERIFIER']}><VerifierDashboard /></ProtectedRoute>} />
+              <Route path="/verifier/view-profile" element={<ProtectedRoute allowedRoles={['VERIFIER']}><VerifierViewProfile /></ProtectedRoute>} />
               <Route path="/verifier/verification-requests" element={<ProtectedRoute allowedRoles={['VERIFIER']}><VerificationRequests /></ProtectedRoute>} />
               <Route path="/verifier/verification-history" element={<ProtectedRoute allowedRoles={['VERIFIER']}><VerificationHistory /></ProtectedRoute>} />
               <Route path="/verifier/verification-view" element={<ProtectedRoute allowedRoles={['VERIFIER']}><VerificationRequestView /></ProtectedRoute>} />
 
               <Route path="/financier-dashboard" element={<ProtectedRoute allowedRoles={['FINANCE_MANAGER']}><FinancierDashboard /></ProtectedRoute>} />
+              <Route path="/financier/view-profile" element={<ProtectedRoute allowedRoles={['FINANCE_MANAGER']}><FinancierViewProfile /></ProtectedRoute>} />
 
               <Route path="/admin-dashboard" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminDashboard /></ProtectedRoute>} />
               <Route path="/admin/user-management" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminUserManagement /></ProtectedRoute>} />
               <Route path="/admin/new-verifier" element={<ProtectedRoute allowedRoles={['ADMIN']}><NewVerifier /></ProtectedRoute>} />
               <Route path="/admin/new-financier" element={<ProtectedRoute allowedRoles={['ADMIN']}><NewFinancier /></ProtectedRoute>} />
+              <Route path="/admin/view-profile" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminViewProfile /></ProtectedRoute>} />
 
               <Route path="/superadmin-dashboard" element={<ProtectedRoute allowedRoles={['SUPERADMIN']}><SuperAdminDashboard /></ProtectedRoute>} />
               <Route path="/superadmin/user-management" element={<ProtectedRoute allowedRoles={['SUPERADMIN']}><SuperAdminManageAdmins /></ProtectedRoute>} />
