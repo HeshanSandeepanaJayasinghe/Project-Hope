@@ -4,6 +4,7 @@ import com.example.backend.user.dto.FetchRecipientDTO;
 import com.example.backend.user.service.VerifierGetAllRecipientsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +23,15 @@ public class VerifierGetAllRecipientsController {
 	@GetMapping("/get/all/recipients")
 	public ResponseEntity<List<FetchRecipientDTO>> getAllRecipients() {
 		return ResponseEntity.ok(verifierGetAllRecipientsService.getAllRecipientsWithDetails());
+	}
+
+	@GetMapping("/get/recipient/{userId}")
+	public ResponseEntity<FetchRecipientDTO> getRecipientByUserId(@PathVariable String userId) {
+		FetchRecipientDTO recipient = verifierGetAllRecipientsService.getRecipientByUserId(userId);
+		if (recipient == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(recipient);
 	}
 
 
