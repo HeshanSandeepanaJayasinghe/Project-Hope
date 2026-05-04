@@ -9,27 +9,28 @@ const VerificationRequests = () => {
     const navigate = useNavigate();
     const { authAxios } = useContext(AuthContext);
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [requests, setRequests] = useState([]);
+    const [recipients, setRecipients] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetchVerificationRequests();
+        fetchVerificationRecipients();
     }, []);
 
-    const fetchVerificationRequests = async () => {
+    const fetchVerificationRecipients = async () => {
         try {
-            const response = await authAxios.get('/api/get/verificationrequests');
-            setRequests(response.data);
-            setLoading(false);
+            const response = await authAxios.get('/verifier/get/all/recipients');
+            const filteredRecipients = response.data.filter((recipient) => recipient.verificationId);
+            setRecipients(filteredRecipients);
         } catch (error) {
-            console.error('Error fetching verification requests:', error);
-            toast.error('Failed to load verification requests');
+            console.error('Error fetching verification recipients:', error);
+            toast.error('Failed to load verification recipients');
+        } finally {
             setLoading(false);
         }
     };
 
-    const handleRequestClick = (requestId) => {
-        navigate('/verifier/verification-view', { state: { requestId } });
+    const handleRecipientClick = (userId) => {
+        navigate('/verifier/verification-view', { state: { userId } });
     };
 
     return (
@@ -45,22 +46,23 @@ const VerificationRequests = () => {
                         <p>Loading verification requests...</p>
                     ) : (
                         <div className="requests-list">
-                            {requests.length === 0 ? (
+                            {recipients.length === 0 ? (
                                 <p>No verification requests found.</p>
                             ) : (
-                                requests.map((request, index) => (
+                                recipients.map((recipient) => (
                                     <div
-                                        key={request.id || index}
+                                        key={recipient.userId || recipient.recipientId}
                                         className="request-row"
-                                        onClick={() => handleRequestClick(request.id)}
+                                        onClick={() => handleRecipientClick(recipient.userId)}
                                     >
                                         <div className="request-info">
-                                            <h3>Request #{request.id}</h3>
-                                            <p>Status: {request.status || 'Pending'}</p>
-                                            <p>Submitted: {request.submittedDate || 'N/A'}</p>
+                                            <h3>{recipient.name || 'Unnamed Recipient'}</h3>
+                                            <p>{recipient.email || 'No email provided'}</p>
+                                            <p>Verification ID: {recipient.verificationId}</p>
+                                            <p>Status: {recipient.verificationStatus || 'Pending'}</p>
                                         </div>
                                         <div className="request-actions">
-                                            <button className="view-btn">View Details</button>
+                                            <button className="view-btn" type="button">View Details</button>
                                         </div>
                                     </div>
                                 ))

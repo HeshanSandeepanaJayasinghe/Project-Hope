@@ -42,3 +42,68 @@
     color: #7f8c8d;
     line-height: 1.6;
 }
+
+.recipient-details-card {
+    background: white;
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.details-header h2 {
+    margin: 0;
+    color: #2c3e50;
+}
+
+.pdf-btn {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.pdf-btn:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+}
+
+.pdf-btn:hover:not(:disabled) {
+    background-color: #2980b9;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.detail-row {
+    display: grid;
+    gap: 6px;
+    padding: 14px;
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    background: #fbfbfb;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #34495e;
+}
+
+.detail-value {
+    color: #555;
+    word-break: break-word;
+}
