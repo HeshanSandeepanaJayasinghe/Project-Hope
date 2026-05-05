@@ -36,10 +36,9 @@ const VerificationRequestView = () => {
 
     const openDocument = async () => {
         if (recipient?.documentUrl) {
-            // under construction
-            const pdf = await authAxios.get(`verifier/get/pdf/${recipient.documentUrl}`);
-            console.log(recipient.documentUrl);
-            window.open(recipient.documentUrl, '_blank');
+            const pdf = await authAxios.get(`verifier/get/pdf/${recipient.documentUrl}`, { responseType: 'blob' }   );
+            const fileURL = URL.createObjectURL(pdf.data);
+            window.open(fileURL, "_blank");
         }
     };
 
