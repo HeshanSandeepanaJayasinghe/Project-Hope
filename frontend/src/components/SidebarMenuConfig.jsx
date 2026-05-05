@@ -15,6 +15,7 @@ export const MENU_CONFIG = {
         { id: 'verification-history', label: 'Verification History', path: '/admin/verification-history', icon: <ClipboardCheck size={20} /> },
         { id: 'donation-activity', label: 'Donation Activity', path: '/admin/donation-activity', icon: <Heart size={20} /> },
         { id: 'statistics', label: 'Statistics', path: '/admin/statistics', icon: <FileText size={20} /> },
+        
     ],
     verifier: [
         { id: 'dashboard', label: 'Dashboard', path: '/verifier-dashboard', icon: <LayoutDashboard size={20} /> },
