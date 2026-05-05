@@ -1,7 +1,9 @@
 package com.example.backend.user.service;
 
 import com.example.backend.authentication.CustomUserDetails;
+import com.example.backend.exceptions.AlreadySubmittedVerificationException;
 import com.example.backend.user.dto.VerificationDTO;
+import com.example.backend.user.model.Recipient;
 import com.example.backend.user.model.Verification;
 import com.example.backend.user.repository.RecipientRepository;
 import com.example.backend.user.repository.VerificationRepository;
@@ -38,7 +40,12 @@ public class AddVerificationDetailsService {
 		CustomUserDetails userDetails =
 				(CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String userId = userDetails.getUserId();
+		Recipient recipient = recipientRepository.findByUserId(userId);
 		String recipientId = recipientRepository.findByUserId(userId).getRecipientId();
+
+		if(recipient.isVerificationSubmitted()) {
+			throw new AlreadySubmittedVerificationException("You have already submitted the verification form.");
+		}
 
 		Path uploadPath = Paths.get(uploadDirectory);
 
@@ -68,8 +75,13 @@ public class AddVerificationDetailsService {
 			verification.setLongTermHealthIssues(verificationDTO.getLongTermHealthIssues());
 			verification.setRecipientId(recipientId);
 			verification.setAccountNo(verification.getAccountNo());
+
 			verification.setDocumentUrl("http://localhost:8080/verifier/get/pdf/"+fileName);
 			verificationRepository.save(verification);
+
+			recipient.setVerificationSubmitted(true);
+			recipientRepository.save(recipient);
+
 
 			return Map.of("Message", "Successfully submitted the verification form.");
 		} catch (Exception e) {

@@ -1,5 +1,6 @@
 package com.example.backend;
 
+import com.example.backend.exceptions.AlreadySubmittedVerificationException;
 import com.example.backend.exceptions.EmailAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,5 +66,14 @@ public class GlobalExceptions {
 				.status(HttpStatus.CONFLICT)
 				.body(Map.of("Message", exception.getMessage()));
 	}
+
+	@ExceptionHandler(AlreadySubmittedVerificationException.class)
+	public ResponseEntity<Map<String, String>> alreadySubmittedVerification(AlreadySubmittedVerificationException exception) {
+		return ResponseEntity
+				.status(HttpStatus.CONFLICT)
+				.body(Map.of("Message", exception.getMessage()));
+	}
+
+
 
 }
