@@ -36,8 +36,6 @@ public class RegisterRecipientDTO {
 	@Pattern(regexp = "^[0-9]{4,10}$", message = "Invalid postal code format. Must be 4-10 digits")
 	private String postalCode;
 
-
-
 	@NotBlank(message = "Phone number is required")
 	@Pattern(regexp = "^[0-9]{10}$", message = "Phone number must be exactly 10 digits")
 	private String phoneNumber;
@@ -52,4 +50,13 @@ public class RegisterRecipientDTO {
 
 	@NotBlank(message = "Confirm password is required")
 	private String confirmPassword;
+
+	@AssertTrue(message = "Passwords do not match")
+	public boolean isPasswordMatching() {
+		if (password == null || confirmPassword == null) {
+			return false;
+		}
+		return password.equals(confirmPassword);
+	}
+
 }
