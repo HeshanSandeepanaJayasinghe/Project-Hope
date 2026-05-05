@@ -21,25 +21,21 @@ public class VerifierGetAllRecipientsService {
 
 	public List<FetchRecipientDTO> getAllRecipientsWithDetails() {
 		Aggregation aggregation = Aggregation.newAggregation(
-				// Convert userId to ObjectId
 				addFields()
 						.addField("userObjectId")
 						.withValue(Document.parse("{ $toObjectId: '$userId' }"))
 						.build(),
 
-				// Handle recipientId
 				addFields()
 						.addField("actualRecipientId")
 						.withValue(Document.parse("{ $ifNull: ['$recipientId', { $toString: '$_id' }] }"))
 						.build(),
 
-				// Join with User
 				lookup().from("user")
 						.localField("userObjectId")
 						.foreignField("_id")
 						.as("userInfo"),
 
-				// Join with Verifications
 				lookup().from("verifications")
 						.localField("actualRecipientId")
 						.foreignField("recipientId")
@@ -48,7 +44,6 @@ public class VerifierGetAllRecipientsService {
 				unwind("userInfo", true),
 				unwind("verificationInfo", true),
 
-				// Extract only the filename from documentUrl (part after last slash)
 				addFields()
 						.addField("extractedFilename")
 						.withValue(
@@ -56,7 +51,6 @@ public class VerifierGetAllRecipientsService {
 						)
 						.build(),
 
-				// Project the fields
 				project()
 						.and("userInfo.email").as("email")
 						.and("userInfo._id").as("userId")
@@ -70,6 +64,7 @@ public class VerifierGetAllRecipientsService {
 						.and("phoneNUmber").as("phoneNumber")
 						.and("postCount").as("postCount")
 						.and("verificationStatus").as("verificationStatus")
+						.and("verificationSubmitted").as("verificationSubmitted")
 						.and("verificationInfo.verificationId").as("verificationId")
 						.and("verificationInfo.province").as("province")
 						.and("verificationInfo.district").as("district")
@@ -81,7 +76,7 @@ public class VerifierGetAllRecipientsService {
 						.and("verificationInfo.assetStatus").as("assetStatus")
 						.and("verificationInfo.numberOfFamilyMembers").as("numberOfFamilyMembers")
 						.and("verificationInfo.longTermHealthIssues").as("longTermHealthIssues")
-						.and("extractedFilename").as("documentUrl")  // Return only the filename
+						.and("extractedFilename").as("documentUrl")
 						.and("verificationInfo.verifiedBy").as("verifiedBy")
 		);
 
@@ -136,6 +131,7 @@ public class VerifierGetAllRecipientsService {
 						.and("phoneNUmber").as("phoneNumber")
 						.and("postCount").as("postCount")
 						.and("verificationStatus").as("verificationStatus")
+						.and("verificationSubmitted").as("verificationSubmitted")
 						.and("verificationInfo.verificationId").as("verificationId")
 						.and("verificationInfo.province").as("province")
 						.and("verificationInfo.district").as("district")
@@ -154,7 +150,6 @@ public class VerifierGetAllRecipientsService {
 		FetchRecipientDTO result = mongoTemplate.aggregate(aggregation, "recipient",
 				FetchRecipientDTO.class).getUniqueMappedResult();
 
-		// Extract only filename after the last slash
 		if (result != null && result.getDocumentUrl() != null) {
 			String documentUrl = result.getDocumentUrl();
 			String filename = documentUrl.substring(documentUrl.lastIndexOf('/') + 1);
