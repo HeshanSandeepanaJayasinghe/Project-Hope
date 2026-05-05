@@ -23,6 +23,7 @@ public class Recipient {
 	private String phoneNUmber;
 	private int postCount;
 	private VerificationStatus verificationStatus;
+	private boolean verificationSubmitted;
 
 	public enum VerificationStatus {
 		VERIFIED,
