@@ -217,7 +217,7 @@ const Signup = () => {
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className="icon icon--clickable"
+                                        className="icon-signup icon--clickable"
                                     >
                                         {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                                     </button>
@@ -239,7 +239,7 @@ const Signup = () => {
                                     <button
                                         type="button"
                                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                        className="icon icon--clickable"
+                                        className="icon-signup icon--clickable"
                                     >
                                         {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                                     </button>
