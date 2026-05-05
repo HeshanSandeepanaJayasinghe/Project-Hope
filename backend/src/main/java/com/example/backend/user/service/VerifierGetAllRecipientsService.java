@@ -48,11 +48,11 @@ public class VerifierGetAllRecipientsService {
 				unwind("userInfo", true),
 				unwind("verificationInfo", true),
 
-				// Transform the documentUrl to use new endpoint
+				// Extract only the filename from documentUrl (part after last slash)
 				addFields()
-						.addField("transformedDocumentUrl")
+						.addField("extractedFilename")
 						.withValue(
-								Document.parse("{ $cond: { if: { $eq: ['$verificationInfo.documentUrl', null] }, then: null, else: { $concat: ['http://localhost:8080/verifier/get/pdf/', { $arrayElemAt: [{ $split: ['$verificationInfo.documentUrl', '/get/document/'] }, 1] }] } } }")
+								Document.parse("{ $cond: { if: { $eq: ['$verificationInfo.documentUrl', null] }, then: null, else: { $arrayElemAt: [{ $split: ['$verificationInfo.documentUrl', '/'] }, -1] } } }")
 						)
 						.build(),
 
@@ -81,14 +81,13 @@ public class VerifierGetAllRecipientsService {
 						.and("verificationInfo.assetStatus").as("assetStatus")
 						.and("verificationInfo.numberOfFamilyMembers").as("numberOfFamilyMembers")
 						.and("verificationInfo.longTermHealthIssues").as("longTermHealthIssues")
-						.and("transformedDocumentUrl").as("documentUrl")  // Use transformed URL
+						.and("extractedFilename").as("documentUrl")  // Return only the filename
 						.and("verificationInfo.verifiedBy").as("verifiedBy")
 		);
 
 		return mongoTemplate.aggregate(aggregation, "recipient",
 				FetchRecipientDTO.class).getMappedResults();
 	}
-
 
 	public FetchRecipientDTO getRecipientByUserId(String userId) {
 		ObjectId userObjectId;
@@ -151,12 +150,15 @@ public class VerifierGetAllRecipientsService {
 						.and("verificationInfo.documentUrl").as("documentUrl")
 						.and("verificationInfo.verifiedBy").as("verifiedBy")
 		);
+
 		FetchRecipientDTO result = mongoTemplate.aggregate(aggregation, "recipient",
 				FetchRecipientDTO.class).getUniqueMappedResult();
 
+		// Extract only filename after the last slash
 		if (result != null && result.getDocumentUrl() != null) {
-			String newUrl = result.getDocumentUrl().replace("/get/document/", "/verifier/get/pdf/");
-			result.setDocumentUrl(newUrl);
+			String documentUrl = result.getDocumentUrl();
+			String filename = documentUrl.substring(documentUrl.lastIndexOf('/') + 1);
+			result.setDocumentUrl(filename);
 		}
 
 		return result;
