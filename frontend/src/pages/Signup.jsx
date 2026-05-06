@@ -22,7 +22,7 @@ const Signup = () => {
         confirmPassword: '',
         nic: '',
         birthday: '',
-        telephone: '',
+        phoneNumber: '',
         address: '',
         postalCode: '',
         organization: '',
@@ -90,7 +90,7 @@ const Signup = () => {
         }
 
         if (userType === 'recipient') {
-            if (!formData.nic || !formData.birthday || !formData.telephone || !formData.address || !formData.postalCode) {
+            if (!formData.nic || !formData.birthday || !formData.phoneNumber || !formData.address || !formData.postalCode) {
                 toast.error('All fields are required');
                 return false;
             }
@@ -273,14 +273,14 @@ const Signup = () => {
                                         />
                                     </div>
 
-                                    {/* Telephone */}
+                                    {/* phoneNumber */}
                                     <div className="form-group">
-                                        <label className="form-label">Telephone *</label>
+                                        <label className="form-label">phoneNumber *</label>
                                         <input
                                             type="tel"
-                                            name="telephone"
+                                            name="phoneNumber"
                                             placeholder="+94 (0)xx xxx xxxx"
-                                            value={formData.telephone}
+                                            value={formData.phoneNumber}
                                             onChange={handleChange}
                                             className="input input-plain"
                                         />

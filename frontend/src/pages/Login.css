@@ -93,7 +93,7 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
 }
 
 .login-eye {
-  left: 102px;
+  left: 120px;
 }
 
 .icon--clickable {
@@ -107,8 +107,9 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
   cursor: pointer;
 }
 
-.input {
-  width: 100%;
+.input-login {
+  margin-left: 10%;
+  width: 90%;
   padding: .75rem 2.5rem .75rem 2.5rem;
   background: #f9faf9;
   border: 1px solid var(--border);
