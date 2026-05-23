@@ -49,6 +49,11 @@ const Signup = () => {
             return false;
         }
 
+        if (formData.phoneNumber.length !== 10) {
+            toast.error('Phone number must contain 10 digits');
+            return false;
+        }
+
         if (!nameRegex.test(formData.name)) {
         toast.error('Name must contain only letters and spaces');
         return false;
