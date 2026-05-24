@@ -2,7 +2,6 @@ package com.example.backend.user.service;
 
 import com.example.backend.user.dto.FetchRecipientDTO;
 import org.bson.Document;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
@@ -20,24 +19,31 @@ public class VerifierGetAllRecipientsService {
 	private MongoTemplate mongoTemplate;
 
 	public List<FetchRecipientDTO> getAllRecipientsWithDetails() {
+
 		Aggregation aggregation = Aggregation.newAggregation(
+
+
 				addFields()
 						.addField("userObjectId")
 						.withValue(Document.parse("{ $toObjectId: '$userId' }"))
 						.build(),
 
+
 				addFields()
-						.addField("actualRecipientId")
-						.withValue(Document.parse("{ $ifNull: ['$recipientId', { $toString: '$_id' }] }"))
+						.addField("recipientIdString")
+						.withValue(Document.parse("{ $toString: '$_id' }"))
 						.build(),
 
-				lookup().from("user")
+
+				lookup()
+						.from("user")
 						.localField("userObjectId")
 						.foreignField("_id")
 						.as("userInfo"),
 
-				lookup().from("verifications")
-						.localField("actualRecipientId")
+				lookup()
+						.from("verification")
+						.localField("recipientIdString")
 						.foreignField("recipientId")
 						.as("verificationInfo"),
 
@@ -47,14 +53,31 @@ public class VerifierGetAllRecipientsService {
 				addFields()
 						.addField("extractedFilename")
 						.withValue(
-								Document.parse("{ $cond: { if: { $eq: ['$verificationInfo.documentUrl', null] }, then: null, else: { $arrayElemAt: [{ $split: ['$verificationInfo.documentUrl', '/'] }, -1] } } }")
+								Document.parse("""
+                            {
+                              $cond: {
+                                if: { $eq: ['$verificationInfo.documentUrl', null] },
+                                then: null,
+                                else: {
+                                  $arrayElemAt: [
+                                    { $split: ['$verificationInfo.documentUrl', '/'] },
+                                    -1
+                                  ]
+                                }
+                              }
+                            }
+                            """)
 						)
 						.build(),
 
+
 				project()
+
 						.and("userInfo.email").as("email")
 						.and("userInfo._id").as("userId")
-						.and("actualRecipientId").as("recipientId")
+
+
+						.and("_id").as("recipientId")
 						.and("name").as("name")
 						.and("nic").as("nic")
 						.and("birthday").as("birthday")
@@ -64,8 +87,11 @@ public class VerifierGetAllRecipientsService {
 						.and("phoneNUmber").as("phoneNumber")
 						.and("postCount").as("postCount")
 						.and("verificationStatus").as("verificationStatus")
+
+
 						.and("verificationSubmitted").as("verificationSubmitted")
-						.and("verificationInfo.verificationId").as("verificationId")
+
+						.and("verificationInfo._id").as("verificationId")
 						.and("verificationInfo.province").as("province")
 						.and("verificationInfo.district").as("district")
 						.and("verificationInfo.divisionalSecretarial").as("divisionalSecretarial")
@@ -73,26 +99,27 @@ public class VerifierGetAllRecipientsService {
 						.and("verificationInfo.employmentCategory").as("employmentCategory")
 						.and("verificationInfo.occupation").as("occupation")
 						.and("verificationInfo.annualSalary").as("annualSalary")
+						.and("verificationInfo.accountNo").as("verificationAccountNo")  // Changed to avoid conflict with recipient's accountNo
 						.and("verificationInfo.assetStatus").as("assetStatus")
 						.and("verificationInfo.numberOfFamilyMembers").as("numberOfFamilyMembers")
 						.and("verificationInfo.longTermHealthIssues").as("longTermHealthIssues")
-						.and("extractedFilename").as("documentUrl")
 						.and("verificationInfo.verifiedBy").as("verifiedBy")
+
+
+						.and("extractedFilename").as("documentUrl")
 		);
 
-		return mongoTemplate.aggregate(aggregation, "recipient",
-				FetchRecipientDTO.class).getMappedResults();
+		return mongoTemplate.aggregate(
+				aggregation,
+				"recipient",
+				FetchRecipientDTO.class
+		).getMappedResults();
 	}
 
 	public FetchRecipientDTO getRecipientByUserId(String userId) {
-		ObjectId userObjectId;
-		try {
-			userObjectId = new ObjectId(userId);
-		} catch (Exception e) {
-			return null;
-		}
 
 		Aggregation aggregation = Aggregation.newAggregation(
+
 				match(Criteria.where("userId").is(userId)),
 
 				addFields()
@@ -101,27 +128,55 @@ public class VerifierGetAllRecipientsService {
 						.build(),
 
 				addFields()
-						.addField("actualRecipientId")
-						.withValue(Document.parse("{ $ifNull: ['$recipientId', { $toString: '$_id' }] }"))
+						.addField("recipientIdString")
+						.withValue(Document.parse("{ $toString: '$_id' }"))
 						.build(),
 
-				lookup().from("user")
+				lookup()
+						.from("user")
 						.localField("userObjectId")
 						.foreignField("_id")
 						.as("userInfo"),
 
-				lookup().from("verifications")
-						.localField("actualRecipientId")
+				lookup()
+						.from("verification")
+						.localField("recipientIdString")
 						.foreignField("recipientId")
 						.as("verificationInfo"),
 
 				unwind("userInfo", true),
 				unwind("verificationInfo", true),
 
+				addFields()
+						.addField("extractedFilename")
+						.withValue(
+								Document.parse("""
+                                {
+                                  $cond: {
+                                    if: { $eq: ['$verificationInfo.documentUrl', null] },
+                                    then: null,
+                                    else: {
+                                      $arrayElemAt: [
+                                        { $split: ['$verificationInfo.documentUrl', '/'] },
+                                        -1
+                                      ]
+                                    }
+                                  }
+                                }
+                                """)
+						)
+						.build(),
+
+				addFields()
+						.addField("verificationSubmitted")
+						.withValue("$verificationSubmitted")
+						.build(),
+
 				project()
 						.and("userInfo.email").as("email")
 						.and("userInfo._id").as("userId")
-						.and("actualRecipientId").as("recipientId")
+
+						.and("_id").as("recipientId")
 						.and("name").as("name")
 						.and("nic").as("nic")
 						.and("birthday").as("birthday")
@@ -130,9 +185,13 @@ public class VerifierGetAllRecipientsService {
 						.and("accountNo").as("accountNo")
 						.and("phoneNUmber").as("phoneNumber")
 						.and("postCount").as("postCount")
-						.and("verificationStatus").as("verificationStatus")
 						.and("verificationSubmitted").as("verificationSubmitted")
-						.and("verificationInfo.verificationId").as("verificationId")
+						.and("verificationStatus").as("verificationStatus")
+
+
+						.and("verificationSubmitted").as("verificationSubmitted")
+
+						.and("verificationInfo._id").as("verificationId")
 						.and("verificationInfo.province").as("province")
 						.and("verificationInfo.district").as("district")
 						.and("verificationInfo.divisionalSecretarial").as("divisionalSecretarial")
@@ -140,22 +199,19 @@ public class VerifierGetAllRecipientsService {
 						.and("verificationInfo.employmentCategory").as("employmentCategory")
 						.and("verificationInfo.occupation").as("occupation")
 						.and("verificationInfo.annualSalary").as("annualSalary")
+						.and("verificationInfo.accountNo").as("accountNo")
 						.and("verificationInfo.assetStatus").as("assetStatus")
 						.and("verificationInfo.numberOfFamilyMembers").as("numberOfFamilyMembers")
 						.and("verificationInfo.longTermHealthIssues").as("longTermHealthIssues")
-						.and("verificationInfo.documentUrl").as("documentUrl")
 						.and("verificationInfo.verifiedBy").as("verifiedBy")
+
+						.and("extractedFilename").as("documentUrl")
 		);
 
-		FetchRecipientDTO result = mongoTemplate.aggregate(aggregation, "recipient",
-				FetchRecipientDTO.class).getUniqueMappedResult();
-
-		if (result != null && result.getDocumentUrl() != null) {
-			String documentUrl = result.getDocumentUrl();
-			String filename = documentUrl.substring(documentUrl.lastIndexOf('/') + 1);
-			result.setDocumentUrl(filename);
-		}
-
-		return result;
+		return mongoTemplate.aggregate(
+				aggregation,
+				"recipient",
+				FetchRecipientDTO.class
+		).getUniqueMappedResult();
 	}
 }

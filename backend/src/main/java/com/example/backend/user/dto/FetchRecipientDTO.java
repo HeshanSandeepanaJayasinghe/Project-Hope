@@ -33,4 +33,5 @@ public class FetchRecipientDTO {
 	private String longTermHealthIssues;
 	private String documentUrl;
 	private String verifiedBy;
+	private boolean verificationSubmitted;
 }
