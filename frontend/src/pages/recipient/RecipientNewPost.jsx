@@ -41,7 +41,7 @@ const RecipientNewPost = () => {
         title: foundPost.title || '',
         category: foundPost.category || 'FINANCIAL',
         description: foundPost.description || '',
-        donationTarget: foundPost.donationTarget || '',
+        donationTarget: foundPost.totalAmount || '',
         imageFile: null,
         existingImageUrl: foundPost.imageUrl || foundPost.photo || foundPost.image || '',
       });
