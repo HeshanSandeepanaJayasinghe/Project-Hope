@@ -36,13 +36,7 @@
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
-    height: 360px;
     cursor: pointer;
-}
-
-.post-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 24px rgba(22, 163, 74, 0.15);
 }
 
 .post-card-tag {
@@ -73,10 +67,6 @@
     transition: transform 0.3s ease;
 }
 
-.post-card:hover .post-card-image img {
-    transform: scale(1.05);
-}
-
 .post-card-content {
     padding: 1.25rem;
     background: white;
@@ -85,19 +75,11 @@
     flex-direction: column;
 }
 
-.post-number {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: #16a34a;
-    text-transform: uppercase;
-    margin-bottom: 0.25rem;
-}
-
 .post-title {
     font-size: 1rem;
     font-weight: 700;
     color: #0f172a;
-    margin-bottom: 0.25rem;
+    margin-top: 1rem;
     line-height: 1.3;
 }
 
@@ -109,7 +91,8 @@
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
     font-weight: 600;
-    margin-bottom: 0.5rem;
+    margin-top: 0.2rem;
+    margin-bottom: 0.1rem;
     width: fit-content;
 }
 
@@ -127,12 +110,27 @@
 .post-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(21, 128, 61, 0.9);
+    background: linear-gradient(
+    to top,
+    rgba(10, 80, 40, 0.35),
+    rgba(10, 80, 40, 0.15)
+);
+    backdrop-filter: blur(10px) saturate(120%);
+    -webkit-backdrop-filter: blur(10px) saturate(120%);
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     z-index: 20;
-    animation: fadeIn 0.3s ease-in;
+
+    opacity: 0;
+    transition: opacity 0.55s ease, backdrop-filter 0.55s ease;
+}
+
+.post-card-post-page:hover .post-overlay {
+    opacity: 1;
+    backdrop-filter: blur(10px) saturate(80%);
 }
 
 @keyframes fadeIn {
