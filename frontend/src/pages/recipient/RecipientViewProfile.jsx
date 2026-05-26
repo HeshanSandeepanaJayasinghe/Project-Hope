@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import Sidebar from '../../components/Sidebar';
 import { AuthContext } from '../../context/AuthContext';
 import './RecipientViewProfile.css';
+import { User } from 'lucide-react';
 
 const RecipientViewProfile = () => {
   const { authAxios } = useContext(AuthContext);
@@ -16,20 +17,22 @@ const RecipientViewProfile = () => {
     telephone: '',
     address: '',
     postalCode: '',
+    newPassword: '',
+    confirmPassword: '',
   });
 
   const fetchProfile = async () => {
     setLoading(true);
     try {
-      const response = await authAxios.get('/recipient/profile');
+      const response = await authAxios.get('/recipient/me');
       const userData = response.data || {};
       setFormData({
-        name: userData.name || userData.fullName || '',
-        nic: userData.nic || userData.identityNumber || '',
-        birthday: userData.birthday || userData.dateOfBirth || '',
-        telephone: userData.telephone || userData.phone || '',
+        name: userData.name || '',
+        nic: userData.nic || '',
+        birthday: userData.birthday || '',
+        telephone: userData.phoneNumber  || '',
         address: userData.address || '',
-        postalCode: userData.postalCode || userData.zip || '',
+        postalCode: userData.postalCode || '',
       });
     } catch (error) {
       toast.error('Unable to load recipient profile.');
@@ -69,8 +72,7 @@ const RecipientViewProfile = () => {
         <h2>Recipient Profile</h2>
         <div className="profile-header">
           <div className="profile-image-section">
-            <div className="profile-image-placeholder">R</div>
-            <button className="upload-button">Upload Image</button>
+            <div className="profile-image-placeholder"><User /></div>
           </div>
           <div className="profile-buttons">
             {!isEditing ? (
@@ -103,7 +105,7 @@ const RecipientViewProfile = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  disabled={!isEditing}
+                  disabled
                 />
               </div>
               <div className="form-group">
@@ -113,7 +115,7 @@ const RecipientViewProfile = () => {
                   name="nic"
                   value={formData.nic}
                   onChange={handleChange}
-                  disabled={!isEditing}
+                  disabled
                 />
               </div>
               <div className="form-group">
@@ -123,7 +125,7 @@ const RecipientViewProfile = () => {
                   name="birthday"
                   value={formData.birthday}
                   onChange={handleChange}
-                  disabled={!isEditing}
+                  disabled
                 />
               </div>
               <div className="form-group">
@@ -152,6 +154,26 @@ const RecipientViewProfile = () => {
                   type="text"
                   name="postalCode"
                   value={formData.postalCode}
+                  onChange={handleChange}
+                  disabled={!isEditing}
+                />
+              </div>
+              <div className="form-group">
+                <label>New Password</label>
+                <input
+                  type="password"
+                  name="newPassword"
+                  value={formData.newPassword}
+                  onChange={handleChange}
+                  disabled={!isEditing}
+                />
+              </div>
+              <div className="form-group">
+                <label>Confirm Password</label>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
