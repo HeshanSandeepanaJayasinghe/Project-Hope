@@ -21,7 +21,7 @@ const AdminViewProfile = () => {
       firstName: data.firstName || '',
       lastName: data.lastName || '',
       email: data.email || '',
-      phone: data.phoneNumber || '',
+      phone: Number(data.phoneNumber) || '',
     });
   };
 
@@ -125,7 +125,7 @@ const AdminViewProfile = () => {
                 <label>Phone Number</label>
                 <input
                   name="phone"
-                  value={formData.phoneNumber}
+                  value={Number(formData.phoneNumber)}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
