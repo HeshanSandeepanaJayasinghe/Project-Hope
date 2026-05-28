@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping({"/admin", "/superadmin", "/finance-manager", "/verifier", "/donor" })
+@RequestMapping({"/admin", "/superadmin", "/finance-manager", "/verifier", "/donor","/recipient" })
 @RequiredArgsConstructor
 public class UserProfileController {
 

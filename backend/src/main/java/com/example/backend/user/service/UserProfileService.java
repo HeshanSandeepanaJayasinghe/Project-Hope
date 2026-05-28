@@ -17,6 +17,7 @@ public class UserProfileService {
     private final SuperadminRepository superadminRepository;
     private final VerifierRepository verifierRepository;
     private final FinanceManagerRepository financeManagerRepository;
+    private final RecipientRepository recipientRepository;
     private final UserRepository userRepository;
 
     public UserProfileResponse getCurrentUserProfile() {
@@ -35,7 +36,7 @@ public class UserProfileService {
             case FINANCE_MANAGER -> getFinanceManagerProfile(userId, user);
             case VERIFIER -> getVerifierProfile(userId, user);
             case DONOR -> getDonorProfile(userId, user);
-            case RECIPIENT -> throw new UnsupportedOperationException("Recipient profile not implemented yet");
+            case RECIPIENT -> getRecipientProfile(userId, user);
         };
     }
 
@@ -117,6 +118,25 @@ public class UserProfileService {
                 .occupation(donor.getOccupation())
                 .organization(donor.getOrganization())
                 .roleSpecificData(donor)
+                .build();
+    }
+
+    private UserProfileResponse getRecipientProfile(String userId, User user) {
+        Recipient recipient = recipientRepository.findByUserId(userId);
+
+        if (recipient == null) {
+            throw new RuntimeException("Recipient profile not found");
+        }
+
+        return UserProfileResponse.builder()
+                .userId(user.getUserId())
+                .email(user.getEmail())
+                .roles(user.getRoles())
+                .id(recipient.getRecipientId())
+                .name(recipient.getName())
+                .nic(recipient.getNic())
+                .phoneNumber(recipient.getPhoneNUmber())
+                .roleSpecificData(recipient)
                 .build();
     }
 }
