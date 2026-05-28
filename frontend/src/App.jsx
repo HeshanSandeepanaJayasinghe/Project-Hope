@@ -14,6 +14,7 @@ import PostDonation from './pages/PoolDonation.jsx'
 import PoolDonation from './pages/PoolDonation.jsx'
 import Home from './pages/Home.jsx'
 import Aboutus from './pages/Aboutus.jsx'
+import Statistics from './pages/Statistics.jsx';
 
 import RecipientDashboard from './pages/recipient/RecipientDashboard.jsx'
 import RecipientMyPosts from './pages/recipient/RecipientMyPosts.jsx'
@@ -89,10 +90,12 @@ function App() {
               <Route path="/admin/new-verifier" element={<ProtectedRoute allowedRoles={['ADMIN']}><NewVerifier /></ProtectedRoute>} />
               <Route path="/admin/new-financier" element={<ProtectedRoute allowedRoles={['ADMIN']}><NewFinancier /></ProtectedRoute>} />
               <Route path="/admin/view-profile" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminViewProfile /></ProtectedRoute>} />
+              <Route path="/admin/statistics" element={<ProtectedRoute allowedRoles={['ADMIN']}><Statistics /></ProtectedRoute>} />
 
               <Route path="/superadmin-dashboard" element={<ProtectedRoute allowedRoles={['SUPERADMIN']}><SuperAdminDashboard /></ProtectedRoute>} />
               <Route path="/superadmin/user-management" element={<ProtectedRoute allowedRoles={['SUPERADMIN']}><SuperAdminManageAdmins /></ProtectedRoute>} />
               <Route path="/superadmin/new-admin" element={<ProtectedRoute allowedRoles={['SUPERADMIN']}><SuperAdminNewAdmin /></ProtectedRoute>} />
+              <Route path="/superadmin/statistics" element={<ProtectedRoute allowedRoles={['SUPERADMIN']}><Statistics /></ProtectedRoute>} />
 
             </Routes>
           </div>

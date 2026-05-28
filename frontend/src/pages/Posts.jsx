@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Eye } from 'lucide-react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import './Posts.css';
 
 const Posts = () => {
@@ -21,8 +22,7 @@ const Posts = () => {
             const response = await axios.get(`${BACKEND_URL}/open/get/all/posts`);
             setPosts(response.data || []);
         } catch (error) {
-            console.error(error);
-            setPosts([]);
+            toast.error('Failed to load posts.');
         } finally {
             setLoading(false);
         }

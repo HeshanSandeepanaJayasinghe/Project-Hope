@@ -15,7 +15,7 @@ const DashboardContent = ({ roleLabel }) => {
             recipient: 'Recipient',
             donor: 'Donor',
             verifier: 'Verifier',
-            financier: 'Financier',
+            finance_manager: 'Financier',
             admin: 'Admin',
             superadmin: 'Super Admin'
         };
