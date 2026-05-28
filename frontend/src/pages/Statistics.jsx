@@ -71,7 +71,7 @@ const Statistics = () => {
         {Object.entries(statistics).map(([key, value]) => (
           <div key={key} className="stat-card">
             <h3 className="stat-title">
-              {key.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, char => char)}
+              {key.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, char => char.toUpperCase())}
             </h3>
             <p className="stat-value">{value}</p>
           </div>

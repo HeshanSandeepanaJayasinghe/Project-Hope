@@ -10,29 +10,25 @@ const AdminViewProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
-    fullName: '',
+    firstName: '',
+    lastName: '',
     email: '',
     phone: '',
-    department: '',
-    office: '',
-    address: '',
   });
 
   const syncProfile = (data) => {
     setFormData({
-      fullName: data.fullName || data.name || '',
+      firstName: data.firstName || '',
+      lastName: data.lastName || '',
       email: data.email || '',
-      phone: data.phone || data.telephone || '',
-      department: data.department || data.role || '',
-      office: data.office || '',
-      address: data.address || '',
+      phone: data.phoneNumber || '',
     });
   };
 
   const fetchProfile = async () => {
     setLoading(true);
     try {
-      const response = await authAxios.get('/admin/profile');
+      const response = await authAxios.get('/admin/me');
       syncProfile(response.data || {});
     } catch (error) {
       toast.error('Unable to load admin profile.');
@@ -101,50 +97,35 @@ const AdminViewProfile = () => {
             <h3>Account Details</h3>
             <div className="profile-form">
               <div className="form-group">
-                <label>Full Name</label>
+                <label>First Name</label>
                 <input
-                  name="fullName"
-                  value={formData.fullName}
+                  name="firstName"
+                  value={formData.firstName}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
               </div>
               <div className="form-group">
-                <label>Email Address</label>
-                <input name="email" value={formData.email} disabled />
+                <label>Last Name</label>
+                <input
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  disabled={!isEditing}
+                />
               </div>
               <div className="form-group">
-                <label>Phone</label>
+                <label>Email</label>
+                <input 
+                  name="email" 
+                  value={formData.email} 
+                  disabled />
+              </div>
+              <div className="form-group">
+                <label>Phone Number</label>
                 <input
                   name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  disabled={!isEditing}
-                />
-              </div>
-              <div className="form-group">
-                <label>Department</label>
-                <input
-                  name="department"
-                  value={formData.department}
-                  onChange={handleChange}
-                  disabled={!isEditing}
-                />
-              </div>
-              <div className="form-group">
-                <label>Office</label>
-                <input
-                  name="office"
-                  value={formData.office}
-                  onChange={handleChange}
-                  disabled={!isEditing}
-                />
-              </div>
-              <div className="form-group full-width">
-                <label>Office Address</label>
-                <input
-                  name="address"
-                  value={formData.address}
+                  value={formData.phoneNumber}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
