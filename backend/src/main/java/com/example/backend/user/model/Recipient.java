@@ -20,7 +20,7 @@ public class Recipient {
 	private String address;
 	private String postalCode;
 	private String accountNo;
-	private String phoneNUmber;
+	private String phoneNumber;
 	private int postCount;
 	private VerificationStatus verificationStatus;
 	private boolean verificationSubmitted;

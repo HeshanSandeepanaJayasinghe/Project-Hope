@@ -135,7 +135,7 @@ public class UserProfileService {
                 .id(recipient.getRecipientId())
                 .name(recipient.getName())
                 .nic(recipient.getNic())
-                .phoneNumber(recipient.getPhoneNUmber())
+                .phoneNumber(recipient.getPhoneNumber())
                 .roleSpecificData(recipient)
                 .build();
     }
