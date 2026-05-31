@@ -49,7 +49,7 @@ public class RecipientRegisterService {
 		recipient.setNic(registerRecipientDTO.getNic());
 		recipient.setBirthday(registerRecipientDTO.getBirthday());
 		recipient.setAddress(registerRecipientDTO.getAddress());
-		recipient.setPhoneNUmber(registerRecipientDTO.getPhoneNumber());
+		recipient.setPhoneNumber(registerRecipientDTO.getPhoneNumber());
 		recipient.setPostalCode(registerRecipientDTO.getPostalCode());
 		recipient.setVerificationSubmitted(false);
 
