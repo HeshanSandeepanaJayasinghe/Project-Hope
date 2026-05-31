@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping({"/admin","/verifier"})
+@RequestMapping("/verifier")
 public class UpdateVerifierDetailsController {
 
 	private final UpdateVerifierDetailsService updateVerifierDetailsService;
