@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping({"/admin","/finance-manager"})
+@RequestMapping("/finance-manager")
 public class UpdateFinanceManagerDetailsController {
 
 	private final UpdateFinanceManagerDetailsService updateFinanceManagerDetailsService;
