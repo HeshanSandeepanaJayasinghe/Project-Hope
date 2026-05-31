@@ -14,6 +14,8 @@ const AdminViewProfile = () => {
     lastName: '',
     email: '',
     phone: '',
+    password: '',
+    confirmPassword: '',
   });
 
   const syncProfile = (data) => {
@@ -21,7 +23,9 @@ const AdminViewProfile = () => {
       firstName: data.firstName || '',
       lastName: data.lastName || '',
       email: data.email || '',
-      phone: Number(data.phoneNumber) || '',
+      phoneNumber: data.phoneNumber || '',
+      password: '',
+      confirmPassword: '',
     });
   };
 
@@ -49,7 +53,28 @@ const AdminViewProfile = () => {
 
   const handleSave = async () => {
     try {
-      await authAxios.patch('/admin/update/profile', formData);
+      if (formData.password || formData.confirmPassword) {
+        if (formData.password !== formData.confirmPassword) {
+          toast.error('Passwords do not match.');
+          return;
+        }
+        if (formData.password.length < 6) {
+          toast.error('Password must be at least 6 characters long.');
+          return;
+        }
+      }
+
+      const patchBody = {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phoneNumber: formData.phoneNumber,
+      };
+
+      if (formData.password && formData.password === formData.confirmPassword) {
+        patchBody.password = formData.password;
+      }
+
+      await authAxios.patch('/admin/update/profile', patchBody);
       toast.success('Admin profile updated successfully.');
       setIsEditing(false);
       fetchProfile();
@@ -124,8 +149,28 @@ const AdminViewProfile = () => {
               <div className="form-group">
                 <label>Phone Number</label>
                 <input
-                  name="phone"
-                  value={Number(formData.phoneNumber)}
+                  name="phoneNumber"
+                  value={formData.phoneNumber}
+                  onChange={handleChange}
+                  disabled={!isEditing}
+                />
+              </div>
+              <div className="form-group">
+                <label>New Password</label>
+                <input
+                  name="password"
+                  type="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  disabled={!isEditing}
+                />
+              </div>
+              <div className="form-group">
+                <label>Confirm Password</label>
+                <input
+                  name="confirmPassword"
+                  type="password"
+                  value={formData.confirmPassword}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
