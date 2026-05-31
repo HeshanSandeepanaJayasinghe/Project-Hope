@@ -37,9 +37,7 @@ public class UpdateAdminDetailsService {
 		Query query1 = new Query(Criteria.where("_id").is(adminId));
 		Update update1 = new Update();
 
-		if (updateAdministratorDTO.getEmail() != null) {
-			update1.set("email", updateAdministratorDTO.getEmail());
-		}
+
 
 		if (updateAdministratorDTO.getPassword() != null) {
 			update1.set("password", passwordEncoder.encode(updateAdministratorDTO.getPassword()));
