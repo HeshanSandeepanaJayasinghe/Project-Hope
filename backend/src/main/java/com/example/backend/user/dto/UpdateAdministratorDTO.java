@@ -6,9 +6,7 @@ import lombok.Data;
 @Data
 public class UpdateAdministratorDTO {
 
-	@NotBlank(message = "Email is required")
-	@Email(message = "Email format is invalid")
-	private String email;
+
 
 	@NotBlank(message = "Password is required")
 	@Size(min = 8, message = "Password must be at least 8 characters")
