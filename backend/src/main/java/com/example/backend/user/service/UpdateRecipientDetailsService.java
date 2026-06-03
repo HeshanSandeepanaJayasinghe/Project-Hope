@@ -34,24 +34,40 @@ public class UpdateRecipientDetailsService {
     ) {
 
         if (recipientId == null) {
-            CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            CustomUserDetails userDetails =
+                    (CustomUserDetails) SecurityContextHolder
+                            .getContext()
+                            .getAuthentication()
+                            .getPrincipal();
+
             recipientId = userDetails.getUserId();
         }
 
-        // Update User collection (password only)
-        Query userQuery = new Query(Criteria.where("_id").is(recipientId));
+        Query userQuery = new Query(
+                Criteria.where("_id").is(recipientId)
+        );
+
         Update userUpdate = new Update();
 
         if (updateRecipientDTO.getPassword() != null) {
-            userUpdate.set("password", passwordEncoder.encode(updateRecipientDTO.getPassword()));
+            userUpdate.set(
+                    "password",
+                    passwordEncoder.encode(updateRecipientDTO.getPassword())
+            );
         }
 
         if (!userUpdate.getUpdateObject().isEmpty()) {
-            mongoTemplate.updateFirst(userQuery, userUpdate, User.class);
+            mongoTemplate.updateFirst(
+                    userQuery,
+                    userUpdate,
+                    User.class
+            );
         }
 
-        // Update Recipient collection (only editable fields)
-        Query recipientQuery = new Query(Criteria.where("userId").is(recipientId));
+        Query recipientQuery = new Query(
+                Criteria.where("userId").is(recipientId)
+        );
+
         Update recipientUpdate = new Update();
 
         if (updateRecipientDTO.getName() != null) {
@@ -83,7 +99,11 @@ public class UpdateRecipientDetailsService {
         }
 
         if (!recipientUpdate.getUpdateObject().isEmpty()) {
-            mongoTemplate.updateFirst(recipientQuery, recipientUpdate, Recipient.class);
+            mongoTemplate.updateFirst(
+                    recipientQuery,
+                    recipientUpdate,
+                    Recipient.class
+            );
         }
 
         return Map.of("Message", "Successfully updated the recipient.");

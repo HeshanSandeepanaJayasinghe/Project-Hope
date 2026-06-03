@@ -34,23 +34,40 @@ public class UpdateDonorDetailsService {
     ) {
 
         if (donorId == null) {
-            CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            CustomUserDetails userDetails =
+                    (CustomUserDetails) SecurityContextHolder
+                            .getContext()
+                            .getAuthentication()
+                            .getPrincipal();
+
             donorId = userDetails.getUserId();
         }
 
-        Query userQuery = new Query(Criteria.where("_id").is(donorId));
+        Query userQuery = new Query(
+                Criteria.where("_id").is(donorId)
+        );
+
         Update userUpdate = new Update();
 
         if (updateDonorDTO.getPassword() != null) {
-            userUpdate.set("password", passwordEncoder.encode(updateDonorDTO.getPassword()));
+            userUpdate.set(
+                    "password",
+                    passwordEncoder.encode(updateDonorDTO.getPassword())
+            );
         }
 
         if (!userUpdate.getUpdateObject().isEmpty()) {
-            mongoTemplate.updateFirst(userQuery, userUpdate, User.class);
+            mongoTemplate.updateFirst(
+                    userQuery,
+                    userUpdate,
+                    User.class
+            );
         }
 
-        // Update Donor collection
-        Query donorQuery = new Query(Criteria.where("userId").is(donorId));
+        Query donorQuery = new Query(
+                Criteria.where("userId").is(donorId)
+        );
+
         Update donorUpdate = new Update();
 
         if (updateDonorDTO.getName() != null) {
@@ -70,7 +87,11 @@ public class UpdateDonorDetailsService {
         }
 
         if (!donorUpdate.getUpdateObject().isEmpty()) {
-            mongoTemplate.updateFirst(donorQuery, donorUpdate, Donor.class);
+            mongoTemplate.updateFirst(
+                    donorQuery,
+                    donorUpdate,
+                    Donor.class
+            );
         }
 
         return Map.of("Message", "Successfully updated the donor.");
