@@ -34,39 +34,76 @@ public class UpdateVerifierDetailsService {
 	) {
 
 		if (verifierId == null) {
-			CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			CustomUserDetails userDetails =
+					(CustomUserDetails) SecurityContextHolder
+							.getContext()
+							.getAuthentication()
+							.getPrincipal();
+
 			verifierId = userDetails.getUserId();
 		}
 
-		Query query1 = new Query(Criteria.where("_id").is(verifierId));
-		Update update1 = new Update();
+		Query userQuery = new Query(
+				Criteria.where("_id").is(verifierId)
+		);
 
-
+		Update userUpdate = new Update();
 
 		if (updateAdministratorDTO.getPassword() != null) {
-			update1.set("password", passwordEncoder.encode(updateAdministratorDTO.getPassword()));
+			userUpdate.set(
+					"password",
+					passwordEncoder.encode(
+							updateAdministratorDTO.getPassword()
+					)
+			);
 		}
 
-		mongoTemplate.updateFirst(query1, update1, User.class);
+		if (!userUpdate.getUpdateObject().isEmpty()) {
+			mongoTemplate.updateFirst(
+					userQuery,
+					userUpdate,
+					User.class
+			);
+		}
 
-		Query query2 = new Query(Criteria.where("userId").is(verifierId));
-		Update update2 = new Update();
+		Query verifierQuery = new Query(
+				Criteria.where("userId").is(verifierId)
+		);
+
+		Update verifierUpdate = new Update();
 
 		if (updateAdministratorDTO.getFirstName() != null) {
-			update2.set("firstName", updateAdministratorDTO.getFirstName());
+			verifierUpdate.set(
+					"firstName",
+					updateAdministratorDTO.getFirstName()
+			);
 		}
 
 		if (updateAdministratorDTO.getLastName() != null) {
-			update2.set("lastName", updateAdministratorDTO.getLastName());
+			verifierUpdate.set(
+					"lastName",
+					updateAdministratorDTO.getLastName()
+			);
 		}
 
 		if (updateAdministratorDTO.getPhoneNumber() != null) {
-			update2.set("phoneNumber", updateAdministratorDTO.getPhoneNumber());
+			verifierUpdate.set(
+					"phoneNumber",
+					updateAdministratorDTO.getPhoneNumber()
+			);
 		}
 
-		mongoTemplate.updateFirst(query2, update2, Verifier.class);
+		if (!verifierUpdate.getUpdateObject().isEmpty()) {
+			mongoTemplate.updateFirst(
+					verifierQuery,
+					verifierUpdate,
+					Verifier.class
+			);
+		}
 
-		return Map.of("Message", "Successfully updated the verifier.");
-
+		return Map.of(
+				"Message",
+				"Successfully updated the verifier."
+		);
 	}
 }
