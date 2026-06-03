@@ -10,29 +10,27 @@ const FinancierViewProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
-    fullName: '',
+    firstName: '',
+    lastName: '',
     email: '',
-    phone: '',
-    company: '',
-    role: '',
-    address: '',
+    phoneNumber: '',
+    password: '',
+    confirmPassword: '',
   });
 
   const syncProfile = (data) => {
     setFormData({
-      fullName: data.fullName || data.name || '',
+      firstName: data.firstName || '',
+      lastName: data.lastName || '',
       email: data.email || '',
-      phone: data.phone || data.telephone || '',
-      company: data.company || data.organization || '',
-      role: data.role || data.position || 'Financier',
-      address: data.address || '',
+      phoneNumber: data.phoneNumber || '',
     });
   };
 
   const fetchProfile = async () => {
     setLoading(true);
     try {
-      const response = await authAxios.get('/finance-manager/profile');
+      const response = await authAxios.get('/finance-manager/me');
       syncProfile(response.data || {});
     } catch (error) {
       toast.error('Unable to load financier profile.');
@@ -52,7 +50,30 @@ const FinancierViewProfile = () => {
   };
 
   const handleSave = async () => {
+
     try {
+      if (formData.password || formData.confirmPassword) {
+        if (formData.password !== formData.confirmPassword) {
+          toast.error('Passwords do not match.');
+          return;
+        }
+        if (formData.password.length < 6) {
+          toast.error('Password must be at least 6 characters long.');
+          return;
+        }
+      }
+
+      const patchBody = {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phoneNumber: formData.phoneNumber,
+        password: formData.password,
+      };
+
+      if (formData.password && formData.password === formData.confirmPassword) {
+        patchBody.password = formData.password;
+      }
+
       await authAxios.patch('/finance-manager/update/profile', formData);
       toast.success('Financier profile updated successfully.');
       setIsEditing(false);
@@ -98,53 +119,58 @@ const FinancierViewProfile = () => {
           <div className="profile-loading">Loading profile...</div>
         ) : (
           <div className="profile-details">
-            <h3>Financial Manager Details</h3>
+            <h3>Account Details</h3>
             <div className="profile-form">
               <div className="form-group">
-                <label>Full Name</label>
+                <label>First Name</label>
                 <input
-                  name="fullName"
-                  value={formData.fullName}
+                  name="firstName"
+                  value={formData.firstName}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
               </div>
               <div className="form-group">
-                <label>Email Address</label>
-                <input name="email" value={formData.email} disabled />
-              </div>
-              <div className="form-group">
-                <label>Phone</label>
+                <label>Last Name</label>
                 <input
-                  name="phone"
-                  value={formData.phone}
+                  name="lastName"
+                  value={formData.lastName}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
               </div>
               <div className="form-group">
-                <label>Company</label>
+                <label>Email</label>
+                <input 
+                  name="email" 
+                  value={formData.email} 
+                  disabled />
+              </div>
+              <div className="form-group">
+                <label>Phone Number</label>
                 <input
-                  name="company"
-                  value={formData.company}
+                  name="phoneNumber"
+                  value={formData.phoneNumber}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
               </div>
               <div className="form-group">
-                <label>Role</label>
+                <label>New Password</label>
                 <input
-                  name="role"
-                  value={formData.role}
+                  name="password"
+                  type="password"
+                  value={formData.password}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
               </div>
-              <div className="form-group full-width">
-                <label>Office Address</label>
+              <div className="form-group">
+                <label>Confirm Password</label>
                 <input
-                  name="address"
-                  value={formData.address}
+                  name="confirmPassword"
+                  type="password"
+                  value={formData.confirmPassword}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
