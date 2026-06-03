@@ -10,29 +10,29 @@ const VerifierViewProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
-    fullName: '',
+    firstName: '',
+    lastName: '',
     email: '',
-    phone: '',
-    speciality: '',
-    location: '',
-    bio: '',
+    phoneNumber: '',
+    password: '',
+    confirmPassword: '',
   });
 
   const syncProfile = (data) => {
     setFormData({
-      fullName: data.fullName || data.name || '',
+      firstName: data.firstName || '',
+      lastName: data.lastName || '',
       email: data.email || '',
-      phone: data.phone || data.telephone || '',
-      speciality: data.speciality || data.expertise || '',
-      location: data.location || data.city || '',
-      bio: data.bio || data.description || '',
+      phoneNumber: data.phoneNumber || '',
+      password: '',
+      confirmPassword: '',
     });
   };
 
   const fetchProfile = async () => {
     setLoading(true);
     try {
-      const response = await authAxios.get('/verifier/profile');
+      const response = await authAxios.get('/verifier/me');
       syncProfile(response.data || {});
     } catch (error) {
       toast.error('Unable to load verifier profile.');
@@ -52,8 +52,37 @@ const VerifierViewProfile = () => {
   };
 
   const handleSave = async () => {
+
+    if (formData.password || formData.confirmPassword) {
+      if (formData.password !== formData.confirmPassword) {
+        toast.error('Passwords do not match.');
+        return;
+      }
+      if (formData.password.length < 6) {
+        toast.error('Password must be at least 6 characters long.');
+        return;
+      }
+    }
+
+    const patchBody = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      phoneNumber: formData.phoneNumber,
+    };
+
+    if (formData.password && formData.password === formData.confirmPassword) {
+      patchBody.password = formData.password;
+    }
+
+    // debug: inspect payload sent to backend
+    // console.log('Verifier patchBody', patchBody);
+
+    if (formData.password && formData.password === formData.confirmPassword) {
+        patchBody.password = formData.password;
+      }
+
     try {
-      await authAxios.patch('/verifier/update/profile', formData);
+      await authAxios.patch('/verifier/update/profile', patchBody);
       toast.success('Verifier profile updated successfully.');
       setIsEditing(false);
       fetchProfile();
@@ -101,50 +130,52 @@ const VerifierViewProfile = () => {
             <h3>Verification Details</h3>
             <div className="profile-form">
               <div className="form-group">
-                <label>Full Name</label>
+                <label>First Name</label>
                 <input
-                  name="fullName"
-                  value={formData.fullName}
+                  name="firstName"
+                  value={formData.firstName}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
               </div>
               <div className="form-group">
-                <label>Email Address</label>
+                <label>Last Name</label>
+                <input
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  disabled={!isEditing}
+                />
+              </div>
+              <div className="form-group">
+                <label>Email</label>
                 <input name="email" value={formData.email} disabled />
               </div>
               <div className="form-group">
-                <label>Contact Number</label>
+                <label>Phone Number</label>
                 <input
-                  name="phone"
-                  value={formData.phone}
+                  name="phoneNumber"
+                  value={formData.phoneNumber}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
               </div>
               <div className="form-group">
-                <label>Area of Expertise</label>
+                <label>New Password</label>
                 <input
-                  name="speciality"
-                  value={formData.speciality}
+                  name="password"
+                  type="password"
+                  value={formData.password}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
               </div>
               <div className="form-group">
-                <label>Location</label>
+                <label>Confirm Password</label>
                 <input
-                  name="location"
-                  value={formData.location}
-                  onChange={handleChange}
-                  disabled={!isEditing}
-                />
-              </div>
-              <div className="form-group full-width">
-                <label>Biography</label>
-                <input
-                  name="bio"
-                  value={formData.bio}
+                  name="confirmPassword"
+                  type="password"
+                  value={formData.confirmPassword}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />

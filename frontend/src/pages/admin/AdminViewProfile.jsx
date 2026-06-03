@@ -68,6 +68,7 @@ const AdminViewProfile = () => {
         firstName: formData.firstName,
         lastName: formData.lastName,
         phoneNumber: formData.phoneNumber,
+        password: formData.password,
       };
 
       if (formData.password && formData.password === formData.confirmPassword) {
