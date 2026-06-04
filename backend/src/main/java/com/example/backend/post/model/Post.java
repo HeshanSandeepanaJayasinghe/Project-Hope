@@ -20,6 +20,7 @@ public class Post {
 	private double currentAmount;
 	private double totalAmount;
 	private double remainingAmount;
+	private boolean disbursed = false;
 	private Instant creationTime;
 	private PostCategory postCategory;
 	private PostUrgency postUrgency;

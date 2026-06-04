@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.Map;
 import java.util.UUID;
 
@@ -33,14 +34,17 @@ public class PaymentController {
         String donorId = user.getUserId();
         String orderId = UUID.randomUUID().toString();
 
-        Payment payment = new Payment(
-                orderId,
-                donorId,
-                request.getPostId(),
-                request.getType(),
-                request.getAmount(),
-                "PENDING"
-        );
+        Payment payment = new Payment();
+        payment.setOrderId(orderId);
+        payment.setDonorId(donorId);
+        payment.setPostId(request.getPostId());
+        payment.setType(request.getType());
+        payment.setAmount(request.getAmount());
+        payment.setStatus("PENDING");
+        payment.setInitiatedBy(donorId);
+        payment.setTransactionTime(Instant.now());
+        payment.setTransactionSource("PAYHERE_CHECKOUT");
+        payment.setNote("Donor initiated payment");
 
         paymentRepository.save(payment);
 
@@ -140,14 +144,17 @@ public class PaymentController {
                     }
 
                     if (excess > 0) {
-                        Payment poolPayment = new Payment(
-                                UUID.randomUUID().toString(),
-                                payment.getDonorId(),
-                                null,
-                                PaymentType.POOL,
-                                excess,
-                                "PAID"
-                        );
+                        Payment poolPayment = new Payment();
+                        poolPayment.setOrderId(UUID.randomUUID().toString());
+                        poolPayment.setDonorId(payment.getDonorId());
+                        poolPayment.setPostId(null);
+                        poolPayment.setType(PaymentType.POOL);
+                        poolPayment.setAmount(excess);
+                        poolPayment.setStatus("PAID");
+                        poolPayment.setInitiatedBy(payment.getDonorId());
+                        poolPayment.setTransactionTime(Instant.now());
+                        poolPayment.setTransactionSource("DONOR_OVERPAYMENT");
+                        poolPayment.setNote("Excess donor amount forwarded to pool");
                         paymentRepository.save(poolPayment);
                         System.out.println("Excess " + excess + " sent to POOL.");
                     }
