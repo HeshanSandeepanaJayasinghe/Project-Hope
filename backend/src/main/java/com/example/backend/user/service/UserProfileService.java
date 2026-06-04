@@ -123,6 +123,9 @@ public class UserProfileService {
 
     private UserProfileResponse getRecipientProfile(String userId, User user) {
         Recipient recipient = recipientRepository.findByUserId(userId);
+        System.out.println(recipient.getPhoneNumber());
+        System.out.println(recipient.getAddress());
+
 
         if (recipient == null) {
             throw new RuntimeException("Recipient profile not found");
