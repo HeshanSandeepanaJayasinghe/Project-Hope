@@ -22,7 +22,7 @@ const Signup = () => {
         confirmPassword: '',
         nic: '',
         birthday: '',
-        telephone: '',
+        phoneNumber: '',
         address: '',
         postalCode: '',
         organization: '',
@@ -46,6 +46,11 @@ const Signup = () => {
 
         if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
             toast.error('All required fields must be filled');
+            return false;
+        }
+
+        if (formData.phoneNumber.length !== 10) {
+            toast.error('Phone number must contain 10 digits');
             return false;
         }
 
@@ -90,7 +95,7 @@ const Signup = () => {
         }
 
         if (userType === 'recipient') {
-            if (!formData.nic || !formData.birthday || !formData.telephone || !formData.address || !formData.postalCode) {
+            if (!formData.nic || !formData.birthday || !formData.phoneNumber || !formData.address || !formData.postalCode) {
                 toast.error('All fields are required');
                 return false;
             }
@@ -217,7 +222,7 @@ const Signup = () => {
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className="icon icon--clickable"
+                                        className="icon-signup icon--clickable"
                                     >
                                         {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                                     </button>
@@ -239,7 +244,7 @@ const Signup = () => {
                                     <button
                                         type="button"
                                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                        className="icon icon--clickable"
+                                        className="icon-signup icon--clickable"
                                     >
                                         {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                                     </button>
@@ -273,14 +278,14 @@ const Signup = () => {
                                         />
                                     </div>
 
-                                    {/* Telephone */}
+                                    {/* phoneNumber */}
                                     <div className="form-group">
-                                        <label className="form-label">Telephone *</label>
+                                        <label className="form-label">phoneNumber *</label>
                                         <input
                                             type="tel"
-                                            name="telephone"
+                                            name="phoneNumber"
                                             placeholder="+94 (0)xx xxx xxxx"
-                                            value={formData.telephone}
+                                            value={formData.phoneNumber}
                                             onChange={handleChange}
                                             className="input input-plain"
                                         />

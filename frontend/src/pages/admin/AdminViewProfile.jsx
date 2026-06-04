@@ -2,40 +2,40 @@
 import { toast } from 'react-toastify';
 import Sidebar from '../../components/Sidebar';
 import { AuthContext } from '../../context/AuthContext';
-import './RecipientViewProfile.css';
-import { User } from 'lucide-react';
+import './AdminViewProfile.css';
 
-const RecipientViewProfile = () => {
+const AdminViewProfile = () => {
   const { authAxios } = useContext(AuthContext);
-  const [isEditing, setIsEditing] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
-    name: '',
-    nic: '',
-    birthday: '',
-    telephone: '',
-    address: '',
-    postalCode: '',
-    newPassword: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    password: '',
     confirmPassword: '',
   });
+
+  const syncProfile = (data) => {
+    setFormData({
+      firstName: data.firstName || '',
+      lastName: data.lastName || '',
+      email: data.email || '',
+      phoneNumber: data.phoneNumber || '',
+      password: '',
+      confirmPassword: '',
+    });
+  };
 
   const fetchProfile = async () => {
     setLoading(true);
     try {
-      const response = await authAxios.get('/recipient/me');
-      const userData = response.data || {};
-      setFormData({
-        name: userData.name || '',
-        nic: userData.nic || '',
-        birthday: userData.birthday || '',
-        telephone: userData.phoneNumber  || '',
-        address: userData.address || '',
-        postalCode: userData.postalCode || '',
-      });
+      const response = await authAxios.get('/admin/me');
+      syncProfile(response.data || {});
     } catch (error) {
-      toast.error('Unable to load recipient profile.');
+      toast.error('Unable to load admin profile.');
       console.error(error);
     } finally {
       setLoading(false);
@@ -46,21 +46,41 @@ const RecipientViewProfile = () => {
     fetchProfile();
   }, [authAxios]);
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSave = async () => {
     try {
-      await authAxios.patch('/recipient/update/profile', formData);
-      toast.success('Recipient profile updated successfully.');
+      if (formData.password || formData.confirmPassword) {
+        if (formData.password !== formData.confirmPassword) {
+          toast.error('Passwords do not match.');
+          return;
+        }
+        if (formData.password.length < 6) {
+          toast.error('Password must be at least 6 characters long.');
+          return;
+        }
+      }
+
+      const patchBody = {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phoneNumber: formData.phoneNumber,
+        password: formData.password,
+      };
+
+      if (formData.password && formData.password === formData.confirmPassword) {
+        patchBody.password = formData.password;
+      }
+
+      await authAxios.patch('/admin/update/profile', patchBody);
+      toast.success('Admin profile updated successfully.');
       setIsEditing(false);
       fetchProfile();
     } catch (error) {
-      toast.error('Failed to save recipient profile.');
+      toast.error('Could not update profile.');
       console.error(error);
     }
   };
@@ -69,10 +89,14 @@ const RecipientViewProfile = () => {
     <div className="view-profile-layout">
       <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
       <div className="view-profile">
-        <h2>Recipient Profile</h2>
+        <h2>Admin Profile</h2>
         <div className="profile-header">
           <div className="profile-image-section">
-            <div className="profile-image-placeholder"><User /></div>
+            <div className="profile-image-placeholder">A</div>
+            <div>
+              <p className="profile-role">Administrator</p>
+              <p className="profile-email">{formData.email || 'No email available'}</p>
+            </div>
           </div>
           <div className="profile-buttons">
             {!isEditing ? (
@@ -96,64 +120,38 @@ const RecipientViewProfile = () => {
           <div className="profile-loading">Loading profile...</div>
         ) : (
           <div className="profile-details">
-            <h3>Registered Details</h3>
+            <h3>Account Details</h3>
             <div className="profile-form">
               <div className="form-group">
-                <label>Name</label>
+                <label>First Name</label>
                 <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  disabled
-                />
-              </div>
-              <div className="form-group">
-                <label>NIC</label>
-                <input
-                  type="text"
-                  name="nic"
-                  value={formData.nic}
-                  onChange={handleChange}
-                  disabled
-                />
-              </div>
-              <div className="form-group">
-                <label>Birthday</label>
-                <input
-                  type="date"
-                  name="birthday"
-                  value={formData.birthday}
-                  onChange={handleChange}
-                  disabled
-                />
-              </div>
-              <div className="form-group">
-                <label>Telephone</label>
-                <input
-                  type="tel"
-                  name="telephone"
-                  value={formData.telephone}
+                  name="firstName"
+                  value={formData.firstName}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
               </div>
               <div className="form-group">
-                <label>Address</label>
+                <label>Last Name</label>
                 <input
-                  type="text"
-                  name="address"
-                  value={formData.address}
+                  name="lastName"
+                  value={formData.lastName}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
               </div>
               <div className="form-group">
-                <label>Postal Code</label>
+                <label>Email</label>
+                <input 
+                  name="email" 
+                  value={formData.email} 
+                  disabled />
+              </div>
+              <div className="form-group">
+                <label>Phone Number</label>
                 <input
-                  type="text"
-                  name="postalCode"
-                  value={formData.postalCode}
+                  name="phoneNumber"
+                  value={formData.phoneNumber}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
@@ -161,9 +159,9 @@ const RecipientViewProfile = () => {
               <div className="form-group">
                 <label>New Password</label>
                 <input
+                  name="password"
                   type="password"
-                  name="newPassword"
-                  value={formData.newPassword}
+                  value={formData.password}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
@@ -171,8 +169,8 @@ const RecipientViewProfile = () => {
               <div className="form-group">
                 <label>Confirm Password</label>
                 <input
-                  type="password"
                   name="confirmPassword"
+                  type="password"
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   disabled={!isEditing}
@@ -186,4 +184,4 @@ const RecipientViewProfile = () => {
   );
 };
 
-export default RecipientViewProfile;
+export default AdminViewProfile;

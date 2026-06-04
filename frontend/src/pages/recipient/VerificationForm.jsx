@@ -49,11 +49,18 @@ const VerificationForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const userData = await authAxios.get('/recipient/me');
+        if (userData.data.verificationSubmitted) {
+            toast.error('You have already submitted a verification request. Please wait for it to be processed.');
+            return;
+        }
         
         if (!formData.agreeToTerms) {
             toast.error('You must agree to the terms and conditions');
             return;
         }
+
 
         if (!formData.verificationDocument) {
             toast.error('Please attach a verification document');
@@ -76,7 +83,7 @@ const VerificationForm = () => {
         submitData.append('agreeToTerms', true);
 
         try {
-            const response = await authAxios.post('/api/recipient/add/verification', submitData, {
+            const response = await authAxios.post('/recipient/add/verification', submitData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

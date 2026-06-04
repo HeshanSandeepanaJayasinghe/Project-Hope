@@ -1,0 +1,233 @@
+.new-financier-container {
+  flex: 1;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background-color: white;
+  color: #495057;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: fit-content;
+  margin-bottom: 1.5rem;
+}
+
+.back-button:hover {
+  background-color: #f8f9fa;
+  color: #212529;
+  border-color: #adb5bd;
+}
+
+.form-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 600px;
+  margin: 0 auto;
+}
+
+.form-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.form-header h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #212529;
+  margin: 0 0 0.5rem 0;
+}
+
+.form-header p {
+  font-size: 0.95rem;
+  color: #6c757d;
+  margin: 0;
+}
+
+.financier-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #495057;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: #f8f9fa;
+  border: 2px solid #dee2e6;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.input-wrapper:focus-within {
+  border-color: #28a745;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+}
+
+.input-icon-financier-form {
+  position: absolute;
+  left: 0.75rem;
+  color: #adb5bd;
+  pointer-events: none;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.form-input {
+  flex: 1;
+  padding: 0.75rem 0.75rem 0.75rem 2.75rem;
+  border: none;
+  background: transparent;
+  font-size: 0.95rem;
+  color: #212529;
+  outline: none;
+}
+
+.form-input::placeholder {
+  color: #adb5bd;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  color: #adb5bd;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease;
+}
+
+.toggle-password:hover {
+  color: #495057;
+}
+
+.btn-submit {
+  padding: 0.9rem 1.5rem;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background-color: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(40, 167, 69, 0.2);
+}
+
+.btn-submit:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-submit:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .new-financier-container {
+    padding: 1rem;
+  }
+
+  .form-card {
+    padding: 1.5rem;
+    border-radius: 8px;
+  }
+
+  .form-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .form-header p {
+    font-size: 0.85rem;
+  }
+
+  .financier-form {
+    gap: 1rem;
+  }
+
+  .form-input {
+    font-size: 0.9rem;
+    padding: 0.65rem 0.65rem 0.65rem 2.5rem;
+  }
+
+  .input-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .new-financier-container {
+    padding: 0.75rem;
+  }
+
+  .form-card {
+    padding: 1.25rem;
+  }
+
+  .form-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .back-button {
+    padding: 0.65rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .form-label {
+    font-size: 0.8rem;
+  }
+
+  .form-input {
+    font-size: 0.85rem;
+    padding: 0.6rem 0.6rem 0.6rem 2.4rem;
+  }
+
+  .btn-submit {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+}

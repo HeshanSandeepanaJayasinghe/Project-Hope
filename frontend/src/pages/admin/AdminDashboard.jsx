@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Sidebar from '../../components/Sidebar';
 import Dashboard from '../../components/DashboardContent';
-import './SuperAdminDashboard.css';
+import './AdminDashboard.css';
 
-const SuperAdminDashboard = () => {
+const AdminDashboard = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     return (
@@ -19,4 +19,4 @@ const SuperAdminDashboard = () => {
     );
 };
 
-export default SuperAdminDashboard;
+export default AdminDashboard;

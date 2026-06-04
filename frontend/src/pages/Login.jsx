@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
 import { toast } from 'react-toastify';
+import './Login.css';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -46,7 +47,7 @@ const Login = () => {
       toast.success("Login successful!");
       if (loggedInUser.Role === "ADMIN") navigate("/admin-dashboard");
       else if (loggedInUser.Role === "SUPERADMIN") navigate("/superadmin-dashboard");
-      else if (loggedInUser.Role === "FINANCIER") navigate("/financier-dashboard");
+      else if (loggedInUser.Role === "FINANCE_MANAGER") navigate("/financier-dashboard");
       else if (loggedInUser.Role === "VERIFIER") navigate("/verifier-dashboard");
       else if (loggedInUser.Role === "RECIPIENT") navigate("/recipient-dashboard");
       else if (loggedInUser.Role === "DONOR") navigate("/donor-dashboard");
@@ -90,7 +91,7 @@ const Login = () => {
                     placeholder="you@example.com"
                     value={formData.email}
                     onChange={handleChange}
-                    className="input"
+                    className="input-login"
                   />
                 </div>
               </div>
@@ -106,7 +107,7 @@ const Login = () => {
                     placeholder="••••••••"
                     value={formData.password}
                     onChange={handleChange}
-                    className="input"
+                    className="input-login"
                   />
                   <button
                     type="button"

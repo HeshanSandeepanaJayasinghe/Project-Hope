@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Eye } from 'lucide-react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import './Posts.css';
 
 const Posts = () => {
@@ -21,9 +22,7 @@ const Posts = () => {
             const response = await axios.get(`${BACKEND_URL}/open/get/all/posts`);
             setPosts(response.data || []);
         } catch (error) {
-            console.error(error);
-            // Fallback to empty array
-            setPosts([]);
+            toast.error('Failed to load posts.');
         } finally {
             setLoading(false);
         }
@@ -87,10 +86,10 @@ const Posts = () => {
 
                             {/* Content */}
                             <div className="post-card-content">
-                                <div className="post-number">Post {post.postId}</div>
                                 <h3 className="post-title">{post.title || 'Untitled'}</h3>
                                 <div className="post-category">{post.postCategory || 'Uncategorized'}</div>
                                 <p className="post-description">{post.description || 'No description'}</p>
+                                <p className="post-description">Target Fund: Rs. {post.totalAmount}.00</p>
                             </div>
 
                             {/* Hover View Button */}

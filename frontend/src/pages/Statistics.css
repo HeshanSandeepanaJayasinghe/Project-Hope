@@ -1,0 +1,41 @@
+.statistics-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #f4f6fb;
+}
+
+.statistics-content {
+  width: 100%;
+  max-width: 1400px;
+  margin: 3rem auto;
+}
+
+.title {
+  font-size: 2rem;
+  margin: 2rem;
+  margin-top: 0;
+  font-weight: 700;
+}
+
+.statistics-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.stat-card {
+  background: #f9fafb;
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: center;
+  margin: 0.5rem;
+  width: 250px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
