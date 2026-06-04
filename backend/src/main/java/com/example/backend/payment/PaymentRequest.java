@@ -12,4 +12,6 @@ public class PaymentRequest {
     private String postId; // optional for POOL
 
     private double amount;
+
+    private String returnUrl;
 }

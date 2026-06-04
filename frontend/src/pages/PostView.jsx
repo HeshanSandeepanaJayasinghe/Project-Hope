@@ -149,7 +149,7 @@ const PostView = () => {
                 <div className="donation-buttons-section">
                     <button 
                         className="donation-button donate-this"
-                        onClick={() => navigate('/post-donation')}
+                        onClick={() => navigate(`/post-donation/${post.postId}`)}
                     >
                         Donate This Post
                     </button>

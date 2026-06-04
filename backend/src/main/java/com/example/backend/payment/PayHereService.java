@@ -12,13 +12,16 @@ public class PayHereService {
 
     private final String merchantId;
     private final String merchantSecret;
+    private final String notifyBaseUrl;
 
     public PayHereService(
-            @Value("${merchent.id}") String merchantId,
-            @Value("${merchent.secret}") String merchantSecret
+            @Value("${merchant.id}") String merchantId,
+            @Value("${merchant.secret}") String merchantSecret,
+            @Value("${payhere.notify.base-url}") String notifyBaseUrl
     ) {
         this.merchantId = merchantId;
         this.merchantSecret = merchantSecret;
+        this.notifyBaseUrl = notifyBaseUrl;
     }
 
     // ==========================
@@ -26,7 +29,8 @@ public class PayHereService {
     // ==========================
     public String generateCheckoutForm(
             String orderId,
-            double amount
+            double amount,
+            String returnUrl
     ) {
 
         String amountFormatted =
@@ -60,13 +64,13 @@ public class PayHereService {
             <input type="hidden" name="merchant_id" value="%s"/>
 
             <input type="hidden" name="return_url"
-                   value="http://localhost:8080/success"/>
+                   value="%s"/>
 
             <input type="hidden" name="cancel_url"
                    value="http://localhost:8080/cancel"/>
 
             <input type="hidden" name="notify_url"
-                   value="https://YOUR_NGROK_URL/api/payment/notify"/>
+                   value="%s/api/payment/notify"/>
 
             <input type="hidden"
                    name="order_id"
@@ -124,6 +128,8 @@ public class PayHereService {
         </html>
         """.formatted(
                 merchantId,
+                returnUrl != null ? returnUrl : "http://localhost:3000/donor-dashboard",
+                notifyBaseUrl,
                 orderId,
                 currency,
                 amountFormatted,
