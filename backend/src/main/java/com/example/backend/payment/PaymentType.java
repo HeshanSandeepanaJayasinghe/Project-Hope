@@ -2,5 +2,6 @@ package com.example.backend.payment;
 
 public enum PaymentType {
     POOL,
-    POST
+    POST,
+    POOL_TRANSFER
 }

@@ -10,7 +10,7 @@ import Header from './components/Header.jsx'
 import Features from './pages/Features.jsx'
 import Posts from './pages/Posts.jsx'
 import PostView from './pages/PostView.jsx'
-import PostDonation from './pages/PoolDonation.jsx'
+import PostDonation from './pages/PostDonation.jsx'
 import PoolDonation from './pages/PoolDonation.jsx'
 import Home from './pages/Home.jsx'
 import Aboutus from './pages/Aboutus.jsx'
@@ -61,7 +61,7 @@ function App() {
               <Route path="/features" element={<Features />} />
               <Route path="/posts" element={<Posts />} />
               <Route path="/post-view/:postId" element={<PostView />} />
-              <Route path="/post-donation" element={<PostDonation />} />
+              <Route path="/post-donation/:postId" element={<PostDonation />} />
               <Route path="/pool-donation" element={<PoolDonation />} />
               <Route path="/aboutus" element={<Aboutus />} />
 

@@ -71,7 +71,7 @@ public class UploadPostService {
 		post.setImageUrl("http://localhost:8080/open/get/image/"+uniqueFileName);
 		post.setTotalAmount(postRequestDTO.getDonationTarget());
 		post.setCurrentAmount(0);
-		post.setRemainingAmount(0);
+		post.setRemainingAmount(postRequestDTO.getDonationTarget());
 		post.setPostUrgency(Post.PostUrgency.MEDIUM);
 		post.setVerificationStatus(recipient.getVerificationStatus());
 		post.setCreationTime(Instant.now());
