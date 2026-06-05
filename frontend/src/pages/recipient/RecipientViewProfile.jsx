@@ -14,11 +14,13 @@ const RecipientViewProfile = () => {
     name: '',
     nic: '',
     birthday: '',
-    telephone: '',
+    phoneNumber: '',
     address: '',
     postalCode: '',
-    newPassword: '',
+    password: '',
     confirmPassword: '',
+    accountNo: '',
+    verificationSubmitted: false,
   });
 
   const fetchProfile = async () => {
@@ -30,9 +32,13 @@ const RecipientViewProfile = () => {
         name: userData.name || '',
         nic: userData.nic || '',
         birthday: userData.birthday || '',
-        telephone: userData.phoneNumber  || '',
+        phoneNumber: userData.phoneNumber  || '',
         address: userData.address || '',
         postalCode: userData.postalCode || '',
+        accountNo: userData.accountNo || '',
+        password: '',
+        confirmPassword: '',
+        verificationSubmitted: userData.verificationSubmitted || false,
       });
     } catch (error) {
       toast.error('Unable to load recipient profile.');
@@ -55,7 +61,34 @@ const RecipientViewProfile = () => {
 
   const handleSave = async () => {
     try {
-      await authAxios.patch('/recipient/update/profile', formData);
+
+      if (formData.password || formData.confirmPassword) {
+        if (formData.password !== formData.confirmPassword) {
+          toast.error('Passwords do not match.');
+          return;
+        }
+        if (formData.password.length < 6) {
+          toast.error('Password must be at least 6 characters long.');
+          return;
+        }
+      }
+
+      const patchBody = {
+        name: formData.name,
+        nic: formData.nic,
+        birthday: formData.birthday,
+        address: formData.address,
+        postalCode: formData.postalCode,
+        accountNo: formData.accountNo,
+        phoneNumber: formData.phoneNumber,
+        password: formData.password,
+      };
+
+      if (formData.password && formData.password === formData.confirmPassword) {
+        patchBody.password = formData.password;
+      }
+
+      await authAxios.patch('/recipient/update/profile', patchBody);
       toast.success('Recipient profile updated successfully.');
       setIsEditing(false);
       fetchProfile();
@@ -105,7 +138,7 @@ const RecipientViewProfile = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  disabled
+                  disabled={!isEditing}
                 />
               </div>
               <div className="form-group">
@@ -121,7 +154,7 @@ const RecipientViewProfile = () => {
               <div className="form-group">
                 <label>Birthday</label>
                 <input
-                  type="date"
+                  type="text"
                   name="birthday"
                   value={formData.birthday}
                   onChange={handleChange}
@@ -129,11 +162,11 @@ const RecipientViewProfile = () => {
                 />
               </div>
               <div className="form-group">
-                <label>Telephone</label>
+                <label>Phone Number</label>
                 <input
                   type="tel"
-                  name="telephone"
-                  value={formData.telephone}
+                  name="phoneNumber"
+                  value={formData.phoneNumber}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
@@ -158,12 +191,24 @@ const RecipientViewProfile = () => {
                   disabled={!isEditing}
                 />
               </div>
+              {formData.verificationSubmitted ? (
+                <div className="form-group">
+                  <label>Account No</label>
+                  <input
+                    type="text"
+                    name="accountNo"
+                    value={formData.accountNo}
+                    onChange={handleChange}
+                    disabled={!isEditing}
+                  />
+                </div>
+              ) : null}
               <div className="form-group">
                 <label>New Password</label>
                 <input
                   type="password"
-                  name="newPassword"
-                  value={formData.newPassword}
+                  name="password"
+                  value={formData.password}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />

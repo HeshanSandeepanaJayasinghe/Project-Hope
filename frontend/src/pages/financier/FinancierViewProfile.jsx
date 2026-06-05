@@ -74,7 +74,7 @@ const FinancierViewProfile = () => {
         patchBody.password = formData.password;
       }
 
-      await authAxios.patch('/finance-manager/update/profile', formData);
+      await authAxios.patch('/finance-manager/update/profile', patchBody);
       toast.success('Financier profile updated successfully.');
       setIsEditing(false);
       fetchProfile();
