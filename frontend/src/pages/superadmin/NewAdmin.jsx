@@ -11,13 +11,15 @@ const NewAdmin = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [formData, setFormData] = useState({
         email: '',
         password: '',
         phoneNumber: '',
         firstName: '',
-        lastName: ''
+        lastName: '',
+        confirmPassword: ''
     });
 
     const sidebarItems = [
@@ -74,6 +76,11 @@ const NewAdmin = () => {
             return false;
         }
 
+        if (formData.password !== formData.confirmPassword) {
+            toast.error('Passwords do not match');
+            return false;
+        }
+
         return true;
     };
 
@@ -89,7 +96,7 @@ const NewAdmin = () => {
             navigate('/superadmin/user-management');
         } catch (error) {
             console.error('Failed to create admin:', error);
-            const message = error.response?.data?.message || 'Failed to create admin';
+            const message = error.response?.data?.Message || 'Failed to create admin';
             toast.error(message);
         } finally {
             setLoading(false);
@@ -111,6 +118,8 @@ const NewAdmin = () => {
                     <main className="admin-main">
                         {/* Header with Back Button */}
                         <div className="new-admin-header-section">
+                            
+                            <h1>Add New Admin</h1>
                             <button 
                                 className="btn btn--back"
                                 onClick={() => navigate('/superadmin/user-management')}
@@ -118,7 +127,6 @@ const NewAdmin = () => {
                                 <ArrowLeft size={20} />
                                 Back
                             </button>
-                            <h1>Add New Admin</h1>
                         </div>
 
                         {/* Form Card */}
@@ -165,7 +173,7 @@ const NewAdmin = () => {
                                             <input
                                                 type="email"
                                                 name="email"
-                                                placeholder="john.doe@example.com"
+                                                placeholder="johndoe@gmail.com"
                                                 value={formData.email}
                                                 onChange={handleChange}
                                                 className="input"
@@ -190,7 +198,7 @@ const NewAdmin = () => {
                                     </div>
 
                                     {/* Password */}
-                                    <div className="form-group full-width">
+                                    <div className="form-group">
                                         <label className="form-label">Password</label>
                                         <div className="input-wrapper">
                                             <Lock className="icon" size={20} />
@@ -208,6 +216,27 @@ const NewAdmin = () => {
                                                 className="icon icon--clickable"
                                             >
                                                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Confirm Password</label>
+                                        <div className="input-wrapper">
+                                            <Lock className="icon" size={20} />
+                                            <input
+                                                type={showConfirmPassword ? 'text' : 'password'}
+                                                name="confirmPassword"
+                                                placeholder="••••••••"
+                                                value={formData.confirmPassword}
+                                                onChange={handleChange}
+                                                className="input"
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                                className="icon icon--clickable"
+                                            >
+                                                {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                                             </button>
                                         </div>
                                     </div>
