@@ -49,7 +49,7 @@ const Signup = () => {
             return false;
         }
 
-        if (formData.phoneNumber.length !== 10) {
+        if (userType === 'recipient' & formData.phoneNumber.length !== 10) {
             toast.error('Phone number must contain 10 digits');
             return false;
         }
