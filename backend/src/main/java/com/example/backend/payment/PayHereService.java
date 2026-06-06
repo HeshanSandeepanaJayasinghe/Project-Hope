@@ -128,8 +128,8 @@ public class PayHereService {
         </html>
         """.formatted(
                 merchantId,
-                returnUrl != null ? returnUrl : "http://localhost:3000/donor-dashboard",
-                returnUrl != null ? returnUrl : "http://localhost:3000/donor-dashboard",
+                returnUrl != null ? returnUrl : "http://localhost:3000/payment-return",
+                returnUrl != null ? returnUrl : "http://localhost:3000/payment-return",
                 notifyBaseUrl,
                 orderId,
                 currency,

@@ -12,6 +12,7 @@ import Posts from './pages/Posts.jsx'
 import PostView from './pages/PostView.jsx'
 import PostDonation from './pages/PostDonation.jsx'
 import PoolDonation from './pages/PoolDonation.jsx'
+import PaymentReturn from './pages/PaymentReturn.jsx'
 import Home from './pages/Home.jsx'
 import Aboutus from './pages/Aboutus.jsx'
 import Statistics from './pages/Statistics.jsx';
@@ -64,6 +65,7 @@ function App() {
               <Route path="/post-view/:postId" element={<PostView />} />
               <Route path="/post-donation/:postId" element={<PostDonation />} />
               <Route path="/pool-donation" element={<PoolDonation />} />
+              <Route path="/payment-return" element={<PaymentReturn />} />
               <Route path="/aboutus" element={<Aboutus />} />
 
               <Route path="/recipient-dashboard" element={<ProtectedRoute allowedRoles={['RECIPIENT']}><RecipientDashboard /></ProtectedRoute>} />

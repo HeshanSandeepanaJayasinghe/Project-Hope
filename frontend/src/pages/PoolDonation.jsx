@@ -22,7 +22,7 @@ const PoolDonation = () => {
             const response = await authAxios.post('/api/payment/pay', {
                 type: 'POOL',
                 amount: parseFloat(amount),
-                returnUrl: window.location.origin + '/donor-dashboard'
+                returnUrl: window.location.origin + '/payment-return'
             }, {
                 headers: { Accept: 'text/html' },
                 responseType: 'text'
@@ -37,16 +37,10 @@ const PoolDonation = () => {
 
             const form = div.querySelector('form');
             if (form) {
-                // Force overwrite the return_url to point to our frontend dashboard
-                // This bypasses any hardcoded URLs in the backend's generated HTML
-                const returnUrlInput = form.querySelector('input[name="return_url"]');
-                if (returnUrlInput) {
-                    returnUrlInput.value = window.location.origin + '/donor-dashboard';
-                }
-
-                // Save orderId so the dashboard can confirm the payment on return
                 const orderIdInput = form.querySelector('input[name="order_id"]');
-                if (orderIdInput) {
+                const returnUrlInput = form.querySelector('input[name="return_url"]');
+                if (orderIdInput && returnUrlInput) {
+                    returnUrlInput.value = `${window.location.origin}/payment-return?orderId=${orderIdInput.value}`;
                     localStorage.setItem('pendingOrderId', orderIdInput.value);
                 }
                 
