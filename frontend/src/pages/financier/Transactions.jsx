@@ -6,6 +6,7 @@ const Transactions = () => {
   const { authAxios } = useContext(AuthContext);
   const [incoming, setIncoming] = useState([]);
   const [outgoing, setOutgoing] = useState([]);
+  const [selectedView, setSelectedView] = useState('incoming');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -24,6 +25,9 @@ const Transactions = () => {
     fetch();
   }, [authAxios]);
 
+  const transactions = selectedView === 'incoming' ? incoming : outgoing;
+  const isIncoming = selectedView === 'incoming';
+
   return (
     <div className="finance-manager-wrapper">
       <div className="finance-manager-layout">
@@ -35,71 +39,60 @@ const Transactions = () => {
               <p>Loading transactions...</p>
             ) : (
               <>
-                <section style={{ marginBottom: '2rem' }}>
-                  <h2>Incoming (from donors)</h2>
-                  {incoming.length === 0 ? (
-                    <p className="empty-state">No incoming transactions found.</p>
-                  ) : (
-                    <table className="transactions-table">
-                      <thead>
-                        <tr>
-                          <th>Order ID</th>
-                          <th>Donor ID</th>
-                          <th>Post ID</th>
-                          <th>Recipient ID</th>
-                          <th>Date / Time</th>
-                          <th>Amount (LKR)</th>
-                          <th>Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {incoming.map(tx => (
-                          <tr key={tx.orderId}>
-                            <td>{tx.orderId}</td>
-                            <td>{tx.actorId}</td>
-                            <td>{tx.postId}</td>
-                            <td>{tx.recipientId}</td>
-                            <td>{tx.transactionTime ? new Date(tx.transactionTime).toLocaleString() : ''}</td>
-                            <td>{tx.amount}</td>
-                            <td>{tx.status}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  )}
-                </section>
+                <div className="transactions-toolbar">
+                  <div className="transactions-tabs">
+                    <button
+                      type="button"
+                      className={`transactions-tab ${selectedView === 'incoming' ? 'active' : ''}`}
+                      onClick={() => setSelectedView('incoming')}
+                    >
+                      Incoming
+                    </button>
+                    <button
+                      type="button"
+                      className={`transactions-tab ${selectedView === 'outgoing' ? 'active' : ''}`}
+                      onClick={() => setSelectedView('outgoing')}
+                    >
+                      Outgoing
+                    </button>
+                  </div>
+                  <div className="transactions-summary">
+                    Showing {transactions.length} {selectedView} transaction{transactions.length === 1 ? '' : 's'}
+                  </div>
+                </div>
 
-                <section>
-                  <h2>Outgoing (to recipients)</h2>
-                  {outgoing.length === 0 ? (
-                    <p className="empty-state">No outgoing transactions found.</p>
+                <section className="transaction-sheet-card">
+                  {transactions.length === 0 ? (
+                    <p className="empty-state">No {selectedView} transactions found.</p>
                   ) : (
-                    <table className="transactions-table">
-                      <thead>
-                        <tr>
-                          <th>Order ID</th>
-                          <th>Finance Manager ID</th>
-                          <th>Post ID</th>
-                          <th>Recipient ID</th>
-                          <th>Date / Time</th>
-                          <th>Amount (LKR)</th>
-                          <th>Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {outgoing.map(tx => (
-                          <tr key={tx.orderId}>
-                            <td>{tx.orderId}</td>
-                            <td>{tx.actorId}</td>
-                            <td>{tx.postId}</td>
-                            <td>{tx.recipientId}</td>
-                            <td>{tx.transactionTime ? new Date(tx.transactionTime).toLocaleString() : ''}</td>
-                            <td>{tx.amount}</td>
-                            <td>{tx.status}</td>
+                    <div className="table-scroll">
+                      <table className="transactions-table">
+                        <thead>
+                          <tr>
+                            <th>Order ID</th>
+                            <th>{isIncoming ? 'Donor ID' : 'Finance Manager ID'}</th>
+                            <th>Post ID</th>
+                            <th>Recipient ID</th>
+                            <th>Date / Time</th>
+                            <th>Amount (LKR)</th>
+                            <th>Status</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {transactions.map(tx => (
+                            <tr key={tx.orderId}>
+                              <td>{tx.orderId}</td>
+                              <td>{tx.actorId}</td>
+                              <td>{tx.postId || '—'}</td>
+                              <td>{tx.recipientId || '—'}</td>
+                              <td>{tx.transactionTime ? new Date(tx.transactionTime).toLocaleString() : '—'}</td>
+                              <td>{tx.amount}</td>
+                              <td>{tx.status}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   )}
                 </section>
               </>
