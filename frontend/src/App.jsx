@@ -91,6 +91,8 @@ function App() {
               <Route path="/financier/donation-management" element={<ProtectedRoute allowedRoles={['FINANCE_MANAGER']}><DonationManagement /></ProtectedRoute>} />
               <Route path="/financier/transactions" element={<ProtectedRoute allowedRoles={['FINANCE_MANAGER']}><Transactions /></ProtectedRoute>} />
 
+              <Route path="/admin/transactions" element={<ProtectedRoute allowedRoles={['ADMIN']}><Transactions /></ProtectedRoute>} />
+
               <Route path="/admin-dashboard" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminDashboard /></ProtectedRoute>} />
               <Route path="/admin/user-management" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminUserManagement /></ProtectedRoute>} />
               <Route path="/admin/new-verifier" element={<ProtectedRoute allowedRoles={['ADMIN']}><NewVerifier /></ProtectedRoute>} />

@@ -14,6 +14,7 @@ export const MENU_CONFIG = {
         { id: 'user-management', label: 'User Management', path: '/admin/user-management', icon: <Users size={20} /> },
         { id: 'verification-history', label: 'Verification History', path: '/admin/verification-history', icon: <ClipboardCheck size={20} /> },
         { id: 'donation-activity', label: 'Donation Activity', path: '/admin/donation-activity', icon: <Heart size={20} /> },
+        { id: 'transactions', label: 'Transactions', path: '/admin/transactions', icon: <History size={20} /> },
         { id: 'statistics', label: 'Statistics', path: '/admin/statistics', icon: <FileText size={20} /> },
         
     ],
