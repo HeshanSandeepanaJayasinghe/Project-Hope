@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import './PaymentReturn.css';
 
 const BACKEND_URL = import.meta.env.BACKEND_URL || 'http://localhost:8080';
 
@@ -38,45 +39,31 @@ const PaymentReturn = () => {
   }, [searchParams]);
 
   return (
-    <div style={{ minHeight: '100vh', padding: '3rem 1.5rem', display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#f3f4f6' }}>
-      <div style={{ width: '100%', maxWidth: '640px', background: '#ffffff', borderRadius: '1rem', padding: '2.5rem', boxShadow: '0 20px 50px rgba(15, 23, 42, 0.08)' }}>
-        <h1 style={{ color: '#15803d', marginBottom: '1rem' }}>
+    <div className="payment-return-page">
+      <div className="payment-return-card">
+        <h1 className="payment-return-card__title">
           {status === 'success' ? 'Donation Confirmed' : status === 'error' ? 'Payment Could Not Be Confirmed' : 'Processing Payment'}
         </h1>
-        <p style={{ color: '#4b5563', fontSize: '1rem', lineHeight: '1.8', marginBottom: '1.5rem' }}>
+        <p className="payment-return-card__text">
           {message}
         </p>
 
         {orderId && (
-          <p style={{ color: '#6b7280', marginBottom: '1.5rem' }}>
+          <p className="payment-return-card__order-id">
             Order ID: <strong>{orderId}</strong>
           </p>
         )}
 
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+        <div className="payment-return-actions">
           <Link
             to="/"
-            style={{
-              padding: '0.9rem 1.25rem',
-              background: '#16a34a',
-              color: 'white',
-              borderRadius: '0.75rem',
-              textDecoration: 'none',
-              fontWeight: 600,
-            }}
+            className="payment-return-button payment-return-button--primary"
           >
             Back to Home
           </Link>
           <Link
             to="/pool-donation"
-            style={{
-              padding: '0.9rem 1.25rem',
-              background: '#f3f4f6',
-              color: '#111827',
-              borderRadius: '0.75rem',
-              textDecoration: 'none',
-              fontWeight: 600,
-            }}
+            className="payment-return-button payment-return-button--secondary"
           >
             Donate Again
           </Link>

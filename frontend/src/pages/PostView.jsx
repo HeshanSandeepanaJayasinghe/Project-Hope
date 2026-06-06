@@ -67,6 +67,12 @@ const PostView = () => {
         return <div className="error-state">Post not found.</div>;
     }
 
+    const donationTarget = Number(post.totalAmount || 0);
+    const donationsMade = Number(post.currentAmount || 0);
+    const progressPercent = donationTarget > 0
+        ? Math.min(100, Math.max(0, (donationsMade / donationTarget) * 100))
+        : 0;
+
     return (
         <div className="post-view-container">
             {/* Back Button */}
@@ -134,13 +140,29 @@ const PostView = () => {
                             <span className="info-label">Posted Time:</span>
                             <span className="info-value">{formatTime(post.creationTime)}</span>
                         </div>
-                        <div className="info-item">
-                            <span className="info-label">District:</span>
-                            <span className="info-value">N/A</span>
+                        <div className="info-item highlight">
+                            <span className="info-label">Donation Target:</span>
+                            <span className="info-value">Rs. {post.totalAmount || 0}</span>
                         </div>
                         <div className="info-item highlight">
                             <span className="info-label">Donations Made:</span>
                             <span className="info-value">Rs. {post.currentAmount || 0}</span>
+                        </div>
+                        <div className="info-item highlight">
+                            <span className="info-label">Remaining Amount:</span>
+                            <span className="info-value">Rs. {post.remainingAmount || 0}</span>
+                        </div>
+                        <div className="progress-bar">
+                            <div className="progress-bar__label">
+                                <span>Donation progress</span>
+                                <span>{progressPercent.toFixed(0)}%</span>
+                            </div>
+                            <div className="progress-bar__track">
+                                <div
+                                    className="progress-bar__fill"
+                                    style={{ width: `${progressPercent}%` }}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
