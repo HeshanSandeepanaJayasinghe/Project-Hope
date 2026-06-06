@@ -67,7 +67,7 @@ public class PayHereService {
                    value="%s"/>
 
             <input type="hidden" name="cancel_url"
-                   value="http://localhost:8080/cancel"/>
+                   value="%s"/>
 
             <input type="hidden" name="notify_url"
                    value="%s/api/payment/notify"/>
@@ -128,6 +128,7 @@ public class PayHereService {
         </html>
         """.formatted(
                 merchantId,
+                returnUrl != null ? returnUrl : "http://localhost:3000/donor-dashboard",
                 returnUrl != null ? returnUrl : "http://localhost:3000/donor-dashboard",
                 notifyBaseUrl,
                 orderId,
