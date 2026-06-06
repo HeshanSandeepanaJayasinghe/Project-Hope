@@ -1,0 +1,60 @@
+.payment-return-page {
+  min-height: 600px;
+  padding: 3rem 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f3f4f6;
+}
+
+.payment-return-card {
+  width: 100%;
+  max-width: 640px;
+  background: #ffffff;
+  border-radius: 1rem;
+  padding: 2.5rem;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+}
+
+.payment-return-card__title {
+  color: #15803d;
+  margin-bottom: 1rem;
+}
+
+.payment-return-card__text {
+  color: #4b5563;
+  font-size: 1rem;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+.payment-return-card__order-id {
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+}
+
+.payment-return-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.payment-return-button {
+  padding: 0.9rem 1.25rem;
+  border-radius: 0.75rem;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.payment-return-button--primary {
+  background: #16a34a;
+  color: white;
+}
+
+.payment-return-button--secondary {
+  background: #f3f4f6;
+  color: #111827;
+}
