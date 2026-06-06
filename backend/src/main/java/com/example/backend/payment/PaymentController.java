@@ -26,12 +26,16 @@ public class PaymentController {
     @PostMapping(value = "/pay", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity<String> pay(@RequestBody com.example.backend.payment.PaymentRequest request) {
 
-        CustomUserDetails user =
-                (CustomUserDetails) SecurityContextHolder.getContext()
-                        .getAuthentication()
-                        .getPrincipal();
+        String donorId = null;
+        String initiatedBy = "GUEST";
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        String donorId = user.getUserId();
+        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
+            donorId = user.getUserId();
+            initiatedBy = donorId;
+        }
+
         String orderId = UUID.randomUUID().toString();
 
         Payment payment = new Payment();
@@ -41,7 +45,7 @@ public class PaymentController {
         payment.setType(request.getType());
         payment.setAmount(request.getAmount());
         payment.setStatus("PENDING");
-        payment.setInitiatedBy(donorId);
+        payment.setInitiatedBy(initiatedBy);
         payment.setTransactionTime(Instant.now());
         payment.setTransactionSource("PAYHERE_CHECKOUT");
         payment.setNote("Donor initiated payment");
