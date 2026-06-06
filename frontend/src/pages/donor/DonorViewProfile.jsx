@@ -10,19 +10,19 @@ const DonorViewProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
-    fullName: '',
+    name: '',
     email: '',
-    phone: '',
     organization: '',
     occupation: '',
     nic: '',
+    password: '',
+    confirmPassword: '',
   });
 
   const syncProfile = (data) => {
     setFormData({
-      fullName: data.fullName || data.name || '',
+      name: data.name || '',
       email: data.email || '',
-      phone: data.phone || data.telephone || '',
       organization: data.organization || data.company || '',
       occupation: data.occupation || data.role || '',
       nic: data.nic || data.identityNumber || '',
@@ -32,7 +32,7 @@ const DonorViewProfile = () => {
   const fetchProfile = async () => {
     setLoading(true);
     try {
-      const response = await authAxios.get('/donor/profile');
+      const response = await authAxios.get('/donor/me');
       syncProfile(response.data || {});
     } catch (error) {
       toast.error('Unable to load donor profile.');
@@ -53,13 +53,19 @@ const DonorViewProfile = () => {
 
   const handleSave = async () => {
     try {
-      await authAxios.put('/donor/update/profile', formData);
+
+      if (formData.password !== formData.confirmPassword) {
+        toast.error('Passwords do not match.');
+        return;
+      }
+
+      await authAxios.patch('/donor/update/profile', formData);
       toast.success('Donor profile updated successfully.');
       setIsEditing(false);
       fetchProfile();
     } catch (error) {
       toast.error('Unable to save profile changes.');
-      console.error(error);
+      console.error(error.Message || error);
     }
   };
 
@@ -101,16 +107,16 @@ const DonorViewProfile = () => {
             <h3>Donor Details</h3>
             <div className="profile-form">
               <div className="form-group">
-                <label>Full Name</label>
+                <label>Name</label>
                 <input
-                  name="fullName"
-                  value={formData.fullName}
+                  name="name"
+                  value={formData.name}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
               </div>
               <div className="form-group">
-                <label>Email Address</label>
+                <label>Email</label>
                 <input name="email" value={formData.email} disabled />
               </div>
               <div className="form-group">
@@ -119,7 +125,7 @@ const DonorViewProfile = () => {
                   name="nic"
                   value={formData.nic}
                   onChange={handleChange}
-                  disabled={!isEditing}
+                  disabled
                 />
               </div>
               <div className="form-group">
@@ -140,11 +146,20 @@ const DonorViewProfile = () => {
                   disabled={!isEditing}
                 />
               </div>
-              <div className="form-group full-width">
-                <label>Phone</label>
+              <div className="form-group">
+                <label>New password</label>
                 <input
-                  name="phone"
-                  value={formData.phone}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  disabled={!isEditing}
+                />
+              </div>
+              <div className="form-group">
+                <label>Confirm password</label>
+                <input
+                  name="confirmPassword"
+                  value={formData.conformPassword}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />

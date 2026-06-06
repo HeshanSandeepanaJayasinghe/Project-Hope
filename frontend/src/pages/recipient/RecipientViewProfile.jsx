@@ -12,6 +12,7 @@ const RecipientViewProfile = () => {
   const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
+    email: '',
     nic: '',
     birthday: '',
     phoneNumber: '',
@@ -30,15 +31,16 @@ const RecipientViewProfile = () => {
       const userData = response.data || {};
       setFormData({
         name: userData.name || '',
+        email: userData.email || '',
         nic: userData.nic || '',
-        birthday: userData.birthday || '',
-        phoneNumber: userData.phoneNumber  || '',
-        address: userData.address || '',
-        postalCode: userData.postalCode || '',
-        accountNo: userData.accountNo || '',
+        birthday: userData.roleSpecificData.birthday || '',
+        phoneNumber: userData.phoneNumber  ||  userData.roleSpecificData.phoneNumber || '',
+        address: userData.roleSpecificData.address || '',
+        postalCode: userData.roleSpecificData.postalCode || '',
+        accountNo: userData.roleSpecificData.accountNo || '',
         password: '',
         confirmPassword: '',
-        verificationSubmitted: userData.verificationSubmitted || false,
+        verificationSubmitted: userData.roleSpecificData.verificationSubmitted || false,
       });
     } catch (error) {
       toast.error('Unable to load recipient profile.');
@@ -139,6 +141,16 @@ const RecipientViewProfile = () => {
                   value={formData.name}
                   onChange={handleChange}
                   disabled={!isEditing}
+                />
+              </div>
+              <div className="form-group">
+                <label>Email</label>
+                <input
+                  type="text"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  disabled
                 />
               </div>
               <div className="form-group">
