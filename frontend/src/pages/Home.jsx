@@ -12,7 +12,6 @@ import img1 from "../assets/hpictures/img1.jpg";
 import img2 from "../assets/hpictures/img2.jpg";
 import img3 from "../assets/hpictures//img3.avif";
 
-// Placeholder image URLs for hero slideshow - replace with your splash image links
 const heroSlides = [
   "https://images.unsplash.com/photo-1579208575657-c595a05383b7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://plus.unsplash.com/premium_photo-1726837345485-7a0a7d543290?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -20,11 +19,6 @@ const heroSlides = [
   "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1579621970588-a35d0e7ab9b6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 ];
-
-// Undraw images
-// const undrawInterview = "https://illustrations.popsy.co/blue/undraw_interview_yz52.svg";
-// const undrawShowingSupport = "https://illustrations.popsy.co/blue/showing-support.svg";
-// const undrawChildren = "https://illustrations.popsy.co/blue/undraw_children_e6ln.svg";
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -38,7 +32,6 @@ export default function Home() {
   const controls3 = useAnimation();
 
   useEffect(() => {
-    // Slideshow autoplay every 5 seconds
     const slideInterval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
     }, 5000);
@@ -47,12 +40,10 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    // Set initial state first
     controls1.set({ opacity: 0, y: 50 });
     controls2.set({ opacity: 0, y: 50 });
     controls3.set({ opacity: 0, y: 50 });
 
-    // Then animate when in view
     if (inView1) controls1.start({ opacity: 1, y: 0 });
     if (inView2) controls2.start({ opacity: 1, y: 0 });
     if (inView3) controls3.start({ opacity: 1, y: 0 });
@@ -66,14 +57,13 @@ export default function Home() {
   return (
     <div className="container">
 
-      {/* Hero Section */}
       <motion.section
         className="hero"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
       >
-        {/* Slideshow Background */}
+
         <div className="slideshow-container">
           {heroSlides.map((slide, index) => (
             <img
@@ -94,7 +84,6 @@ export default function Home() {
         <button onClick={() => navigate('/login')}>Get Started</button>
       </motion.section>
 
-      {/* Recipient Section */}
       <motion.section
         ref={ref1}
         className="section section-row recipient-section"
@@ -111,7 +100,6 @@ export default function Home() {
         </div>
       </motion.section>
 
-      {/* Donor Section */}
       <motion.section
         ref={ref2}
         className="section section-row-reverse"
@@ -128,7 +116,6 @@ export default function Home() {
         </div>
       </motion.section>
 
-      {/* What We Do */}
       <motion.section
         ref={ref3}
         className="what-we-do"

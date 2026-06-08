@@ -1,0 +1,61 @@
+.notfound-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1.25rem;
+  min-height: calc(100vh - 140px);
+  background: linear-gradient(180deg, #ffffff 0%, #f7faf7 100%);
+}
+
+.notfound-card {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  max-width: 920px;
+  width: 100%;
+  padding: 2.25rem;
+  border-radius: 18px;
+  background: transparent;
+}
+
+.notfound-image {
+  width: 48%;
+  max-width: 420px;
+  height: auto;
+  display: block;
+}
+
+.notfound-copy {
+  width: 52%;
+  color: var(--text);
+}
+
+.notfound-copy h1 {
+  font-size: 2.25rem;
+  margin: 0 0 0.5rem;
+  color: var(--primary-700);
+}
+
+.notfound-copy p {
+  margin: 0 0 1.25rem;
+  color: #41564a;
+}
+
+.notfound-actions .btn-primary {
+  background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+  color: #fff;
+  padding: 0.8rem 1.6rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .notfound-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .notfound-image, .notfound-copy { width: 100%; }
+}
