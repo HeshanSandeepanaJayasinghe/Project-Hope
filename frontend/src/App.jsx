@@ -16,6 +16,7 @@ import PaymentReturn from './pages/PaymentReturn.jsx'
 import Home from './pages/Home.jsx'
 import Aboutus from './pages/Aboutus.jsx'
 import Statistics from './pages/Statistics.jsx';
+import NotFound from './pages/404NotFound.jsx'
 
 import RecipientDashboard from './pages/recipient/RecipientDashboard.jsx'
 import RecipientMyPosts from './pages/recipient/RecipientMyPosts.jsx'
@@ -100,6 +101,8 @@ function App() {
               <Route path="/superadmin/user-management" element={<ProtectedRoute allowedRoles={['SUPERADMIN']}><SuperAdminManageAdmins /></ProtectedRoute>} />
               <Route path="/superadmin/new-admin" element={<ProtectedRoute allowedRoles={['SUPERADMIN']}><SuperAdminNewAdmin /></ProtectedRoute>} />
               <Route path="/superadmin/statistics" element={<ProtectedRoute allowedRoles={['SUPERADMIN']}><Statistics /></ProtectedRoute>} />
+
+              <Route path="*" element={<NotFound />} />
 
             </Routes>
           </div>
