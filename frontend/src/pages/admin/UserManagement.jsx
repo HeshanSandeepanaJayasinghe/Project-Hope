@@ -130,15 +130,15 @@ const UserManagement = () => {
               </div>
               <div className="table-body">
                 {verifiers.map(verifier => (
-                  <div key={verifier.id} className="table-row">
+                  <div key={verifier.userId} className="table-row">
                     <div className="col-email">{verifier.email}</div>
                     <div className="col-name">{verifier.firstName} {verifier.lastName}</div>
                     <div className="col-phone">{verifier.phoneNumber}</div>
                     <div className="col-action">
                       <button 
                         className="btn-delete"
-                        onClick={() => handleDeleteVerifier(verifier.id)}
-                        disabled={deleting === verifier.id}
+                        onClick={() => handleDeleteVerifier(verifier.userId)}
+                        disabled={deleting === verifier.userId}
                         title="Delete verifier"
                       >
                         <Trash2 size={18} />
@@ -178,15 +178,15 @@ const UserManagement = () => {
               </div>
               <div className="table-body">
                 {financiers.map(financier => (
-                  <div key={financier.id} className="table-row">
+                  <div key={financier.userId} className="table-row">
                     <div className="col-email">{financier.email}</div>
                     <div className="col-name">{financier.firstName} {financier.lastName}</div>
                     <div className="col-phone">{financier.phoneNumber}</div>
                     <div className="col-action">
                       <button 
                         className="btn-delete"
-                        onClick={() => handleDeleteFinancier(financier.id)}
-                        disabled={deleting === financier.id}
+                        onClick={() => handleDeleteFinancier(financier.userId)}
+                        disabled={deleting === financier.userId}
                         title="Delete financier"
                       >
                         <Trash2 size={18} />

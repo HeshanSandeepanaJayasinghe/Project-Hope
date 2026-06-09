@@ -14,6 +14,7 @@ export const MENU_CONFIG = {
         { id: 'user-management', label: 'User Management', path: '/admin/user-management', icon: <Users size={20} /> },
         { id: 'verification-history', label: 'Verification History', path: '/admin/verification-history', icon: <ClipboardCheck size={20} /> },
         { id: 'donation-activity', label: 'Donation Activity', path: '/admin/donation-activity', icon: <Heart size={20} /> },
+        { id: 'transactions', label: 'Transactions', path: '/admin/transactions', icon: <History size={20} /> },
         { id: 'statistics', label: 'Statistics', path: '/admin/statistics', icon: <FileText size={20} /> },
         
     ],
@@ -27,6 +28,7 @@ export const MENU_CONFIG = {
         { id: 'dashboard', label: 'Dashboard', path: '/financier-dashboard', icon: <LayoutDashboard size={20} /> },
         { id: 'financierViewProfile', label: 'View Profile', path: '/financier/view-profile', icon: <UserRoundPen size={20} /> },
         { id: 'donation-management', label: 'Donation Management', path: '/financier/donation-management', icon: <Wallet size={20} /> },
+        { id: 'transactions', label: 'Transactions', path: '/financier/transactions', icon: <History size={20} /> },
         { id: 'donation-activity', label: 'Donation Activity', path: '/financier/donation-activity', icon: <Heart size={20} /> },
         { id: 'verification-requests', label: 'Verification Requests', path: '/financier/verification-requests', icon: <UserCheck size={20} /> },
         { id: 'reports', label: 'Reports', path: '/financier/reports', icon: <FileText size={20} /> },

@@ -11,10 +11,13 @@ import com.example.backend.user.model.Recipient;
 import com.example.backend.user.repository.RecipientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -54,7 +57,7 @@ public class FinanceManagerPostController {
                         .reversed())
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(Map.of(
+        return ResponseEntity.ok(Map.<String, Object>of(
                 "poolBalance", poolBalance,
                 "readyToRelease", readyToRelease,
                 "pendingPosts", pending
@@ -68,7 +71,7 @@ public class FinanceManagerPostController {
 
         double remaining = Math.max(0, post.getTotalAmount() - post.getCurrentAmount());
         if (remaining > 0) {
-            return ResponseEntity.badRequest().body(Map.of(
+            return ResponseEntity.badRequest().body(Map.<String, Object>of(
                     "message", "Post is not fully funded yet",
                     "requiredRemaining", remaining
             ));
@@ -84,10 +87,27 @@ public class FinanceManagerPostController {
         post.setDisbursed(true);
         postRepository.save(post);
 
+        // create a payout payment record representing the funds sent to recipient
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String initiatedBy = auth != null && auth.isAuthenticated() && auth.getName() != null ? auth.getName() : "FINANCE_MANAGER";
+
+        Payment payout = new Payment();
+        payout.setOrderId(UUID.randomUUID().toString());
+        payout.setDonorId("FINANCE_MANAGER");
+        payout.setPostId(postId);
+        payout.setType(PaymentType.POOL_TRANSFER);
+        payout.setAmount(post.getCurrentAmount());
+        payout.setStatus("PAID");
+        payout.setInitiatedBy(initiatedBy);
+        payout.setTransactionTime(Instant.now());
+        payout.setTransactionSource("POST_PAYOUT");
+        payout.setNote("Finance manager released funds to recipient");
+        paymentRepository.save(payout);
+
         Recipient recipient = recipientRepository.findById(post.getRecipientId()).orElse(null);
         String accountNo = recipient != null ? recipient.getAccountNo() : "";
 
-        return ResponseEntity.ok(Map.of(
+        return ResponseEntity.ok(Map.<String, Object>of(
                 "message", "Funds released to recipient account",
                 "postId", postId,
                 "accountNo", accountNo,
@@ -111,7 +131,7 @@ public class FinanceManagerPostController {
         double poolBalance = Math.max(0, poolCredits - poolDebits);
 
         if (request.getAmount() > poolBalance) {
-            return ResponseEntity.badRequest().body(Map.of(
+            return ResponseEntity.badRequest().body(Map.<String, Object>of(
                     "message", "Not enough funds available in the pool",
                     "poolBalance", poolBalance
             ));
@@ -147,11 +167,63 @@ public class FinanceManagerPostController {
         poolTransfer.setNote("Finance manager allocated pool funds to post");
         paymentRepository.save(poolTransfer);
 
-        return ResponseEntity.ok(Map.of(
+        return ResponseEntity.ok(Map.<String, Object>of(
                 "message", "Pool allocation successful",
                 "allocatedAmount", allocation,
                 "remainingAmount", post.getRemainingAmount(),
                 "postId", postId
+        ));
+    }
+
+    @GetMapping("/transactions")
+    public ResponseEntity<Map<String, Object>> getTransactions() {
+        List<Payment> incomingPayments = paymentRepository.findAll().stream()
+                .filter(p -> (p.getType() == PaymentType.POST || p.getType() == PaymentType.POOL))
+                .collect(Collectors.toList());
+
+        List<Payment> outgoingPayments = paymentRepository.findByTypeAndStatus(PaymentType.POOL_TRANSFER, "PAID");
+
+        List<Map<String, Object>> incoming = incomingPayments.stream().map(p -> {
+            String recipientId = null;
+            if (p.getPostId() != null) {
+                Post post = postRepository.findById(p.getPostId()).orElse(null);
+                if (post != null) recipientId = post.getRecipientId();
+            }
+            Map<String, Object> record = new HashMap<>();
+            record.put("orderId", p.getOrderId());
+            record.put("actorId", p.getDonorId() != null ? p.getDonorId() : p.getInitiatedBy());
+            record.put("transactionTime", p.getTransactionTime());
+            record.put("postId", p.getPostId());
+            record.put("recipientId", recipientId);
+            record.put("amount", p.getAmount());
+            record.put("type", p.getType().name());
+            record.put("status", p.getStatus());
+            record.put("transactionSource", p.getTransactionSource());
+            return record;
+        }).collect(Collectors.toList());
+
+        List<Map<String, Object>> outgoing = outgoingPayments.stream().map(p -> {
+            String recipientId = null;
+            if (p.getPostId() != null) {
+                Post post = postRepository.findById(p.getPostId()).orElse(null);
+                if (post != null) recipientId = post.getRecipientId();
+            }
+            Map<String, Object> record = new HashMap<>();
+            record.put("orderId", p.getOrderId());
+            record.put("actorId", p.getInitiatedBy());
+            record.put("transactionTime", p.getTransactionTime());
+            record.put("postId", p.getPostId());
+            record.put("recipientId", recipientId);
+            record.put("amount", p.getAmount());
+            record.put("type", p.getType().name());
+            record.put("status", p.getStatus());
+            record.put("transactionSource", p.getTransactionSource());
+            return record;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(Map.<String, Object>of(
+                "incoming", incoming,
+                "outgoing", outgoing
         ));
     }
 
