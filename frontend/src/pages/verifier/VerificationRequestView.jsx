@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Sidebar from '../../components/Sidebar';
 import { AuthContext } from '../../context/AuthContext';
@@ -12,6 +12,7 @@ const VerificationRequestView = () => {
     const [recipient, setRecipient] = useState(null);
     const [loading, setLoading] = useState(true);
     const userId = location.state?.userId;
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (userId) {
@@ -57,7 +58,7 @@ const VerificationRequestView = () => {
                     setIsOpen={setSidebarOpen}
                 />
                 <div className="verification-request-view-content">
-                    <h1>Verification Request Details</h1>
+                    <button className='back-btn' onClick={()=>navigate(-1)}>Back</button>
                     {!userId ? (
                         <div className="placeholder-content">
                             <h2>No recipient selected</h2>

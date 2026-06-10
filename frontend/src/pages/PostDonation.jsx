@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 import { toast } from 'react-toastify';
+import './PostDonation.css';
 
 const PostDonation = () => {
     const navigate = useNavigate();
@@ -64,43 +65,24 @@ const PostDonation = () => {
     };
 
     return (
-        <div style={{ minHeight: '100vh', padding: '2rem', background: 'linear-gradient(135deg, #f6f9f6, #ffffff)' }}>
+        <div className="post-donation-page">
             <button 
                 onClick={() => navigate(-1)}
-                style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    padding: '0.75rem 1rem',
-                    background: 'white',
-                    color: '#16a34a',
-                    border: '2px solid #16a34a',
-                    borderRadius: '0.5rem',
-                    fontWeight: '600',
-                    cursor: 'pointer',
-                    marginBottom: '2rem'
-                }}
+                className="post-donation-back-button"
             >
                 <ArrowLeft size={20} />
                 Back
             </button>
 
-            <div style={{
-                maxWidth: '600px',
-                margin: '0 auto',
-                background: 'white',
-                padding: '2rem',
-                borderRadius: '1rem',
-                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)'
-            }}>
-                <h1 style={{ color: '#15803d', marginBottom: '1rem' }}>Donate to This Post</h1>
-                <p style={{ color: '#6b7280', fontSize: '1.1rem', lineHeight: '1.6', marginBottom: '2rem' }}>
+            <div className="post-donation-card">
+                <h1 className="post-donation-heading">Donate to This Post</h1>
+                <p className="post-donation-description">
                     This page will allow donors to contribute funds directly to this specific cause.
                 </p>
                 
-                <form onSubmit={handleDonate} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                        <label htmlFor="amount" style={{ fontWeight: '600', color: '#374151' }}>Donation Amount (LKR)</label>
+                <form onSubmit={handleDonate} className="post-donation-form">
+                    <div className="post-donation-field">
+                        <label htmlFor="amount" className="post-donation-label">Donation Amount (LKR)</label>
                         <input
                             type="number"
                             id="amount"
@@ -110,28 +92,13 @@ const PostDonation = () => {
                             min="1"
                             step="0.01"
                             required
-                            style={{
-                                padding: '0.75rem',
-                                borderRadius: '0.5rem',
-                                border: '1px solid #d1d5db',
-                                fontSize: '1rem'
-                            }}
+                            className="post-donation-input"
                         />
                     </div>
                     <button
                         type="submit"
                         disabled={loading}
-                        style={{
-                            padding: '0.75rem',
-                            backgroundColor: '#16a34a',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '0.5rem',
-                            fontSize: '1rem',
-                            fontWeight: '600',
-                            cursor: loading ? 'not-allowed' : 'pointer',
-                            opacity: loading ? 0.7 : 1
-                        }}
+                        className="post-donation-submit"
                     >
                         {loading ? 'Processing...' : 'Proceed to Pay'}
                     </button>

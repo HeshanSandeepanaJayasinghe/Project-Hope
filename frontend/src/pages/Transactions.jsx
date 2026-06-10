@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { AuthContext } from '../../context/AuthContext';
-import './DonationManagement.css';
+import { AuthContext } from '../context/AuthContext';
+import './transactions.css';
+import Sidebar from '../components/Sidebar';
 
 const Transactions = () => {
   const { authAxios } = useContext(AuthContext);
@@ -8,6 +9,7 @@ const Transactions = () => {
   const [outgoing, setOutgoing] = useState([]);
   const [selectedView, setSelectedView] = useState('incoming');
   const [loading, setLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
@@ -29,12 +31,11 @@ const Transactions = () => {
   const isIncoming = selectedView === 'incoming';
 
   return (
-    <div className="finance-manager-wrapper">
-      <div className="finance-manager-layout">
-        <div className="finance-manager-content">
-          <main className="finance-manager-main">
-            <h1 style={{ color: '#15803d', marginBottom: '1rem' }}>Transactions</h1>
-
+    <div className="transactions-page-wrapper">
+      <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
+      <div className="transactions-layout">
+        <div className="transactions-content">
+          <main className="transactions-main">
             {loading ? (
               <p>Loading transactions...</p>
             ) : (

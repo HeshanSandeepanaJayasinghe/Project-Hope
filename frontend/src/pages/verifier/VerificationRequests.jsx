@@ -19,7 +19,7 @@ const VerificationRequests = () => {
     const fetchVerificationRecipients = async () => {
         try {
             const response = await authAxios.get('/verifier/get/all/recipients');
-            const filteredRecipients = response.data.filter((recipient) => recipient.province);
+            const filteredRecipients = response.data.filter((recipient) => recipient.verificationSubmitted);
             setRecipients(filteredRecipients);
         } catch (error) {
             console.error('Error fetching verification recipients:', error);
