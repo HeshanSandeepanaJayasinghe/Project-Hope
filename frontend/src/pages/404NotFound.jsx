@@ -14,7 +14,7 @@ export default function NotFound() {
           <h1>404 — Page not found</h1>
           <p>We couldn’t find the page you’re looking for. It may have been moved or deleted.</p>
           <div className="notfound-actions">
-            <button className="btn-primary" onClick={() => navigate('/')}>Go to Home</button>
+            <button className="btn-primary" onClick={() => navigate(-1)}>Go Back</button>
           </div>
         </div>
       </div>

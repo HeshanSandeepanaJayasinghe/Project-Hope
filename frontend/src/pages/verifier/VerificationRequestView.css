@@ -107,3 +107,17 @@
     color: #555;
     word-break: break-word;
 }
+
+.back-btn {
+    padding: 10px 18px;
+    border: 1px solid rgb(18, 59, 26);
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+} 
+
+.back-btn:hover {
+    background-color: rgb(201, 227, 206);
+    border: 1px solid rgb(201, 227, 206);
+}
