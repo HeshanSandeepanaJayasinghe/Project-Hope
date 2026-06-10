@@ -1,0 +1,80 @@
+.post-donation-page {
+  min-height: 70vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f6f9f6, #ffffff);
+}
+
+.post-donation-back-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: white;
+  color: #16a34a;
+  border: 2px solid #16a34a;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 2rem;
+}
+
+.post-donation-card {
+  max-width: 600px;
+  margin: 0 auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.post-donation-heading {
+  color: #15803d;
+  margin-bottom: 1rem;
+}
+
+.post-donation-description {
+  color: #6b7280;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.post-donation-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.post-donation-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.post-donation-label {
+  font-weight: 600;
+  color: #374151;
+}
+
+.post-donation-input {
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  font-size: 1rem;
+}
+
+.post-donation-submit {
+  padding: 0.75rem;
+  background-color: #16a34a;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.post-donation-submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
