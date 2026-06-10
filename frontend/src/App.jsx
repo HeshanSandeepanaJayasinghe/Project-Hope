@@ -17,6 +17,7 @@ import Home from './pages/Home.jsx'
 import Aboutus from './pages/Aboutus.jsx'
 import Statistics from './pages/Statistics.jsx';
 import NotFound from './pages/404NotFound.jsx'
+import Transactions from './pages/Transactions.jsx';
 
 import RecipientDashboard from './pages/recipient/RecipientDashboard.jsx'
 import RecipientMyPosts from './pages/recipient/RecipientMyPosts.jsx'
@@ -38,7 +39,6 @@ import VerificationHistory from './pages/verifier/VerificationHistory.jsx';
 import FinancierDashboard from './pages/financier/FinancierDashboard.jsx';
 import FinancierViewProfile from './pages/financier/FinancierViewProfile.jsx';
 import DonationManagement from './pages/financier/DonationManagement.jsx';
-import Transactions from './pages/financier/Transactions.jsx';
 
 import AdminDashboard from './pages/admin/AdminDashboard.jsx'
 import AdminUserManagement from './pages/admin/UserManagement.jsx'
@@ -92,14 +92,13 @@ function App() {
               <Route path="/financier/donation-management" element={<ProtectedRoute allowedRoles={['FINANCE_MANAGER']}><DonationManagement /></ProtectedRoute>} />
               <Route path="/financier/transactions" element={<ProtectedRoute allowedRoles={['FINANCE_MANAGER']}><Transactions /></ProtectedRoute>} />
 
-              <Route path="/admin/transactions" element={<ProtectedRoute allowedRoles={['ADMIN']}><Transactions /></ProtectedRoute>} />
-
               <Route path="/admin-dashboard" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminDashboard /></ProtectedRoute>} />
               <Route path="/admin/user-management" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminUserManagement /></ProtectedRoute>} />
               <Route path="/admin/new-verifier" element={<ProtectedRoute allowedRoles={['ADMIN']}><NewVerifier /></ProtectedRoute>} />
               <Route path="/admin/new-financier" element={<ProtectedRoute allowedRoles={['ADMIN']}><NewFinancier /></ProtectedRoute>} />
               <Route path="/admin/view-profile" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminViewProfile /></ProtectedRoute>} />
               <Route path="/admin/statistics" element={<ProtectedRoute allowedRoles={['ADMIN']}><Statistics /></ProtectedRoute>} />
+               <Route path="/admin/transactions" element={<ProtectedRoute allowedRoles={['ADMIN']}><Transactions /></ProtectedRoute>} />
 
               <Route path="/superadmin-dashboard" element={<ProtectedRoute allowedRoles={['SUPERADMIN']}><SuperAdminDashboard /></ProtectedRoute>} />
               <Route path="/superadmin/user-management" element={<ProtectedRoute allowedRoles={['SUPERADMIN']}><SuperAdminManageAdmins /></ProtectedRoute>} />

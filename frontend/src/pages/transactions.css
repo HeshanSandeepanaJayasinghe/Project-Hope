@@ -1,0 +1,129 @@
+.transactions-page-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background: #f4f7f9;
+}
+
+.transactions-layout {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.transactions-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.transactions-main {
+  flex: 1;
+}
+
+.transactions-toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 96%;
+  margin: 1rem;
+}
+
+.transactions-tab {
+  border: 1px solid #d1d5db;
+  background: #f8fafc;
+  color: #0f5132;
+  padding: 0.9rem 1.25rem;
+  border-radius: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  margin: 0.5rem;
+}
+
+.transactions-tab:hover {
+  transform: translateY(-1px);
+}
+
+.transactions-tab.active {
+  background: #15803d;
+  color: #ffffff;
+  border-color: #15803d;
+}
+
+.transactions-summary {
+  color: #475569;
+  font-size: 0.95rem;
+}
+
+.transaction-sheet-card {
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.transactions-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 860px;
+  background: #ffffff;
+}
+
+.transactions-table th,
+.transactions-table td {
+  padding: 1rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+  font-size: 0.95rem;
+  color: #111827;
+}
+
+.transactions-table th {
+  background: #f8fafc;
+  color: #0f5132;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.transactions-table tbody tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+.transactions-table tbody tr:hover {
+  background: #e2f3e6;
+}
+
+.transactions-table td:first-child,
+.transactions-table th:first-child {
+  width: 22%;
+}
+
+.transaction-sheet-card .empty-state {
+  margin: 0;
+  padding: 2rem;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .transactions-table {
+    min-width: 100%;
+  }
+
+  .transactions-tab {
+    flex: 1;
+    text-align: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .transactions-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
