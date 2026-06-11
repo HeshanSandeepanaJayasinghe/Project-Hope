@@ -42,6 +42,7 @@ import DonationManagement from './pages/financier/DonationManagement.jsx';
 
 import AdminDashboard from './pages/admin/AdminDashboard.jsx'
 import AdminUserManagement from './pages/admin/UserManagement.jsx'
+import AdminStaffManagement from './pages/admin/StaffManagement.jsx'
 import AdminViewProfile from './pages/admin/AdminViewProfile.jsx'
 import NewVerifier from './pages/admin/NewVerifier.jsx';
 import NewFinancier from './pages/admin/NewFinancier.jsx';
@@ -95,6 +96,7 @@ function App() {
 
               <Route path="/admin-dashboard" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminDashboard /></ProtectedRoute>} />
               <Route path="/admin/user-management" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminUserManagement /></ProtectedRoute>} />
+              <Route path="/admin/staff-management" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminStaffManagement /></ProtectedRoute>} />
               <Route path="/admin/new-verifier" element={<ProtectedRoute allowedRoles={['ADMIN']}><NewVerifier /></ProtectedRoute>} />
               <Route path="/admin/new-financier" element={<ProtectedRoute allowedRoles={['ADMIN']}><NewFinancier /></ProtectedRoute>} />
               <Route path="/admin/view-profile" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminViewProfile /></ProtectedRoute>} />
