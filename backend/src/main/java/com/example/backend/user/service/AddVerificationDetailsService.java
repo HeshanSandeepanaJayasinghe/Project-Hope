@@ -74,8 +74,7 @@ public class AddVerificationDetailsService {
 			verification.setNumberOfFamilyMembers(verificationDTO.getNumberOfFamilyMembers());
 			verification.setLongTermHealthIssues(verificationDTO.getLongTermHealthIssues());
 			verification.setRecipientId(recipientId);
-			verification.setAccountNo(verification.getAccountNo());
-			verification.setAccountNo(verification.getAccountNo());
+			verification.setAccountNo(verificationDTO.getAccountNo());
 
 			verification.setDocumentUrl("http://localhost:8080/verifier/get/pdf/"+fileName);
 			verificationRepository.save(verification);
