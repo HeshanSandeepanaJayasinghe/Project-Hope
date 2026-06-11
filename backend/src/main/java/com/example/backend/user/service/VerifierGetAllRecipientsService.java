@@ -103,6 +103,8 @@ public class VerifierGetAllRecipientsService {
 						.and("verificationInfo.numberOfFamilyMembers").as("numberOfFamilyMembers")
 						.and("verificationInfo.longTermHealthIssues").as("longTermHealthIssues")
 						.and("verificationInfo.verifiedBy").as("verifiedBy")
+						.and("verificationInfo.verificationTimeStamp").as("verificationTimeStamp")
+						.and("verificationInfo.pdfViewed").as("pdfViewed")
 
 
 						.and("extractedFilename").as("documentUrl")
@@ -202,6 +204,8 @@ public class VerifierGetAllRecipientsService {
 						.and("verificationInfo.numberOfFamilyMembers").as("numberOfFamilyMembers")
 						.and("verificationInfo.longTermHealthIssues").as("longTermHealthIssues")
 						.and("verificationInfo.verifiedBy").as("verifiedBy")
+						.and("verificationInfo.verificationTimeStamp").as("verificationTimeStamp")
+						.and("verificationInfo.pdfViewed").as("pdfViewed")
 
 						.and("extractedFilename").as("documentUrl")
 		);

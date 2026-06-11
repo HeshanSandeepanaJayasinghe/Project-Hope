@@ -24,5 +24,7 @@ public class Verification {
 	private String longTermHealthIssues;
 	private String documentUrl;
 	private String verifiedBy;
+	private String verificationTimeStamp;
+	private boolean pdfViewed;
 
 }
