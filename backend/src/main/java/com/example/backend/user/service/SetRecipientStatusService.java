@@ -36,7 +36,7 @@ public class SetRecipientStatusService {
 
 		Update updateVerification = new Update()
 				.set("verifiedBy", verifierUserId)
-				.set("verificationTimeStamp", editRecipientStatusDTO.getVerificationTimeStamp())
+				.set("verificationTimeStamp", java.time.LocalDateTime.now().toString())
 				.set("pdfViewed", editRecipientStatusDTO.isPdfViewed());
 		
 		mongoTemplate.updateFirst(query, updateVerification, Verification.class);
