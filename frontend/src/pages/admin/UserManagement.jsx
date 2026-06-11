@@ -1,206 +1,165 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Trash2, Plus } from 'lucide-react';
 import { toast } from 'react-toastify';
 import Sidebar from '../../components/Sidebar';
 import { AuthContext } from '../../context/AuthContext';
 import './UserManagement.css';
 
-const UserManagement = () => {
-  const navigate = useNavigate();
-  const { authAxios } = useContext(AuthContext);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [verifiers, setVerifiers] = useState([]);
-  const [financiers, setFinanciers] = useState([]);
-  const [loadingVerifiers, setLoadingVerifiers] = useState(true);
-  const [loadingFinanciers, setLoadingFinanciers] = useState(true);
-  const [deleting, setDeleting] = useState(null);
+function UserManagement() {
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const { authAxios } = useContext(AuthContext);
+    const [recipients, setRecipients] = useState([]);
+    const [donors, setDonors] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [activeTab, setActiveTab] = useState('recipients');
 
-  const sidebarItems = [
-    { id: 'dashboard', label: 'Dashboard', href: '/admin-dashboard' },
-    { id: 'user-management', label: 'User Management', href: '/admin/user-management' },
-    { id: 'reports', label: 'Reports', href: '/admin/reports' },
-  ];
+    useEffect(() => {
+        fetchUserData();
+    }, []);
 
-  // Fetch Verifiers
-  useEffect(() => {
-    const fetchVerifiers = async () => {
-      setLoadingVerifiers(true);
-      try {
-        const response = await authAxios.get('/admin/get/verifiers');
-        setVerifiers(response.data || []);
-      } catch (error) {
-        console.error('Failed to fetch verifiers:', error);
-        toast.error('Failed to load verifiers');
-        setVerifiers([]);
-      } finally {
-        setLoadingVerifiers(false);
-      }
+    const fetchUserData = async () => {
+        try {
+            setLoading(true);
+            const [recipientsRes, donorsRes] = await Promise.all([
+                authAxios.get('/all/recipients/'),
+                authAxios.get('/all/donors/')
+            ]);
+            setRecipients(recipientsRes.data || []);
+            setDonors(donorsRes.data || []);
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+            toast.error('Failed to load user management data');
+        } finally {
+            setLoading(false);
+        }
     };
-    fetchVerifiers();
-  }, [authAxios]);
 
-  // Fetch Financiers
-  useEffect(() => {
-    const fetchFinanciers = async () => {
-      setLoadingFinanciers(true);
-      try {
-        const response = await authAxios.get('/admin/get/finance-managers');
-        setFinanciers(response.data || []);
-      } catch (error) {
-        console.error('Failed to fetch financiers:', error);
-        toast.error('Failed to load financiers');
-        setFinanciers([]);
-      } finally {
-        setLoadingFinanciers(false);
-      }
-    };
-    fetchFinanciers();
-  }, [authAxios]);
+    const RecipientTable = () => (
+        <div className="table-container">
+            {recipients.length === 0 ? (
+                <div className="empty-state">
+                    <p>No recipients found</p>
+                </div>
+            ) : (
+                <table className="user-table">
+                    <thead>
+                        <tr>
+                            <th>Recipient ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>NIC</th>
+                            <th>Address</th>
+                            <th>Verification Status</th>
+                            <th>District</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {recipients.map((recipient) => (
+                            <tr key={recipient.recipientId}>
+                                <td>{recipient.recipientId}</td>
+                                <td>{recipient.name}</td>
+                                <td>{recipient.email}</td>
+                                <td>{recipient.phoneNumber}</td>
+                                <td>{recipient.nic}</td>
+                                <td>{recipient.address}</td>
+                                <td>
+                                    <span className={`status-badge ${recipient.verificationStatus?.toLowerCase()}`}>
+                                        {recipient.verificationStatus || 'Pending'}
+                                    </span>
+                                </td>
+                                <td>{recipient.district}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
+        </div>
+    );
 
-  // Delete Verifier
-  const handleDeleteVerifier = async (id) => {
-    if (window.confirm('Are you sure you want to delete this verifier?')) {
-      setDeleting(id);
-      try {
-        await authAxios.delete(`/admin/delete/verifier/${id}`);
-        setVerifiers(verifiers.filter(v => v.id !== id));
-        toast.success('Verifier deleted successfully');
-      } catch (error) {
-        console.error('Failed to delete verifier:', error);
-        toast.error('Failed to delete verifier');
-      } finally {
-        setDeleting(null);
-      }
-    }
-  };
+    const DonorTable = () => (
+        <div className="table-container">
+            {donors.length === 0 ? (
+                <div className="empty-state">
+                    <p>No donors found</p>
+                </div>
+            ) : (
+                <table className="user-table">
+                    <thead>
+                        <tr>
+                            <th>Donor ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Organization</th>
+                            <th>Address</th>
+                            <th>Status</th>
+                            <th>District</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {donors.map((donor) => (
+                            <tr key={donor.donorId}>
+                                <td>{donor.donorId}</td>
+                                <td>{donor.name}</td>
+                                <td>{donor.email}</td>
+                                <td>{donor.phoneNumber}</td>
+                                <td>{donor.organization || 'N/A'}</td>
+                                <td>{donor.address}</td>
+                                <td>
+                                    <span className="status-badge active">
+                                        Active
+                                    </span>
+                                </td>
+                                <td>{donor.district}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
+        </div>
+    );
 
-  // Delete Financier
-  const handleDeleteFinancier = async (id) => {
-    if (window.confirm('Are you sure you want to delete this financier?')) {
-      setDeleting(id);
-      try {
-        await authAxios.delete(`/admin/delete/finance-manager/${id}`);
-        setFinanciers(financiers.filter(f => f.id !== id));
-        toast.success('Financier deleted successfully');
-      } catch (error) {
-        console.error('Failed to delete financier:', error);
-        toast.error('Failed to delete financier');
-      } finally {
-        setDeleting(null);
-      }
-    }
-  };
+    return (
+        <div className="user-management-wrapper">
+            <div className="dashboard-layout">
+                <Sidebar
+                    isOpen={sidebarOpen}
+                    setIsOpen={setSidebarOpen}
+                />
+                <div className="user-management-content">
+                    <h1>User Management</h1>
+                    
+                    <div className="tab-container">
+                        <div className="tabs">
+                            <button
+                                className={`tab-btn ${activeTab === 'recipients' ? 'active' : ''}`}
+                                onClick={() => setActiveTab('recipients')}
+                            >
+                                Recipients ({recipients.length})
+                            </button>
+                            <button
+                                className={`tab-btn ${activeTab === 'donors' ? 'active' : ''}`}
+                                onClick={() => setActiveTab('donors')}
+                            >
+                                Donors ({donors.length})
+                            </button>
+                        </div>
 
-  return (
-    <div className="admin-layout">
-      <Sidebar 
-        role="admin"
-        items={sidebarItems}
-        onItemClick={() => setSidebarOpen(false)}
-        isOpen={sidebarOpen}
-        setIsOpen={setSidebarOpen}
-      />
-
-      <div className="user-management-container">
-        {/* Verifiers Section */}
-        <section className="management-section">
-          <div className="section-header">
-            <h2>Verifiers</h2>
-            <button 
-              className="btn-add"
-              onClick={() => navigate('/admin/new-verifier')}
-            >
-              <Plus size={20} />
-              Add Verifier
-            </button>
-          </div>
-
-          {loadingVerifiers ? (
-            <div className="loading-state">Loading verifiers...</div>
-          ) : verifiers.length === 0 ? (
-            <div className="empty-state">No verifiers found</div>
-          ) : (
-            <div className="users-table">
-              <div className="table-header">
-                <div className="col-email">Email</div>
-                <div className="col-name">Name</div>
-                <div className="col-phone">Phone</div>
-                <div className="col-action">Action</div>
-              </div>
-              <div className="table-body">
-                {verifiers.map(verifier => (
-                  <div key={verifier.userId} className="table-row">
-                    <div className="col-email">{verifier.email}</div>
-                    <div className="col-name">{verifier.firstName} {verifier.lastName}</div>
-                    <div className="col-phone">{verifier.phoneNumber}</div>
-                    <div className="col-action">
-                      <button 
-                        className="btn-delete"
-                        onClick={() => handleDeleteVerifier(verifier.userId)}
-                        disabled={deleting === verifier.userId}
-                        title="Delete verifier"
-                      >
-                        <Trash2 size={18} />
-                      </button>
+                        {loading ? (
+                            <div className="loading-state">
+                                <p>Loading user data...</p>
+                            </div>
+                        ) : (
+                            <>
+                                {activeTab === 'recipients' && <RecipientTable />}
+                                {activeTab === 'donors' && <DonorTable />}
+                            </>
+                        )}
                     </div>
-                  </div>
-                ))}
-              </div>
+                </div>
             </div>
-          )}
-        </section>
-
-        {/* Financiers Section */}
-        <section className="management-section">
-          <div className="section-header">
-            <h2>Financiers</h2>
-            <button 
-              className="btn-add"
-              onClick={() => navigate('/admin/new-financier')}
-            >
-              <Plus size={20} />
-              Add Financier
-            </button>
-          </div>
-
-          {loadingFinanciers ? (
-            <div className="loading-state">Loading financiers...</div>
-          ) : financiers.length === 0 ? (
-            <div className="empty-state">No financiers found</div>
-          ) : (
-            <div className="users-table">
-              <div className="table-header">
-                <div className="col-email">Email</div>
-                <div className="col-name">Name</div>
-                <div className="col-phone">Phone</div>
-                <div className="col-action">Action</div>
-              </div>
-              <div className="table-body">
-                {financiers.map(financier => (
-                  <div key={financier.userId} className="table-row">
-                    <div className="col-email">{financier.email}</div>
-                    <div className="col-name">{financier.firstName} {financier.lastName}</div>
-                    <div className="col-phone">{financier.phoneNumber}</div>
-                    <div className="col-action">
-                      <button 
-                        className="btn-delete"
-                        onClick={() => handleDeleteFinancier(financier.userId)}
-                        disabled={deleting === financier.userId}
-                        title="Delete financier"
-                      >
-                        <Trash2 size={18} />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </section>
-      </div>
-    </div>
-  );
-};
+        </div>
+    );
+}
 
 export default UserManagement;
