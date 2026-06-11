@@ -15,7 +15,6 @@ const VerificationHistory = () => {
                 <div className="verification-history-content">
                     <h1>Verification History</h1>
                     <div className="placeholder-content">
-                        <h2>Verification History</h2>
                         <p>This section will be integrated later with the API to display the history of verification requests.</p>
                         <p>Expected features: List of past verifications, status updates, timestamps, etc.</p>
                     </div>
