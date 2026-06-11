@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+import com.example.backend.user.model.Verification;
+import com.example.backend.authentication.CustomUserDetails;
+
 @Service
 public class SetRecipientStatusService {
 
@@ -21,11 +24,22 @@ public class SetRecipientStatusService {
 
 	public Map<String, String> setRecipientStatus(EditRecipientStatusDTO editRecipientStatusDTO) {
 
+		CustomUserDetails userDetails =
+				(CustomUserDetails) org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String verifierUserId = userDetails.getUserId();
+
 		Query query = new Query(Criteria.where("recipientId").is(editRecipientStatusDTO.getRecipientId()));
-		Update update = new Update().set(
+		Update updateRecipient = new Update().set(
 				"verificationStatus", Recipient.VerificationStatus.valueOf(editRecipientStatusDTO.getStatus()));
 
-		mongoTemplate.updateFirst(query, update, Recipient.class);
+		mongoTemplate.updateFirst(query, updateRecipient, Recipient.class);
+
+		Update updateVerification = new Update()
+				.set("verifiedBy", verifierUserId)
+				.set("verificationTimeStamp", java.time.LocalDateTime.now().toString())
+				.set("pdfViewed", editRecipientStatusDTO.isPdfViewed());
+		
+		mongoTemplate.updateFirst(query, updateVerification, Verification.class);
 		return Map.of("Message", "Successfully updated the recipient status.");
 	}
 }

@@ -83,8 +83,7 @@ public class VerifierGetAllRecipientsService {
 						.and("birthday").as("birthday")
 						.and("address").as("address")
 						.and("postalCode").as("postalCode")
-						.and("accountNo").as("accountNo")
-						.and("phoneNUmber").as("phoneNumber")
+						.and("phoneNumber").as("phoneNumber")
 						.and("postCount").as("postCount")
 						.and("verificationStatus").as("verificationStatus")
 
@@ -99,11 +98,13 @@ public class VerifierGetAllRecipientsService {
 						.and("verificationInfo.employmentCategory").as("employmentCategory")
 						.and("verificationInfo.occupation").as("occupation")
 						.and("verificationInfo.annualSalary").as("annualSalary")
-						.and("verificationInfo.accountNo").as("verificationAccountNo")  // Changed to avoid conflict with recipient's accountNo
+						.and("verificationInfo.accountNo").as("accountNo")
 						.and("verificationInfo.assetStatus").as("assetStatus")
 						.and("verificationInfo.numberOfFamilyMembers").as("numberOfFamilyMembers")
 						.and("verificationInfo.longTermHealthIssues").as("longTermHealthIssues")
 						.and("verificationInfo.verifiedBy").as("verifiedBy")
+						.and("verificationInfo.verificationTimeStamp").as("verificationTimeStamp")
+						.and("verificationInfo.pdfViewed").as("pdfViewed")
 
 
 						.and("extractedFilename").as("documentUrl")
@@ -182,8 +183,7 @@ public class VerifierGetAllRecipientsService {
 						.and("birthday").as("birthday")
 						.and("address").as("address")
 						.and("postalCode").as("postalCode")
-						.and("accountNo").as("accountNo")
-						.and("phoneNUmber").as("phoneNumber")
+						.and("phoneNumber").as("phoneNumber")
 						.and("postCount").as("postCount")
 						.and("verificationSubmitted").as("verificationSubmitted")
 						.and("verificationStatus").as("verificationStatus")
@@ -204,6 +204,8 @@ public class VerifierGetAllRecipientsService {
 						.and("verificationInfo.numberOfFamilyMembers").as("numberOfFamilyMembers")
 						.and("verificationInfo.longTermHealthIssues").as("longTermHealthIssues")
 						.and("verificationInfo.verifiedBy").as("verifiedBy")
+						.and("verificationInfo.verificationTimeStamp").as("verificationTimeStamp")
+						.and("verificationInfo.pdfViewed").as("pdfViewed")
 
 						.and("extractedFilename").as("documentUrl")
 		);

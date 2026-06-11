@@ -7,4 +7,5 @@ public class EditRecipientStatusDTO {
 
 	private String recipientId;
 	private String status;
+	private boolean pdfViewed;
 }
