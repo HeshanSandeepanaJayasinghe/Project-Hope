@@ -13,6 +13,8 @@ const VerificationRequestView = () => {
     const [loading, setLoading] = useState(true);
     const userId = location.state?.userId;
     const navigate = useNavigate();
+    const [pdfViewed, setPdfViewed] = useState(false);
+    const [selectedStatus, setSelectedStatus] = useState(null);
 
     useEffect(() => {
         if (userId) {
@@ -40,6 +42,7 @@ const VerificationRequestView = () => {
             const pdf = await authAxios.get(`verifier/get/pdf/${recipient.documentUrl}`, { responseType: 'blob' }   );
             const fileURL = URL.createObjectURL(pdf.data);
             window.open(fileURL, "_blank");
+            setPdfViewed(true);
         }
     };
 
@@ -49,6 +52,26 @@ const VerificationRequestView = () => {
             <span className="detail-value">{value ?? 'N/A'}</span>
         </div>
     );
+
+    const setStatus = async () => {
+        if (!selectedStatus) {
+            toast.error('Please select a status');
+            return;
+        }
+        try {
+            await authAxios.patch(`/verifier/edit/recipient`, {
+                recipientId: recipient.recipientId,
+                status: selectedStatus,
+                pdfViewed: pdfViewed
+            });
+            toast.success(`Recipient status updated to ${selectedStatus}`);
+            setSelectedStatus(null);
+            fetchRecipientDetails(userId);
+        } catch (error) {
+            console.error('Error updating recipient status:', error);
+            toast.error('Failed to update recipient status');
+        }
+    };
 
     return (
         <div className="verification-request-view-wrapper">
@@ -109,6 +132,39 @@ const VerificationRequestView = () => {
                                 {renderField('Family Members', recipient.numberOfFamilyMembers)}
                                 {renderField('Long-term Health Issues', recipient.longTermHealthIssues)}
                                 {renderField('Verified By', recipient.verifiedBy)}
+                            </div>
+                            <div className="status-selection">
+                                <p className="status-label">Select Verification Status:</p>
+                                <div className="status-buttons">
+                                    <button
+                                        className={`status-btn verified-btn ${selectedStatus === 'VERIFIED' ? 'selected' : ''}`}
+                                        onClick={() => setSelectedStatus('VERIFIED')}
+                                    >
+                                        Verified
+                                    </button>
+                                    <button
+                                        className={`status-btn unverified-btn ${selectedStatus === 'UNVERIFIED' ? 'selected' : ''}`}
+                                        onClick={() => setSelectedStatus('UNVERIFIED')}
+                                    >
+                                        Unverified
+                                    </button>
+                                    <button
+                                        className={`status-btn fraud-btn ${selectedStatus === 'FRAUD' ? 'selected' : ''}`}
+                                        onClick={() => setSelectedStatus('FRAUD')}
+                                    >
+                                        Fraud
+                                    </button>
+                                </div>
+                                <button
+                                    className="confirm-btn"
+                                    onClick={setStatus}
+                                    disabled={!selectedStatus}
+                                >
+                                    Confirm
+                                </button>
+                                <button  className="cancel-btn" onClick={() => setSelectedStatus(null)} disabled={!selectedStatus}>
+                                    Cancel
+                                </button>
                             </div>
                         </div>
                     )}
