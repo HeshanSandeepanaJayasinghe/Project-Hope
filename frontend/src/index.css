@@ -2,7 +2,7 @@
 
 /* Global theme: green & white */
 :root {
-  --font-sans: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-sans: 'Poppins', sans-serif;
   --primary: #16a34a;
   /* green-600 */
   --primary-700: #15803d;
