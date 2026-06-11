@@ -42,7 +42,7 @@ public class VerifierGetAllRecipientsService {
 						.as("userInfo"),
 
 				lookup()
-						.from("verification")
+						.from("verifications")
 						.localField("recipientIdString")
 						.foreignField("recipientId")
 						.as("verificationInfo"),
@@ -139,7 +139,7 @@ public class VerifierGetAllRecipientsService {
 						.as("userInfo"),
 
 				lookup()
-						.from("verification")
+						.from("verifications")
 						.localField("recipientIdString")
 						.foreignField("recipientId")
 						.as("verificationInfo"),
