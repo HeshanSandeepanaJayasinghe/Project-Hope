@@ -45,6 +45,7 @@ import AdminUserManagement from './pages/admin/UserManagement.jsx'
 import AdminViewProfile from './pages/admin/AdminViewProfile.jsx'
 import NewVerifier from './pages/admin/NewVerifier.jsx';
 import NewFinancier from './pages/admin/NewFinancier.jsx';
+import VerificationHistoryAdmin from './pages/admin/VerificationHistory.jsx';
 
 import SuperAdminDashboard from './pages/superadmin/SuperAdminDashboard.jsx'
 import SuperAdminManageAdmins from './pages/superadmin/AdminManagement.jsx'
@@ -98,7 +99,9 @@ function App() {
               <Route path="/admin/new-financier" element={<ProtectedRoute allowedRoles={['ADMIN']}><NewFinancier /></ProtectedRoute>} />
               <Route path="/admin/view-profile" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminViewProfile /></ProtectedRoute>} />
               <Route path="/admin/statistics" element={<ProtectedRoute allowedRoles={['ADMIN']}><Statistics /></ProtectedRoute>} />
-               <Route path="/admin/transactions" element={<ProtectedRoute allowedRoles={['ADMIN']}><Transactions /></ProtectedRoute>} />
+              <Route path="/admin/transactions" element={<ProtectedRoute allowedRoles={['ADMIN']}><Transactions /></ProtectedRoute>} />
+              <Route path="/admin/verification-history" element={<ProtectedRoute allowedRoles={['ADMIN']}><VerificationHistoryAdmin /></ProtectedRoute>} />
+
 
               <Route path="/superadmin-dashboard" element={<ProtectedRoute allowedRoles={['SUPERADMIN']}><SuperAdminDashboard /></ProtectedRoute>} />
               <Route path="/superadmin/user-management" element={<ProtectedRoute allowedRoles={['SUPERADMIN']}><SuperAdminManageAdmins /></ProtectedRoute>} />
