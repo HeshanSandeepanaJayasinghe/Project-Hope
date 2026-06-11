@@ -20,8 +20,8 @@ function UserManagement() {
         try {
             setLoading(true);
             const [recipientsRes, donorsRes] = await Promise.all([
-                authAxios.get('/all/recipients/'),
-                authAxios.get('/all/donors/')
+                authAxios.get('admin/get/all/recipients'),
+                authAxios.get('admin/get/all/donors')
             ]);
             setRecipients(recipientsRes.data || []);
             setDonors(donorsRes.data || []);
@@ -47,27 +47,15 @@ function UserManagement() {
                             <th>Name</th>
                             <th>Email</th>
                             <th>Phone</th>
-                            <th>NIC</th>
-                            <th>Address</th>
-                            <th>Verification Status</th>
-                            <th>District</th>
                         </tr>
                     </thead>
                     <tbody>
                         {recipients.map((recipient) => (
-                            <tr key={recipient.recipientId}>
-                                <td>{recipient.recipientId}</td>
+                            <tr key={recipient.userId}>
+                                <td>{recipient.userId}</td>
                                 <td>{recipient.name}</td>
                                 <td>{recipient.email}</td>
                                 <td>{recipient.phoneNumber}</td>
-                                <td>{recipient.nic}</td>
-                                <td>{recipient.address}</td>
-                                <td>
-                                    <span className={`status-badge ${recipient.verificationStatus?.toLowerCase()}`}>
-                                        {recipient.verificationStatus || 'Pending'}
-                                    </span>
-                                </td>
-                                <td>{recipient.district}</td>
                             </tr>
                         ))}
                     </tbody>
@@ -89,28 +77,14 @@ function UserManagement() {
                             <th>Donor ID</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Phone</th>
-                            <th>Organization</th>
-                            <th>Address</th>
-                            <th>Status</th>
-                            <th>District</th>
                         </tr>
                     </thead>
                     <tbody>
                         {donors.map((donor) => (
-                            <tr key={donor.donorId}>
-                                <td>{donor.donorId}</td>
+                            <tr key={donor.userId}>
+                                <td>{donor.userId}</td>
                                 <td>{donor.name}</td>
                                 <td>{donor.email}</td>
-                                <td>{donor.phoneNumber}</td>
-                                <td>{donor.organization || 'N/A'}</td>
-                                <td>{donor.address}</td>
-                                <td>
-                                    <span className="status-badge active">
-                                        Active
-                                    </span>
-                                </td>
-                                <td>{donor.district}</td>
                             </tr>
                         ))}
                     </tbody>
