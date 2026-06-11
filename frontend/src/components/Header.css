@@ -3,7 +3,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 40px;
-  background-color: #F1F8E9;
+  background-color: #111827;
   height: 80px;
   box-sizing: border-box;
 
@@ -16,11 +16,16 @@
 }
 
 .logo-img {
-  width: 50px;
-  height: 50px;
+  width: 55px;
+  height: 55px;
   object-fit: cover;
   border-radius: 50%;
-  /* Optional: if they want circular logo image */
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .header-right {
@@ -35,17 +40,17 @@
 }
 
 .nav-item {
-  color: #37474F;
+  color: #b4d1c1;
   text-decoration: none;
   font-size: 15px;
   font-weight: 600;
   padding: 8px 16px;
-  border-radius: 4px;
+  border-radius: 12px;
   transition: background-color 0.3s, color 0.3s;
 }
 
 .nav-item:hover {
-  background-color: #DCEDC8;
+  background-color: #def0e3;
   color: #1B5E20;
 }
 
