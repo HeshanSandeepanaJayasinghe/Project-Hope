@@ -28,9 +28,6 @@ export const MENU_CONFIG = {
         { id: 'financierViewProfile', label: 'View Profile', path: '/financier/view-profile', icon: <UserRoundPen size={20} /> },
         { id: 'donation-management', label: 'Donation Management', path: '/financier/donation-management', icon: <Wallet size={20} /> },
         { id: 'transactions', label: 'Transactions', path: '/financier/transactions', icon: <History size={20} /> },
-        { id: 'donation-activity', label: 'Donation Activity', path: '/financier/donation-activity', icon: <Heart size={20} /> },
-        { id: 'verification-requests', label: 'Verification Requests', path: '/financier/verification-requests', icon: <UserCheck size={20} /> },
-        { id: 'reports', label: 'Reports', path: '/financier/reports', icon: <FileText size={20} /> },
     ],
     recipient: [
         { id: 'dashboard', label: 'Dashboard', path: '/recipient-dashboard', icon: <LayoutDashboard size={20} /> },
