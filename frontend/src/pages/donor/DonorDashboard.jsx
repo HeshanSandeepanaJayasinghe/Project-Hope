@@ -38,7 +38,7 @@ const DonorDashboard = () => {
         const fetchPosts = async () => {
             setLoading(true);
             try {
-                const BACKEND_URL = import.meta.env.BACKEND_URL || 'http://localhost:8080';
+                const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || import.meta.env.BACKEND_URL;
                 const response = await axios.get(`${BACKEND_URL}/open/get/all/posts`);
                 setPosts(response.data || []);
             } catch (error) {
