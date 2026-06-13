@@ -1,0 +1,31 @@
+create the about us page with the following content and design:
+ founders: Heshan Jayasinghe, Savina Hansindu, Isumi Livisarani, Isuru Akalanka, Nethmika Mendis, V. Nishanthan, Thinil Sandaru, Shehani Yashoda
+  founder's images are available in the assets folder > founders folder
+
+
+the page must consist of 4 sections.
+1 - main hero with heading - "Hey There!"
+content - "At Project Hope, we believe that no one should struggle alone. Every day, millions of people face financial hardships that could be eased with a little help from someone who cares. Our mission is to bridge that gap—connecting compassionate donors with individuals and communities in need."
+button - Join Us > redirects to /login
+background should have the image with a little bit of blur with image in assets > about-us > grass images
+
+2 - title - "Who we are"
+founders' images should be there with name
+decription - "We are a dedicated team committed to building a transparent, trustworthy, and user-friendly platform where kindness meets opportunity. Whether someone is raising funds for emergency medical care, education, food, shelter, or community upliftment, our platform empowers them to share their story and receive support from generous donors worldwide."
+
+3 - title - "what we do"
+on left side - "Our platform acts as a meeting point for receipients who need help and donors who want to make a real impact." and "Whether you want to support a family in crisis or help a student achieve their dreams, we make the connection effortless."
+on right side - "We ensure:
+Simple and secure donation processes
+Transparent fundraising with clear descriptions and updates
+Real-time progress tracking
+Direct communication between donors and receipients
+Verified campaigns for safe giving"
+
+4 - tile - "join us"
+description - "Whether you're here to give or to seek support, you are part of something bigger.  A movement of humanity.  A community built on hope.
+Together, we are proving that small acts of kindness can create big change."
+button - Sign up - > redirects to /signup
+
+
+use the theme as suited for the whole project. use Aboutus.jsx and .css which are currently empty/

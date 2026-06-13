@@ -17,7 +17,8 @@ const PostView = () => {
     const fetchPost = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('http://localhost:8080/open/get/all/posts');
+            const BACKEND_URL = import.meta.env.BACKEND_URL;
+            const response = await axios.get(`${BACKEND_URL}/open/get/all/posts`);
             const posts = response.data || [];
             const foundPost = posts.find(p => p.postId === postId);
             setPost(foundPost || null);
