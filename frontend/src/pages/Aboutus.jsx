@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Aboutus.css';
 
 // Import founder images
-import heshanImage from '../assets/founders-images/Heshan-Jayasinghe.jpeg';
+import heshanImage from '../assets/founders-images/Heshan2.jpg';
 import savinaImage from '../assets/founders-images/Savina-Edirisinghe.png';
 import isumiImage from '../assets/founders-images/Isumi-Livisarani.jpeg';
 import isuruImage from '../assets/founders-images/Isuru-Akalanka.jpeg';

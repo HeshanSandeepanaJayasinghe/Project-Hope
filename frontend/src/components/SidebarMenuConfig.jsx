@@ -4,8 +4,7 @@ export const MENU_CONFIG = {
     superadmin: [
         { id: 'dashboard', label: 'Dashboard', path: '/superadmin-dashboard', icon: <LayoutDashboard size={20} /> },
         { id: 'users', label: 'Manage Users', path: '/superadmin/user-management', icon: <Users size={20} /> },
-        { id: 'verification-history', label: 'Verification History', path: '/superadmin/verification-history', icon: <ClipboardCheck size={20} /> },
-        { id: 'donation-activity', label: 'Donation Activity', path: '/superadmin/donation-activity', icon: <Heart size={20} /> },
+        { id: 'ransactions', label: 'transactions', path: '/superadmin/transactions', icon: <Heart size={20} /> },
         { id: 'statistics', label: 'Statistics', path: '/superadmin/statistics', icon: <FileText size={20} /> },
     ],
     admin: [
