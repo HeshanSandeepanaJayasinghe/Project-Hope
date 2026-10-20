@@ -4,20 +4,21 @@ import { toast } from 'react-toastify';
 import { AuthContext } from './AuthContext.jsx';
 
 const ProtectedRoute = ({ children, allowedRoles = [] }) => {
-  const { token, user } = useContext(AuthContext);
-  const isLoggedIn = Boolean(token);
+  const { isLoggedIn, user, sessionChecked } = useContext(AuthContext);
   const isAuthorized = isLoggedIn && (!allowedRoles.length || allowedRoles.includes(user));
 
   useEffect(() => {
+    if (!sessionChecked) return;
     if (!isLoggedIn) {
       toast.error('You must be logged in to access this page.');
     } else if (!isAuthorized) {
       toast.error('You are not authorized to access this page.');
     }
-  }, [isLoggedIn, isAuthorized]);
+  }, [sessionChecked, isLoggedIn, isAuthorized]);
 
-  if (!isLoggedIn) {
-    return <Navigate to="/login" replace />;
+  // Wait for the session check so a page refresh doesn't bounce logged-in users to /login.
+  if (!sessionChecked) {
+    return <div style={{ padding: '2rem', textAlign: 'center' }}>Loading...</div>;
   }
 
   if (!isAuthorized) {

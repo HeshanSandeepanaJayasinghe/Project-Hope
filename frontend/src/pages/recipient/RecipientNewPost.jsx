@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { getErrorMessage } from '../../utils/apiError';
 import Sidebar from '../../components/Sidebar';
 import { AuthContext } from '../../context/AuthContext.jsx';
 import './RecipientPages.css';
@@ -33,13 +34,18 @@ const RecipientNewPost = () => {
   const fetchPost = async () => {
     setLoading(true);
     try {
-      const response = await authAxios.get(`/open/get/all/posts`);
+      const response = await authAxios.get('/recipient/get/posts');
       const posts = response.data || [];
       const foundPost = posts.find((p) => p.postId === postId);
-      
+      if (!foundPost) {
+        toast.error('Post not found.');
+        navigate('/recipient/my-posts');
+        return;
+      }
+
       setFormData({
         title: foundPost.title || '',
-        category: foundPost.category || 'FINANCIAL',
+        category: foundPost.postCategory || 'FINANCIAL',
         description: foundPost.description || '',
         donationTarget: foundPost.totalAmount || '',
         imageFile: null,
@@ -97,7 +103,7 @@ const RecipientNewPost = () => {
         editPayload.append('description', formData.description);
         editPayload.append('totalAmount', formData.donationTarget);
         if (formData.imageFile) {
-          editPayload.append('imageFile', formData.imageFile);
+          editPayload.append('image', formData.imageFile);
         }
         await authAxios.patch(`/recipient/edit/post`, editPayload);
         toast.success('Post updated successfully.');
@@ -108,7 +114,7 @@ const RecipientNewPost = () => {
       navigate('/recipient/my-posts');
     } catch (error) {
       console.error(error);
-      toast.error('Failed to save post. Please try again.');
+      toast.error(getErrorMessage(error, 'Failed to save post. Please try again.'));
     } finally {
       setSaving(false);
     }
@@ -142,6 +148,7 @@ const RecipientNewPost = () => {
                         id="title"
                         name="title"
                         type="text"
+                        maxLength={200}
                         placeholder="Enter your post title"
                         value={formData.title}
                         onChange={handleChange}
@@ -165,6 +172,7 @@ const RecipientNewPost = () => {
                         id="description"
                         name="description"
                         rows="5"
+                        maxLength={2000}
                         placeholder="Describe your need in detail"
                         value={formData.description}
                         onChange={handleChange}
@@ -177,7 +185,8 @@ const RecipientNewPost = () => {
                         id="donationTarget"
                         name="donationTarget"
                         type="number"
-                        min="0"
+                        min="1"
+                        step="0.01"
                         placeholder="Enter target amount"
                         value={formData.donationTarget}
                         onChange={handleChange}
@@ -190,7 +199,7 @@ const RecipientNewPost = () => {
                         id="imageFile"
                         name="imageFile"
                         type="file"
-                        accept="image/*"
+                        accept="image/png,image/jpeg,image/gif,image/webp"
                         onChange={handleChange}
                       />
                       {formData.imageFile && <p className="file-note">Selected file: {formData.imageFile.name}</p>}

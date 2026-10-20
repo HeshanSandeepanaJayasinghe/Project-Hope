@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { Eye, EyeOff } from 'lucide-react';
 import { toast } from 'react-toastify';
+import { getErrorMessage, PASSWORD_REGEX, PASSWORD_MESSAGE } from '../utils/apiError';
 import './Signup.css';
 
 const Signup = () => {
@@ -49,7 +50,7 @@ const Signup = () => {
             return false;
         }
 
-        if (userType === 'recipient' & formData.phoneNumber.length !== 10) {
+        if (userType === 'recipient' && !/^[0-9]{10}$/.test(formData.phoneNumber)) {
             toast.error('Phone number must contain 10 digits');
             return false;
         }
@@ -69,7 +70,7 @@ const Signup = () => {
         return false;
         }
 
-        if (userType === 'recipient' & !postalCodeRegex.test(formData.postalCode)) {
+        if (userType === 'recipient' && !postalCodeRegex.test(formData.postalCode)) {
         toast.error('Invalid postal code format. Must be 4-10 digits');
         return false;
         }
@@ -79,12 +80,12 @@ const Signup = () => {
             return false;
         }
 
-        if (formData.password.length < 8) {
-            toast.error('Password must be at least 8 characters');
+        if (!PASSWORD_REGEX.test(formData.password)) {
+            toast.error(PASSWORD_MESSAGE);
             return false;
         }
 
-        if (userType === 'recipient' & formData.address.length < 5 || formData.address.length > 255) {
+        if (userType === 'recipient' && (formData.address.length < 5 || formData.address.length > 255)) {
             toast.error('Address must be between 5 and 255 characters');
             return false;
         }
@@ -100,7 +101,7 @@ const Signup = () => {
                 return false;
             }
         } else {
-            if (!formData.nic || !formData.occupation) {
+            if (!formData.nic || !formData.occupation || !formData.organization) {
                 toast.error('All fields are required');
                 return false;
             }
@@ -109,31 +110,31 @@ const Signup = () => {
         return true;
     };
 
-    const validatePassword = (pw) => {
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
-        return passwordRegex.test(pw);
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!validateForm()) return;
 
-        if (!validatePassword(formData.password)) {
-            toast.error("Password must contain at least one digit, one lowercase, one uppercase, and one special character", {
-            });
-            return;
-        }
-
         setLoading(true);
         setError('');
 
         try {
-            await register({...formData, userType});
+            const common = {
+                name: formData.name,
+                email: formData.email,
+                password: formData.password,
+                confirmPassword: formData.confirmPassword,
+                nic: formData.nic,
+                agreeToTerms: agreeTerms,
+            };
+            const extra = userType === 'recipient'
+                ? { birthday: formData.birthday, phoneNumber: formData.phoneNumber, address: formData.address, postalCode: formData.postalCode }
+                : { organization: formData.organization, occupation: formData.occupation };
+            await register({ ...common, ...extra, userType });
             toast.success("Registration successful! Please login.");
             navigate('/login');
         } catch (err) {
-            toast.error(err.response?.data?.message || 'Registration failed. Please try again.');
+            toast.error(getErrorMessage(err, 'Registration failed. Please try again.'));
         } finally {
             setLoading(false);
         }
@@ -152,12 +153,14 @@ const Signup = () => {
                     {/* User Type Switcher */}
                     <div className="user-type-switcher">
                         <button
+                            type="button"
                             className={`type-button ${userType === 'recipient' ? 'active' : ''}`}
                             onClick={() => setUserType('recipient')}
                         >
                             I'm a Recipient
                         </button>
                         <button
+                            type="button"
                             className={`type-button ${userType === 'donor' ? 'active' : ''}`}
                             onClick={() => setUserType('donor')}
                         >
@@ -280,11 +283,11 @@ const Signup = () => {
 
                                     {/* phoneNumber */}
                                     <div className="form-group">
-                                        <label className="form-label">phoneNumber *</label>
+                                        <label className="form-label">Phone Number *</label>
                                         <input
                                             type="tel"
                                             name="phoneNumber"
-                                            placeholder="+94 (0)xx xxx xxxx"
+                                            placeholder="07xxxxxxxx"
                                             value={formData.phoneNumber}
                                             onChange={handleChange}
                                             className="input input-plain"

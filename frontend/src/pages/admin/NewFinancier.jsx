@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Mail, Lock, Phone, User, ArrowLeft } from 'lucide-react';
 import { toast } from 'react-toastify';
+import { getErrorMessage, PASSWORD_REGEX, PASSWORD_MESSAGE } from '../../utils/apiError';
 import Sidebar from '../../components/Sidebar';
 import { AuthContext } from '../../context/AuthContext';
 import './NewFinancier.css';
@@ -46,8 +47,8 @@ const NewFinancier = () => {
       return false;
     }
 
-    if (formData.password.length < 8) {
-      toast.error('Password must be at least 8 characters');
+    if (!PASSWORD_REGEX.test(formData.password)) {
+      toast.error(PASSWORD_MESSAGE);
       return false;
     }
 
@@ -76,10 +77,10 @@ const NewFinancier = () => {
       });
 
       toast.success('Financier created successfully');
-      navigate('/admin/user-management');
+      navigate('/admin/staff-management');
     } catch (error) {
       console.error('Error creating financier:', error);
-      const message = error.response?.data?.message || error.response?.data?.Message || 'Failed to create financier';
+      const message = getErrorMessage(error, 'Failed to create financier');
       toast.error(message);
     } finally {
       setLoading(false);
@@ -99,7 +100,7 @@ const NewFinancier = () => {
       <div className="new-financier-container">
         <button 
           className="back-button"
-          onClick={() => navigate('/admin/user-management')}
+          onClick={() => navigate('/admin/staff-management')}
         >
           <ArrowLeft size={20} />
           Back

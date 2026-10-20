@@ -32,7 +32,7 @@ export default function Footer() {
             {['Home', 'Posts', 'Features', 'About Us'].map((item) => (
               <li key={item}>
                 <Link
-                  to={item === 'Home' ? '/' : `/${item.toLowerCase().replace(' ', '-')}`}
+                  to={item === 'Home' ? '/' : item === 'About Us' ? '/aboutus' : `/${item.toLowerCase()}`}
                   className="footer-link"
                   onMouseEnter={() => setHoveredLink(item)}
                   onMouseLeave={() => setHoveredLink(null)}

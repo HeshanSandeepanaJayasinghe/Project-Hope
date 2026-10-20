@@ -5,6 +5,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { AlertTriangle, Calendar, Clock, MapPin, Tag, Heart, ChevronLeft } from 'lucide-react';
 import { toast } from 'react-toastify';
 import './donor-shared.css';
+import { formatLKR } from '../../utils/money';
 
 const DonorPostDetail = () => {
     const { postId } = useParams();
@@ -25,7 +26,7 @@ const DonorPostDetail = () => {
             try {
                 //  Integrating with backend endpoint: /open/get/all/posts
                 const response = await authAxios.get('/open/get/all/posts');
-                const found = response.data?.find(p => (p.postId ?? p.id).toString() === postId.toString());
+                const found = response.data?.find(p => String(p.postId ?? p.id) === String(postId));
                 setPost(found);
             } catch (error) {
                 console.error('Failed to load post detail:', error);
@@ -52,7 +53,7 @@ const DonorPostDetail = () => {
     if (loading) return <div className="loading">Gathering post details...</div>;
     if (!post) return <div className="error">Post not found. <button onClick={() => navigate(-1)}>Go Back</button></div>;
 
-    const isVerified = (post.verificationStatus || post.tag) === 'verified';
+    const isVerified = String(post.verificationStatus || post.tag || '').toUpperCase() === 'VERIFIED';
     //  Corrected field mapping: using totalAmount from backend as the donation target
     const target = parseFloat(post.totalAmount || 0);
     const current = parseFloat(post.currentAmount || 0);
@@ -134,14 +135,14 @@ const DonorPostDetail = () => {
                                     <Calendar className="donor-icon" style={{ color: 'var(--donor-primary)' }} />
                                     <div>
                                         <div style={{ fontSize: '0.8rem', color: 'var(--donor-text-muted)' }}>Posted Date</div>
-                                        <div style={{ fontWeight: '600' }}>{post.postedDate || '2023-10-15'}</div>
+                                        <div style={{ fontWeight: '600' }}>{post.creationTime ? new Date(post.creationTime).toLocaleDateString() : 'N/A'}</div>
                                     </div>
                                 </div>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                                     <Clock className="donor-icon" style={{ color: 'var(--donor-primary)' }} />
                                     <div>
                                         <div style={{ fontSize: '0.8rem', color: 'var(--donor-text-muted)' }}>Posted Time</div>
-                                        <div style={{ fontWeight: '600' }}>{post.postedTime || '10:30 AM'}</div>
+                                        <div style={{ fontWeight: '600' }}>{post.creationTime ? new Date(post.creationTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A'}</div>
                                     </div>
                                 </div>
                             </div>
@@ -152,8 +153,8 @@ const DonorPostDetail = () => {
 
                             <div style={{ background: '#f8fafc', padding: '1.5rem', borderRadius: '1rem', marginBottom: '2rem' }}>
                                 <div className="donor-progress-label">
-                                    <span>Raised: Rs. {current.toLocaleString()}</span>
-                                    <span>Target: Rs. {target.toLocaleString()}</span>
+                                    <span>Raised: {formatLKR(current)}</span>
+                                    <span>Target: {formatLKR(target)}</span>
                                 </div>
                                 <div className="donor-progress-container">
                                     <div className="donor-progress-fill" style={{ width: `${percent}%` }}></div>
@@ -166,11 +167,15 @@ const DonorPostDetail = () => {
                             <div style={{ marginBottom: '2rem', padding: '1rem', border: '1px dashed var(--donor-primary)', borderRadius: '0.5rem', textAlign: 'center' }}>
                                 <div style={{ fontSize: '0.8rem', color: 'var(--donor-text-muted)' }}>Remaining Needed</div>
                                 <div style={{ fontSize: '1.5rem', fontWeight: '800', color: 'var(--donor-secondary)' }}>
-                                    Rs. {remaining.toLocaleString()}
+                                    {formatLKR(remaining)}
                                 </div>
                             </div>
 
-                            <button className="donor-btn-primary" style={{ width: '100%', padding: '1.25rem', fontSize: '1.1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem' }}>
+                            <button
+                                className="donor-btn-primary"
+                                style={{ width: '100%', padding: '1.25rem', fontSize: '1.1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem' }}
+                                onClick={() => navigate(`/post-donation/${post.postId ?? post.id}`)}
+                            >
                                 <Heart fill="white" /> Donate to this post
                             </button>
 

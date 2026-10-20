@@ -82,7 +82,7 @@ function Features() {
               </div>
             ))}
           </div>
-          <button className="roadmap-button" onClick={() => navigate('/login')}>Sign up</button>
+          <button className="roadmap-button" onClick={() => navigate('/signup')}>Sign up</button>
         </div>
       </section>
     </div>

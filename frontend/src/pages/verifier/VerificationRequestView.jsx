@@ -38,11 +38,16 @@ const VerificationRequestView = () => {
     };
 
     const openDocument = async () => {
-        if (recipient?.documentUrl) {
-            const pdf = await authAxios.get(`verifier/get/pdf/${recipient.documentUrl}`, { responseType: 'blob' }   );
-            const fileURL = URL.createObjectURL(pdf.data);
-            window.open(fileURL, "_blank");
+        if (!recipient?.documentUrl) return;
+        try {
+            const pdf = await authAxios.get(`/verifier/get/pdf/${encodeURIComponent(recipient.documentUrl)}`, { responseType: 'blob' });
+            const fileURL = URL.createObjectURL(new Blob([pdf.data], { type: 'application/pdf' }));
+            window.open(fileURL, '_blank');
+            setTimeout(() => URL.revokeObjectURL(fileURL), 60_000);
             setPdfViewed(true);
+        } catch (error) {
+            console.error('Failed to open document:', error);
+            toast.error('Unable to open the verification document.');
         }
     };
 

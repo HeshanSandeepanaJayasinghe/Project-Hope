@@ -18,7 +18,7 @@ const VerificationHistory = () => {
         try {
             setLoading(true);
             const response = await authAxios.get('/verifier/history/all');
-            setHistory(response.data);
+            setHistory(response.data || []);
         } catch (error) {
             console.error('Error fetching verification history:', error);
             toast.error('Failed to load verification history');

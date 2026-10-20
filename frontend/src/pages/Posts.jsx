@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Eye } from 'lucide-react';
 import axios from 'axios';
+import { BACKEND_URL } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import './Posts.css';
+import { formatLKR } from '../utils/money';
 
 const Posts = () => {
     const navigate = useNavigate();
@@ -18,7 +20,6 @@ const Posts = () => {
     const fetchPosts = async () => {
         setLoading(true);
         try {
-            const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || import.meta.env.BACKEND_URL;
             const response = await axios.get(`${BACKEND_URL}/open/get/all/posts`);
             const fetchedPosts = Array.isArray(response.data)
                 ? response.data
@@ -98,7 +99,7 @@ const Posts = () => {
                                 <h3 className="post-title">{post.title || 'Untitled'}</h3>
                                 <div className="post-category">{post.postCategory || 'Uncategorized'}</div>
                                 <p className="post-description">{post.description || 'No description'}</p>
-                                <p className="post-description">Target Fund: Rs. {post.totalAmount}.00</p>
+                                <p className="post-description">Target Fund: {formatLKR(post.totalAmount)}</p>
                             </div>
 
                             {/* Hover View Button */}

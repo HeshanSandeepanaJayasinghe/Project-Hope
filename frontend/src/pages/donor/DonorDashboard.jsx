@@ -2,10 +2,10 @@ import React, { useState, useEffect, useContext } from 'react';
 import Sidebar from '../../components/Sidebar';
 import { useNavigate } from 'react-router-dom';
 import { Eye } from 'lucide-react';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../../context/AuthContext';
 import '../Posts.css';
+import { formatLKR } from '../../utils/money';
 
 const DonorDashboard = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -21,8 +21,12 @@ const DonorDashboard = () => {
             const pendingOrderId = localStorage.getItem('pendingOrderId');
             if (pendingOrderId) {
                 try {
-                    await authAxios.post(`/api/payment/confirm/${pendingOrderId}`);
-                    toast.success('Payment confirmed successfully!');
+                    const response = await authAxios.post(`/api/payment/confirm/${encodeURIComponent(pendingOrderId)}`);
+                    if (response.data?.status === 'PAID') {
+                        toast.success('Payment confirmed successfully!');
+                    } else if (response.data?.status === 'PENDING') {
+                        toast.info('Your payment is still being processed by PayHere.');
+                    }
                 } catch (error) {
                     console.error('Payment confirmation failed:', error);
                     toast.error('Payment confirmation failed.');
@@ -38,8 +42,7 @@ const DonorDashboard = () => {
         const fetchPosts = async () => {
             setLoading(true);
             try {
-                const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || import.meta.env.BACKEND_URL;
-                const response = await axios.get(`${BACKEND_URL}/open/get/all/posts`);
+                const response = await authAxios.get('/open/get/all/posts');
                 setPosts(response.data || []);
             } catch (error) {
                 console.error('Failed to load posts:', error);
@@ -49,7 +52,7 @@ const DonorDashboard = () => {
             }
         };
         fetchPosts();
-    }, []);
+    }, [authAxios]);
 
     const getTagColor = (verificationStatus) => {
         const status = (verificationStatus || 'UNVERIFIED').toLowerCase();
@@ -108,7 +111,7 @@ const DonorDashboard = () => {
                                             <h3 className="post-title">{post.title || 'Untitled'}</h3>
                                             <div className="post-category">{post.postCategory || post.category || 'Uncategorized'}</div>
                                             <p className="post-description">{post.description || 'No description'}</p>
-                                            {post.totalAmount && <p className="post-description" style={{marginTop: '0.5rem', fontWeight: 'bold'}}>Target Fund: Rs. {post.totalAmount}.00</p>}
+                                            {post.totalAmount > 0 && <p className="post-description" style={{marginTop: '0.5rem', fontWeight: 'bold'}}>Target Fund: {formatLKR(post.totalAmount)}</p>}
                                         </div>
 
                                         {hoveredCard === postId && (

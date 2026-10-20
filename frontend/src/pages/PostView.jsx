@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import axios from 'axios';
+import { BACKEND_URL } from '../context/AuthContext';
 import './PostView.css';
+import { formatLKR } from '../utils/money';
 
 const PostView = () => {
     const { postId } = useParams();
@@ -17,7 +19,6 @@ const PostView = () => {
     const fetchPost = async () => {
         setLoading(true);
         try {
-            const BACKEND_URL = import.meta.env.BACKEND_URL;
             const response = await axios.get(`${BACKEND_URL}/open/get/all/posts`);
             const posts = response.data || [];
             const foundPost = posts.find(p => p.postId === postId);
@@ -143,15 +144,15 @@ const PostView = () => {
                         </div>
                         <div className="info-item highlight">
                             <span className="info-label">Donation Target:</span>
-                            <span className="info-value">Rs. {post.totalAmount || 0}</span>
+                            <span className="info-value">{formatLKR(post.totalAmount)}</span>
                         </div>
                         <div className="info-item highlight">
                             <span className="info-label">Donations Made:</span>
-                            <span className="info-value">Rs. {post.currentAmount || 0}</span>
+                            <span className="info-value">{formatLKR(post.currentAmount)}</span>
                         </div>
                         <div className="info-item highlight">
                             <span className="info-label">Remaining Amount:</span>
-                            <span className="info-value">Rs. {post.remainingAmount || 0}</span>
+                            <span className="info-value">{formatLKR(post.remainingAmount)}</span>
                         </div>
                         <div className="progress-bar">
                             <div className="progress-bar__label">

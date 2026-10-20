@@ -4,6 +4,7 @@ import { AuthContext } from '../../context/AuthContext';
 import Sidebar from '../../components/Sidebar';
 import { Eye, EyeOff, Mail, Phone, User, Lock, Loader, ArrowLeft } from 'lucide-react';
 import { toast } from 'react-toastify';
+import { getErrorMessage, PASSWORD_REGEX, PASSWORD_MESSAGE } from '../../utils/apiError';
 import './NewAdmin.css';
 
 const NewAdmin = () => {
@@ -56,8 +57,8 @@ const NewAdmin = () => {
             return false;
         }
 
-        if (formData.password.length < 8) {
-            toast.error('Password must be at least 8 characters');
+        if (!PASSWORD_REGEX.test(formData.password)) {
+            toast.error(PASSWORD_MESSAGE);
             return false;
         }
 
@@ -91,12 +92,13 @@ const NewAdmin = () => {
 
         setLoading(true);
         try {
-            const test = await authAxios.post('/superadmin/register/admin', formData);
+            const { confirmPassword: _confirmPassword, ...payload } = formData;
+            await authAxios.post('/superadmin/register/admin', payload);
             toast.success('Admin created successfully');
             navigate('/superadmin/user-management');
         } catch (error) {
             console.error('Failed to create admin:', error);
-            const message = error.response?.data?.Message || 'Failed to create admin';
+            const message = getErrorMessage(error, 'Failed to create admin');
             toast.error(message);
         } finally {
             setLoading(false);

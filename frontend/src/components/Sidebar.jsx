@@ -1,4 +1,4 @@
-import { React, useContext } from 'react';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LogOut, Menu, X } from 'lucide-react';
 import './Sidebar.css';
@@ -14,7 +14,6 @@ const Sidebar = ({isOpen, setIsOpen }) => {
 
     const handleLogout = () => {
         logout();
-        navigate('/login');
     };
 
     const getRoleLabel = (role) => {
@@ -40,7 +39,6 @@ const Sidebar = ({isOpen, setIsOpen }) => {
             <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
                 <div className="sidebar-header">
                     <h3 className="sidebar-title">{getRoleLabel(role)}</h3>
-                    <p className="sidebar-user-name">{user?.name}</p>
                 </div>
 
                 <nav className="sidebar-nav">

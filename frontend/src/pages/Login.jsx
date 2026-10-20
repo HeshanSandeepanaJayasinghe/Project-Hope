@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
 import { toast } from 'react-toastify';
+import { getErrorMessage } from '../utils/apiError';
 import './Login.css';
 
 const Login = () => {
@@ -45,14 +46,14 @@ const Login = () => {
     try {
       const loggedInUser = await login(formData.email, formData.password);
       toast.success("Login successful!");
-      if (loggedInUser.Role === "ADMIN") navigate("/admin-dashboard");
-      else if (loggedInUser.Role === "SUPERADMIN") navigate("/superadmin-dashboard");
-      else if (loggedInUser.Role === "FINANCE_MANAGER") navigate("/financier-dashboard");
-      else if (loggedInUser.Role === "VERIFIER") navigate("/verifier-dashboard");
-      else if (loggedInUser.Role === "RECIPIENT") navigate("/recipient-dashboard");
-      else if (loggedInUser.Role === "DONOR") navigate("/donor-dashboard");
+      if (loggedInUser.role === "ADMIN") navigate("/admin-dashboard");
+      else if (loggedInUser.role === "SUPERADMIN") navigate("/superadmin-dashboard");
+      else if (loggedInUser.role === "FINANCE_MANAGER") navigate("/financier-dashboard");
+      else if (loggedInUser.role === "VERIFIER") navigate("/verifier-dashboard");
+      else if (loggedInUser.role === "RECIPIENT") navigate("/recipient-dashboard");
+      else if (loggedInUser.role === "DONOR") navigate("/donor-dashboard");
     } catch (err) {
-      const message = err.response?.data?.message || 'Authentication failed. Please try again.';
+      const message = getErrorMessage(err, 'Authentication failed. Please try again.');
       toast.error(message);
     } finally {
       setLoading(false);
@@ -77,7 +78,7 @@ const Login = () => {
               </div>
             )}
 
-            <div className="form">
+            <form className="form" onSubmit={handleSubmit} noValidate>
               <p className="form-section-title">Sign in</p>
 
               {/* Email Input */}
@@ -92,6 +93,7 @@ const Login = () => {
                     value={formData.email}
                     onChange={handleChange}
                     className="input-login"
+                    autoComplete="username"
                   />
                 </div>
               </div>
@@ -108,6 +110,7 @@ const Login = () => {
                     value={formData.password}
                     onChange={handleChange}
                     className="input-login"
+                    autoComplete="current-password"
                   />
                   <button
                     type="button"
@@ -132,13 +135,13 @@ const Login = () => {
 
               {/* Submit Button */}
               <button
-                onClick={handleSubmit}
+                type="submit"
                 disabled={loading}
                 className="btn btn--primary"
               >
                 {loading ? 'Processing...' : 'Login'}
               </button>
-            </div>
+            </form>
 
             {/* Toggle to Signup */}
             <div className="auth-toggle">
@@ -162,21 +165,3 @@ const Login = () => {
 };
 
 export default Login;
-
-/*
-const login = async (email, password) => {
-  setLoading(true);
-  try {
-    const res = await axios.post(`${BACKEND_URL}/authenticate/login`, 
-      { email, password }
-    );
-
-    setToken(res.data.token);
-    return res.data;
-  } catch (err){
-    handleResponseError(err.response);
-  } finally {
-    setLoading(false);
-  }
-};
-*/

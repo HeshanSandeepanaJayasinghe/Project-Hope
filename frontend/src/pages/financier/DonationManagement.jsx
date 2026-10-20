@@ -3,6 +3,7 @@ import Sidebar from '../../components/Sidebar';
 import { AuthContext } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
 import './DonationManagement.css';
+import { formatLKR } from '../../utils/money';
 
 const DonationManagement = () => {
     const { authAxios } = useContext(AuthContext);
@@ -74,14 +75,6 @@ const DonationManagement = () => {
         setPendingAmounts((state) => ({ ...state, [postId]: value }));
     };
 
-    const formatCurrency = (value) => {
-        return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'LKR',
-            maximumFractionDigits: 2,
-        }).format(value);
-    };
-
     return (
         <div className="financier-page">
             <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
@@ -90,7 +83,7 @@ const DonationManagement = () => {
                     <h1>Donation Management</h1>
                     <div className="pool-balance-card">
                         <span>Available pool balance</span>
-                        <strong>{formatCurrency(poolBalance)}</strong>
+                        <strong>{formatLKR(poolBalance)}</strong>
                     </div>
                 </div>
 
@@ -112,7 +105,7 @@ const DonationManagement = () => {
                                                 <p>{post.description}</p>
                                                 <p><strong>Recipient:</strong> {post.recipientName}</p>
                                                 <p><strong>Recipient account:</strong> {post.recipientAccountNo || 'Not provided'}</p>
-                                                <p><strong>Amount ready:</strong> {formatCurrency(post.totalAmount)}</p>
+                                                <p><strong>Amount ready:</strong> {formatLKR(post.totalAmount)}</p>
                                                 <button
                                                     className="primary-button"
                                                     onClick={() => handleRelease(post.postId)}
@@ -140,8 +133,8 @@ const DonationManagement = () => {
                                                 <h3>{post.title}</h3>
                                                 <p>{post.description}</p>
                                                 <p><strong>Urgency:</strong> {post.postUrgency}</p>
-                                                <p><strong>Remaining:</strong> {formatCurrency(post.remainingAmount)}</p>
-                                                <p><strong>Goal:</strong> {formatCurrency(post.totalAmount)}</p>
+                                                <p><strong>Remaining:</strong> {formatLKR(post.remainingAmount)}</p>
+                                                <p><strong>Goal:</strong> {formatLKR(post.totalAmount)}</p>
                                                 <p><strong>Recipient account:</strong> {post.recipientAccountNo || 'Not provided'}</p>
 
                                                 <div className="allocation-row">

@@ -92,7 +92,7 @@ export default function Home() {
         <div className="rec">
           <h2>Become a Recipient<br />Share Your Story</h2>
           <p>You’re not alone. Tell your story, reach out to a caring community and get the help you need to move forward with hope and dignity.</p>
-          <button onClick={() => navigate('/login')}>Sign up</button>
+          <button onClick={() => navigate('/signup')}>Sign up</button>
         </div>
       </motion.section>
 
@@ -108,7 +108,7 @@ export default function Home() {
         <div className="don">
           <h2>Become a Donor<br />Change Lives</h2>
           <p>Every act of generosity brings someone closer to stability, healing and hope. Give with compassion and see how your kindness creates real, human impact.</p>
-          <button onClick={() => navigate('/login')}>Sign up</button>
+          <button onClick={() => navigate('/signup')}>Sign up</button>
         </div>
       </motion.section>
 

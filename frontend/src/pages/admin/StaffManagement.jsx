@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Trash2, Plus } from 'lucide-react';
 import { toast } from 'react-toastify';
+import { getErrorMessage } from '../../utils/apiError';
 import Sidebar from '../../components/Sidebar';
 import { AuthContext } from '../../context/AuthContext';
 import './StaffManagement.css';
@@ -64,11 +65,11 @@ const StaffManagement = () => {
       setDeleting(id);
       try {
         await authAxios.delete(`/admin/delete/verifier/${id}`);
-        setVerifiers(verifiers.filter(v => v.id !== id));
+        setVerifiers((current) => current.filter(v => v.userId !== id));
         toast.success('Verifier deleted successfully');
       } catch (error) {
         console.error('Failed to delete verifier:', error);
-        toast.error('Failed to delete verifier');
+        toast.error(getErrorMessage(error, 'Failed to delete verifier'));
       } finally {
         setDeleting(null);
       }
@@ -81,11 +82,11 @@ const StaffManagement = () => {
       setDeleting(id);
       try {
         await authAxios.delete(`/admin/delete/finance-manager/${id}`);
-        setFinanciers(financiers.filter(f => f.id !== id));
+        setFinanciers((current) => current.filter(f => f.userId !== id));
         toast.success('Financier deleted successfully');
       } catch (error) {
         console.error('Failed to delete financier:', error);
-        toast.error('Failed to delete financier');
+        toast.error(getErrorMessage(error, 'Failed to delete financier'));
       } finally {
         setDeleting(null);
       }

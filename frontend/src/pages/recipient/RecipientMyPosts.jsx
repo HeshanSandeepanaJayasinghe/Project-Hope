@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { getErrorMessage } from '../../utils/apiError';
 import Sidebar from '../../components/Sidebar';
 import { AuthContext } from '../../context/AuthContext.jsx';
 import './RecipientPages.css';
+import { formatLKR } from '../../utils/money';
 
 const RecipientMyPosts = () => {
   const { authAxios } = useContext(AuthContext);
@@ -44,12 +46,12 @@ const RecipientMyPosts = () => {
 
     setDeleting(postId);
     try {
-      await authAxios.delete(`recipient/delete/post/${postId}`);
+      await authAxios.delete(`/recipient/delete/post/${postId}`);
       setPosts((current) => current.filter((post) => post.postId !== postId));
       toast.success('Post deleted successfully.');
     } catch (error) {
       console.error(error);
-      toast.error('Failed to delete the post.');
+      toast.error(getErrorMessage(error, 'Failed to delete the post.'));
     } finally {
       setDeleting(null);
     }
@@ -106,9 +108,9 @@ const RecipientMyPosts = () => {
                         <h3 className="post-title">{post.title || 'Untitled post'}</h3>
                         <p className="post-description">{post.description || 'No description provided.'}</p>
                         <div className="post-meta">
-                          <div>Target: Rs. {post.totalAmount || 0}</div>
-                          <div>Current: Rs. {post.currentAmount || 0}</div>
-                          <div>Remaining: Rs. {post.remainingAmount || 0}</div>
+                          <div>Target: {formatLKR(post.totalAmount)}</div>
+                          <div>Current: {formatLKR(post.currentAmount)}</div>
+                          <div>Remaining: {formatLKR(post.remainingAmount)}</div>
                         </div>
                         <div className="post-actions">
                           <button type="button" className="action-btn edit" onClick={() => handleEdit(post.postId)}>

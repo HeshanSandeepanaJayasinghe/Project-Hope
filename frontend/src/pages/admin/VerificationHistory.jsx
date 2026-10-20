@@ -6,7 +6,7 @@ import './VerificationHistory.css';
 
 const VerificationHistory = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const { authAxios } = useContext(AuthContext);
+    const { authAxios, user } = useContext(AuthContext);
     const [history, setHistory] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -17,8 +17,9 @@ const VerificationHistory = () => {
     const fetchVerificationHistory = async () => {
         try {
             setLoading(true);
-            const response = await authAxios.get('/admin/history/all');
-            setHistory(response.data);
+            const endpoint = user === 'SUPERADMIN' ? '/superadmin/history/all' : '/admin/history/all';
+            const response = await authAxios.get(endpoint);
+            setHistory(response.data || []);
         } catch (error) {
             console.error('Error fetching verification history:', error);
             toast.error('Failed to load verification history');

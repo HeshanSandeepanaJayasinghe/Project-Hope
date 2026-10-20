@@ -4,6 +4,7 @@ import './VerificationForm.css';
 import Sidebar from '../../components/Sidebar';
 import { AuthContext } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
+import { getErrorMessage } from '../../utils/apiError';
 
 const VerificationForm = () => {
     const { authAxios } = useContext(AuthContext);
@@ -51,7 +52,7 @@ const VerificationForm = () => {
         e.preventDefault();
 
         const userData = await authAxios.get('/recipient/me');
-        if (userData.data.verificationSubmitted) {
+        if (userData.data?.verificationSubmitted) {
             toast.error('You have already submitted a verification request. Please wait for it to be processed.');
             return;
         }
@@ -110,7 +111,7 @@ const VerificationForm = () => {
                 toast.error('Error submitting verification request');
             }
         } catch (error) {
-            toast.error('Error submitting verification request');
+            toast.error(getErrorMessage(error, 'Error submitting verification request'));
             console.error('Verification submission error:', error);
         }
     };

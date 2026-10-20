@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import './Transactions.css';
+import './transactions.css';
 import Sidebar from '../components/Sidebar';
 
 const Transactions = () => {

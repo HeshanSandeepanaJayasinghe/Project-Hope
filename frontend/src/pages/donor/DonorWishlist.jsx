@@ -59,7 +59,7 @@ const DonorWishlist = () => {
                     <div className="donor-grid">
                         {wishlist.map((post) => {
                             const postId = post.postId ?? post.id;
-                            const isVerified = (post.verificationStatus || post.tag) === 'verified';
+                            const isVerified = String(post.verificationStatus || post.tag || '').toUpperCase() === 'VERIFIED';
                             return (
                                 <div key={postId} className="donor-glass-card" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
                                     <div style={{ position: 'relative', height: '240px' }}>

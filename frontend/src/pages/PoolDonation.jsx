@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 import { toast } from 'react-toastify';
+import { submitPayHereForm } from '../utils/payhere';
+import { getErrorMessage } from '../utils/apiError';
 import './PoolDonation.css';
 
 const PoolDonation = () => {
@@ -22,37 +24,16 @@ const PoolDonation = () => {
         try {
             const response = await authAxios.post('/api/payment/pay', {
                 type: 'POOL',
-                amount: parseFloat(amount),
-                returnUrl: window.location.origin + '/payment-return'
+                amount: parseFloat(amount)
             }, {
                 headers: { Accept: 'text/html' },
                 responseType: 'text'
             });
 
-            // response.data contains the HTML form string
-            const formHtml = response.data;
-
-            const div = document.createElement('div');
-            div.innerHTML = formHtml;
-            document.body.appendChild(div);
-
-            const form = div.querySelector('form');
-            if (form) {
-                const orderIdInput = form.querySelector('input[name="order_id"]');
-                const returnUrlInput = form.querySelector('input[name="return_url"]');
-                if (orderIdInput && returnUrlInput) {
-                    returnUrlInput.value = `${window.location.origin}/payment-return?orderId=${orderIdInput.value}`;
-                    localStorage.setItem('pendingOrderId', orderIdInput.value);
-                }
-                
-                form.submit();
-            } else {
-                toast.error("Failed to parse payment form");
-                setLoading(false);
-            }
+            submitPayHereForm(response.data);
         } catch (error) {
             console.error('Payment error:', error);
-            toast.error("Payment initiation failed");
+            toast.error(getErrorMessage(error, 'Payment initiation failed'));
             setLoading(false);
         }
     };

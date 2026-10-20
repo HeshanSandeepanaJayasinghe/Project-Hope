@@ -4,7 +4,15 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import './PaymentReturn.css';
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || import.meta.env.BACKEND_URL;
+import { BACKEND_URL } from '../context/AuthContext';
+
+const TITLES = {
+  loading: 'Processing Payment',
+  PAID: 'Donation Confirmed',
+  PENDING: 'Payment Processing',
+  cancelled: 'Payment Cancelled',
+  error: 'Payment Could Not Be Confirmed',
+};
 
 const PaymentReturn = () => {
   const [searchParams] = useSearchParams();
@@ -15,6 +23,7 @@ const PaymentReturn = () => {
   useEffect(() => {
     const orderIdParam = searchParams.get('orderId');
     setOrderId(orderIdParam);
+    localStorage.removeItem('pendingOrderId');
 
     if (!orderIdParam) {
       setStatus('error');
@@ -22,11 +31,18 @@ const PaymentReturn = () => {
       return;
     }
 
+    if (searchParams.get('cancelled') === 'true') {
+      setStatus('cancelled');
+      setMessage('The payment was cancelled. No money was taken.');
+      return;
+    }
+
     const confirmPayment = async () => {
       try {
-        const response = await axios.post(`${BACKEND_URL}/api/payment/confirm/${orderIdParam}`);
-        setStatus('success');
-        setMessage(response?.data?.message || 'Your donation has been confirmed successfully. Thank you!');
+        const response = await axios.post(`${BACKEND_URL}/api/payment/confirm/${encodeURIComponent(orderIdParam)}`);
+        const paymentStatus = response?.data?.status;
+        setStatus(paymentStatus === 'PAID' || paymentStatus === 'PENDING' ? paymentStatus : 'error');
+        setMessage(response?.data?.message || 'Your donation has been received. Thank you!');
       } catch (error) {
         console.error('Payment confirmation failed:', error);
         setStatus('error');
@@ -42,7 +58,7 @@ const PaymentReturn = () => {
     <div className="payment-return-page">
       <div className="payment-return-card">
         <h1 className="payment-return-card__title">
-          {status === 'success' ? 'Donation Confirmed' : status === 'error' ? 'Payment Could Not Be Confirmed' : 'Processing Payment'}
+          {TITLES[status] || TITLES.error}
         </h1>
         <p className="payment-return-card__text">
           {message}

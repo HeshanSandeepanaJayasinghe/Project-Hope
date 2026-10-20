@@ -4,6 +4,7 @@ import { AuthContext } from '../../context/AuthContext';
 import Sidebar from '../../components/Sidebar';
 import { Trash2, Plus, Loader } from 'lucide-react';
 import { toast } from 'react-toastify';
+import { getErrorMessage } from '../../utils/apiError';
 import './AdminManagement.css';
 
 const AdminManagement = () => {
@@ -63,7 +64,7 @@ const AdminManagement = () => {
             await fetchAdmins();
         } catch (error) {
             console.error('Failed to delete admin:', error);
-            toast.error(error.response?.data?.message || 'Failed to delete admin');
+            toast.error(getErrorMessage(error, 'Failed to delete admin'));
         } finally {
             setDeleting(null);
         }

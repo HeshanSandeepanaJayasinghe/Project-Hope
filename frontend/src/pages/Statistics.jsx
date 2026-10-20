@@ -3,7 +3,6 @@ import './Statistics.css';
 import Sidebar from '../components/Sidebar.jsx';
 import { AuthContext } from '../context/AuthContext';
 import { toast } from 'react-toastify';
-import axios from 'axios';
 
 const Statistics = () => {
   const { authAxios } = useContext(AuthContext);
@@ -54,8 +53,7 @@ const Statistics = () => {
 
   const fetchStatistics = async () => {
     try {
-      const BACKEND_URL = import.meta.env.BACKEND_URL;
-      const response = await authAxios.get(`${BACKEND_URL}/statistics`);
+      const response = await authAxios.get('/statistics');
       setData(response.data);
     } catch (error) {
       toast.error('Unable to load statistics.');
